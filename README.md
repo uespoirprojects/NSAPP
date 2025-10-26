@@ -1,50 +1,52 @@
-# Welcome to your Expo app 👋
+# NS App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Expo React Native app with TypeScript, NativeWind (Tailwind), and **Gluestack UI** for styling.
 
-## Get started
+## Brand Assets
 
-1. Install dependencies
+**Font:** Poppins (Regular, Medium, SemiBold, Bold)  
+**Colors:** Blue `#155DFC`, Light Blue `#F2F8FF`, Grey `#ECECF0`, Red `#EA222B`, Black `#030213`, White Smoke `#F3F3F5`
 
-   ```bash
-   npm install
-   ```
+## Setup
 
-2. Start the app
+1. **Install:** `npm install`
+2. **Add fonts:** Download Poppins fonts from [Google Fonts](https://fonts.google.com/specimen/Poppins) → place in `assets/fonts/`:
+   - `Poppins-Regular.ttf`
+   - `Poppins-Medium.ttf`
+   - `Poppins-SemiBold.ttf`
+   - `Poppins-Bold.ttf`
+3. **Run:** `npm run start` (or `android`/`ios`/`web`)
 
-   ```bash
-   npx expo start
-   ```
+## Usage
 
-In the output, you'll find options to open the app in a
+**Styling Library:** Gluestack UI + NativeWind (Tailwind classes)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+**Pre-built Components:**
+```tsx
+import { Typography, Button } from '@/components/ui';
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+<Typography variant="h1" color="#155DFC">Heading</Typography>
+<Button title="Click me" variant="primary" onPress={() => {}} />
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+**Fonts:**
+```tsx
+<Text className="font-poppins-bold">Bold text</Text>
+<Text style={{fontFamily: 'Poppins-Regular'}}>Regular text</Text>
+```
 
-## Learn more
+**Colors:**
+```tsx
+<View className="bg-brand-blue">
+  <Text className="text-brand-black">Blue background, black text</Text>
+</View>
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+**Available classes:** `font-poppins`, `font-poppins-medium`, `font-poppins-semibold`, `font-poppins-bold`  
+**Available colors:** `bg-brand-blue`, `text-brand-blue`, `bg-brand-light-blue`, `bg-brand-grey`, `bg-brand-red`, `bg-brand-black`, `bg-brand-white-smoke`
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Troubleshooting
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- **Fonts not loading:** Check `assets/fonts/` directory has all 4 Poppins files
+- **Cache issues:** `npm run start -- --clear`
+- **Build issues:** Delete `node_modules` → `npm install`
