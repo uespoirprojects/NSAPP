@@ -17,16 +17,26 @@ Expo React Native app with TypeScript, NativeWind (Tailwind), and **Gluestack UI
    - `Poppins-Bold.ttf`
 3. **Run:** `npm run start` (or `android`/`ios`/`web`)
 
+## Project Structure
+
+The app starts with a simple Login screen as a starting point.
+
+**Planned screens for implementation:**
+- Authentication: Login, Sign Up
+- Content: Category, Videos List, Quiz, Quiz Result
+- Learning: My Learning, Profile
+
+See `SCREENS.md` for detailed documentation of planned screens.
+
 ## Usage
 
 **Styling Library:** Gluestack UI + NativeWind (Tailwind classes)
 
 **Pre-built Components:**
 ```tsx
-import { Typography, Button } from '@/components/ui';
+import { Typography } from '@/components/ui';
 
 <Typography variant="h1" color="#155DFC">Heading</Typography>
-<Button title="Click me" variant="primary" onPress={() => {}} />
 ```
 
 **Fonts:**
