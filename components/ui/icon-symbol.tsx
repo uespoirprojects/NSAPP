@@ -1,12 +1,12 @@
 // Fallback for using MaterialIcons on Android and web.
 
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { SymbolWeight, SymbolViewProps } from 'expo-symbols';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { SymbolWeight } from 'expo-symbols';
 import { ComponentProps } from 'react';
 import { OpaqueColorValue, type StyleProp, type TextStyle } from 'react-native';
 
-type IconMapping = Record<SymbolViewProps['name'], ComponentProps<typeof MaterialIcons>['name']>;
-type IconSymbolName = keyof typeof MAPPING;
+type IconMapping = Record<string, ComponentProps<typeof Ionicons>['name']>;
+type IconSymbolName = string;
 
 /**
  * Add your SF Symbols to Material Icons mappings here.
@@ -14,10 +14,13 @@ type IconSymbolName = keyof typeof MAPPING;
  * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
  */
 const MAPPING = {
-  'house.fill': 'home',
-  'paperplane.fill': 'send',
-  'chevron.left.forwardslash.chevron.right': 'code',
-  'chevron.right': 'chevron-right',
+  'house.fill': 'home-outline',
+  'house': 'home-outline',
+  'book': 'book-outline',
+  'person': 'person-outline',
+  'paperplane.fill': 'paper-plane-outline',
+  'chevron.left.forwardslash.chevron.right': 'code-outline',
+  'chevron.right': 'chevron-forward',
 } as IconMapping;
 
 /**
@@ -27,7 +30,7 @@ const MAPPING = {
  */
 export function IconSymbol({
   name,
-  size = 24,
+  size = 30,
   color,
   style,
 }: {
@@ -37,5 +40,6 @@ export function IconSymbol({
   style?: StyleProp<TextStyle>;
   weight?: SymbolWeight;
 }) {
-  return <MaterialIcons color={color} size={size} name={MAPPING[name]} style={style} />;
+  const iconName = MAPPING[name] || name; // Fallback to using the name directly if not in mapping
+  return <Ionicons color={color} size={size} name={iconName as ComponentProps<typeof Ionicons>['name']} style={style} />;
 }
