@@ -49,25 +49,25 @@ function RootLayoutContent() {
   }
 
   return (
-    <GluestackUIProvider mode={effectiveTheme === 'dark' ? 'dark' : 'light'}>
-      <NavigationThemeProvider value={effectiveTheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack initialRouteName="index">
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="login" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-        <StatusBar style={effectiveTheme === 'dark' ? 'light' : 'dark'} />
-      </NavigationThemeProvider>
-    </GluestackUIProvider>
+    <I18nProvider>
+      <GluestackUIProvider mode={effectiveTheme === 'dark' ? 'dark' : 'light'}>
+        <NavigationThemeProvider value={effectiveTheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack initialRouteName="index">
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="login" options={{ headerShown: false }} />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+          <StatusBar style={effectiveTheme === 'dark' ? 'light' : 'dark'} />
+        </NavigationThemeProvider>
+      </GluestackUIProvider>
+    </I18nProvider>
   );
 }
 
 export default function RootLayout() {
   return (
     <ThemeProvider>
-      <I18nProvider>
-        <RootLayoutContent />
-      </I18nProvider>
+      <RootLayoutContent />
     </ThemeProvider>
   );
 }

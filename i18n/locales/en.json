@@ -1,9 +1,4 @@
 {
-  "common": {
-    "appName": "NSAPP",
-    "videos": "videos",
-    "logout": "Logout"
-  },
   "tabs": {
     "home": "Home",
     "myLearning": "My Learning",
@@ -34,6 +29,14 @@
   "profile": {
     "darkMode": "Dark Mode",
     "accountSettings": "Account Settings",
-    "privacyPolicy": "Privacy Policy"
+    "privacyPolicy": "Privacy Policy",
+    "language": "Language",
+    "selectLanguage": "Select Language"
+  },
+  "common": {
+    "appName": "NSAPP",
+    "videos": "videos",
+    "logout": "Logout",
+    "cancel": "Cancel"
   }
 }

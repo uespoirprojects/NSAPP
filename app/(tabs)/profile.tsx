@@ -186,7 +186,7 @@ export default function ProfileScreen() {
           <IconSymbol name="language-outline" size={24} color={colors.blue} />
           <View style={{ flex: 1, marginLeft: 12 }}>
             <Typography variant="body" color={colors.text}>
-              Language
+              {t('profile.language')}
             </Typography>
             <Typography variant="caption" color={colors.text} style={{ marginTop: 4, opacity: 0.7 }}>
               {languages.find(l => l.code === currentLanguage)?.nativeLabel}
@@ -206,7 +206,7 @@ export default function ProfileScreen() {
         <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' }}>
           <View style={{ backgroundColor: colors.cardBackground, borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: 20, paddingBottom: 40 }}>
             <Typography variant="h2" color={colors.text} style={{ marginBottom: 20, textAlign: 'center' }}>
-              Select Language
+              {t('profile.selectLanguage')}
             </Typography>
             {languages.map((lang) => (
               <TouchableOpacity
@@ -246,7 +246,7 @@ export default function ProfileScreen() {
               onPress={() => setShowLanguageModal(false)}
             >
               <Typography variant="body" color={colors.text}>
-                Cancel
+                {t('common.cancel')}
               </Typography>
             </TouchableOpacity>
           </View>

@@ -1,9 +1,4 @@
 {
-  "common": {
-    "appName": "NSAPP",
-    "videos": "vidéos",
-    "logout": "Déconnexion"
-  },
   "tabs": {
     "home": "Accueil",
     "myLearning": "Mes Cours",
@@ -34,6 +29,14 @@
   "profile": {
     "darkMode": "Mode Sombre",
     "accountSettings": "Paramètres du Compte",
-    "privacyPolicy": "Politique de Confidentialité"
+    "privacyPolicy": "Politique de Confidentialité",
+    "language": "Langue",
+    "selectLanguage": "Sélectionner la Langue"
+  },
+  "common": {
+    "appName": "NSAPP",
+    "videos": "vidéos",
+    "logout": "Déconnexion",
+    "cancel": "Annuler"
   }
 }
