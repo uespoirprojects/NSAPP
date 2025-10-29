@@ -1,4 +1,5 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { CustomColors } from '@/constants/theme';
 import { Tabs } from 'expo-router';
 
 export default function TabsLayout() {
@@ -6,12 +7,12 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: '#155DFC',
-        tabBarInactiveTintColor: '#030213',
+        tabBarActiveTintColor: CustomColors.blue,
+        tabBarInactiveTintColor: CustomColors.black,
         tabBarStyle: {
           backgroundColor: '#FFFFFF',
           borderTopWidth: 1,
-          borderTopColor: '#ECECF0',
+          borderTopColor: CustomColors.grey,
         },
       }}>
       <Tabs.Screen
