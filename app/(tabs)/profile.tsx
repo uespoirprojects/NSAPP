@@ -1,12 +1,20 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { useTheme } from '@/contexts/theme-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import { useState } from 'react';
 import { ScrollView, Switch, TouchableOpacity, View } from 'react-native';
 
 export default function ProfileScreen() {
   const colors = useThemeColors();
+  const { effectiveTheme, themeMode, setThemeMode } = useTheme();
   const [isLogoutPressed, setIsLogoutPressed] = useState(false);
+
+  const isDarkMode = effectiveTheme === 'dark';
+
+  const handleThemeToggle = (value: boolean) => {
+    setThemeMode(value ? 'dark' : 'light');
+  };
 
   const userInfo = {
     name: 'John Doe',
@@ -60,14 +68,19 @@ export default function ProfileScreen() {
             }}
             activeOpacity={0.7}
           >
-            <IconSymbol name="sunny-outline" size={24} color={colors.blue} />
+            <IconSymbol 
+              name={isDarkMode ? "moon-outline" : "sunny-outline"} 
+              size={24} 
+              color={colors.blue} 
+            />
             <View style={{ flex: 1, marginLeft: 12 }}>
               <Typography variant="body" color={colors.text}>
                 Dark Mode
               </Typography>
             </View>
             <Switch
-              value={false}
+              value={isDarkMode}
+              onValueChange={handleThemeToggle}
               trackColor={{ false: colors.grey, true: colors.blue }}
               thumbColor={colors.white}
             />
