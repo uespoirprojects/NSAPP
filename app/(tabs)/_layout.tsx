@@ -1,18 +1,22 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { CustomColors } from '@/constants/theme';
+import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Tabs } from 'expo-router';
 
 export default function TabsLayout() {
+  const colorScheme = useColorScheme();
+  const colors = Colors[colorScheme ?? 'light'];
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: CustomColors.blue,
-        tabBarInactiveTintColor: CustomColors.black,
+        tabBarActiveTintColor: colors.tabIconSelected,
+        tabBarInactiveTintColor: colors.tabIconDefault,
         tabBarStyle: {
-          backgroundColor: '#FFFFFF',
+          backgroundColor: colors.tabBarBackground,
           borderTopWidth: 1,
-          borderTopColor: CustomColors.grey,
+          borderTopColor: colors.tabBarBorder,
         },
       }}>
       <Tabs.Screen

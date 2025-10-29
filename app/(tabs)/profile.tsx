@@ -1,10 +1,11 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { CustomColors } from '@/constants/theme';
+import { useThemeColors } from '@/hooks/use-theme-colors';
 import { useState } from 'react';
 import { ScrollView, Switch, TouchableOpacity, View } from 'react-native';
 
 export default function ProfileScreen() {
+  const colors = useThemeColors();
   const [isLogoutPressed, setIsLogoutPressed] = useState(false);
 
   const userInfo = {
@@ -14,7 +15,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: CustomColors.lightBlue }}>
+    <View style={{ flex: 1, backgroundColor: colors.screenBackground }}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 20, paddingTop: 40 }}>
         {/* Avatar Section */}
         <View style={{ alignItems: 'center', marginBottom: 24 }}>
@@ -23,23 +24,23 @@ export default function ProfileScreen() {
               width: 100,
               height: 100,
               borderRadius: 50,
-              backgroundColor: CustomColors.blue,
+              backgroundColor: colors.blue,
               justifyContent: 'center',
               alignItems: 'center',
               borderWidth: 3,
-              borderColor: '#FFFFFF',
+              borderColor: colors.white,
               marginBottom: 16,
             }}
           >
-            <Typography variant="h1" style={{ color: '#FFFFFF' }}>
+            <Typography variant="h1" style={{ color: colors.white }}>
               {userInfo.initials}
             </Typography>
           </View>
 
-          <Typography variant="h2" color={CustomColors.black} style={{ marginBottom: 8 }}>
+          <Typography variant="h2" color={colors.text} style={{ marginBottom: 8 }}>
             {userInfo.name}
           </Typography>
-          <Typography variant="body" color={CustomColors.black}>
+          <Typography variant="body" color={colors.text}>
             {userInfo.email}
           </Typography>
         </View>
@@ -49,92 +50,92 @@ export default function ProfileScreen() {
           {/* Dark Mode Card */}
           <TouchableOpacity
             style={{
-              backgroundColor: '#FFFFFF',
+              backgroundColor: colors.cardBackground,
               borderRadius: 12,
               padding: 16,
               flexDirection: 'row',
               alignItems: 'center',
               borderWidth: 1,
-              borderColor: CustomColors.grey,
+              borderColor: colors.grey,
             }}
             activeOpacity={0.7}
           >
-            <IconSymbol name="sunny-outline" size={24} color={CustomColors.blue} />
+            <IconSymbol name="sunny-outline" size={24} color={colors.blue} />
             <View style={{ flex: 1, marginLeft: 12 }}>
-              <Typography variant="body" color={CustomColors.black}>
+              <Typography variant="body" color={colors.text}>
                 Dark Mode
               </Typography>
             </View>
             <Switch
               value={false}
-              trackColor={{ false: CustomColors.grey, true: CustomColors.blue }}
-              thumbColor="#FFFFFF"
+              trackColor={{ false: colors.grey, true: colors.blue }}
+              thumbColor={colors.white}
             />
           </TouchableOpacity>
 
           {/* Account Settings Card */}
           <TouchableOpacity
             style={{
-              backgroundColor: '#FFFFFF',
+              backgroundColor: colors.cardBackground,
               borderRadius: 12,
               padding: 16,
               flexDirection: 'row',
               alignItems: 'center',
               borderWidth: 1,
-              borderColor: CustomColors.grey,
+              borderColor: colors.grey,
             }}
             activeOpacity={0.7}
           >
-            <IconSymbol name="settings-outline" size={24} color={CustomColors.blue} />
+            <IconSymbol name="settings-outline" size={24} color={colors.blue} />
             <View style={{ flex: 1, marginLeft: 12 }}>
-              <Typography variant="body" color={CustomColors.black}>
+              <Typography variant="body" color={colors.text}>
                 Account Settings
               </Typography>
             </View>
-            <IconSymbol name="chevron-forward-outline" size={20} color={CustomColors.blue} />
+            <IconSymbol name="chevron-forward-outline" size={20} color={colors.blue} />
           </TouchableOpacity>
 
           {/* Privacy Policy Card */}
           <TouchableOpacity
             style={{
-              backgroundColor: '#FFFFFF',
+              backgroundColor: colors.cardBackground,
               borderRadius: 12,
               padding: 16,
               flexDirection: 'row',
               alignItems: 'center',
               borderWidth: 1,
-              borderColor: CustomColors.grey,
+              borderColor: colors.grey,
             }}
             activeOpacity={0.7}
           >
-            <IconSymbol name="shield-outline" size={24} color={CustomColors.blue} />
+            <IconSymbol name="shield-outline" size={24} color={colors.blue} />
             <View style={{ flex: 1, marginLeft: 12 }}>
-              <Typography variant="body" color={CustomColors.black}>
+              <Typography variant="body" color={colors.text}>
                 Privacy Policy
               </Typography>
             </View>
-            <IconSymbol name="chevron-forward-outline" size={20} color={CustomColors.blue} />
+            <IconSymbol name="chevron-forward-outline" size={20} color={colors.blue} />
           </TouchableOpacity>
         </View>
 
         {/* Logout Button */}
         <TouchableOpacity
           style={{
-            backgroundColor: isLogoutPressed ? CustomColors.red : '#FFFFFF',
+            backgroundColor: isLogoutPressed ? colors.red : colors.cardBackground,
             borderRadius: 12,
             padding: 16,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
             borderWidth: 1,
-            borderColor: CustomColors.red,
+            borderColor: colors.red,
           }}
           activeOpacity={1}
           onPressIn={() => setIsLogoutPressed(true)}
           onPressOut={() => setIsLogoutPressed(false)}
         >
-          <IconSymbol name="log-out-outline" size={20} color={isLogoutPressed ? '#FFFFFF' : CustomColors.red} />
-          <Typography variant="body" color={isLogoutPressed ? '#FFFFFF' : CustomColors.red} style={{ marginLeft: 8 }}>
+          <IconSymbol name="log-out-outline" size={20} color={isLogoutPressed ? colors.white : colors.red} />
+          <Typography variant="body" color={isLogoutPressed ? colors.white : colors.red} style={{ marginLeft: 8 }}>
             Logout
           </Typography>
         </TouchableOpacity>

@@ -1,8 +1,11 @@
 import { Typography } from '@/components/ui';
+import { useThemeColors } from '@/hooks/use-theme-colors';
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
 export default function LoginScreen() {
+  const colors = useThemeColors();
+
   const handleLogin = () => {
     // TODO: Implement login logic
     // After successful login, navigate to home tab
@@ -11,14 +14,14 @@ export default function LoginScreen() {
 
   return (
     <View 
-      style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: '#F2F8FF' }}
+      style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: colors.screenBackground }}
       onTouchEnd={handleLogin}
     >
-      <Typography variant="h1" color="#155DFC" style={{ marginBottom: 16, textAlign: 'center' }}>
+      <Typography variant="h1" color={colors.blue} style={{ marginBottom: 16, textAlign: 'center' }}>
         NSAPP
       </Typography>
 
-      <Typography variant="body" color="#ECECF0" style={{ textAlign: 'center' }}>
+      <Typography variant="body" color={colors.text} style={{ textAlign: 'center', opacity: 0.7 }}>
         Start the login here
       </Typography>
     </View>
