@@ -12,6 +12,7 @@ export const CustomColors = {
   grey: '#ECECF0',
   red: '#EA222B',
   black: '#030213',
+  white: '#FFFFFF',
   whiteSmoke: '#F3F3F5',
 };
 
