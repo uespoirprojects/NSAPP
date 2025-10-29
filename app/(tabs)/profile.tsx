@@ -101,7 +101,7 @@ export default function ProfileScreen() {
             />
           </TouchableOpacity>
 
-          {/* Account Settings Card */}
+          {/* Language Selection Card */}
           <TouchableOpacity
             style={{
               backgroundColor: colors.cardBackground,
@@ -113,11 +113,15 @@ export default function ProfileScreen() {
               borderColor: colors.grey,
             }}
             activeOpacity={0.7}
+            onPress={() => setShowLanguageModal(true)}
           >
-            <IconSymbol name="settings-outline" size={24} color={colors.blue} />
+            <IconSymbol name="language-outline" size={24} color={colors.blue} />
             <View style={{ flex: 1, marginLeft: 12 }}>
               <Typography variant="body" color={colors.text}>
-                {t('profile.accountSettings')}
+                {t('profile.language')}
+              </Typography>
+              <Typography variant="caption" color={colors.text} style={{ marginTop: 4, opacity: 0.7 }}>
+                {languages.find(l => l.code === currentLanguage)?.nativeLabel}
               </Typography>
             </View>
             <IconSymbol name="chevron-forward-outline" size={20} color={colors.blue} />
@@ -166,33 +170,6 @@ export default function ProfileScreen() {
           <Typography variant="body" color={isLogoutPressed ? colors.white : colors.red} style={{ marginLeft: 8 }}>
             {t('common.logout')}
           </Typography>
-        </TouchableOpacity>
-
-        {/* Language Selection Card */}
-        <TouchableOpacity
-          style={{
-            backgroundColor: colors.cardBackground,
-            borderRadius: 12,
-            padding: 16,
-            flexDirection: 'row',
-            alignItems: 'center',
-            borderWidth: 1,
-            borderColor: colors.grey,
-            marginTop: 12,
-          }}
-          activeOpacity={0.7}
-          onPress={() => setShowLanguageModal(true)}
-        >
-          <IconSymbol name="language-outline" size={24} color={colors.blue} />
-          <View style={{ flex: 1, marginLeft: 12 }}>
-            <Typography variant="body" color={colors.text}>
-              {t('profile.language')}
-            </Typography>
-            <Typography variant="caption" color={colors.text} style={{ marginTop: 4, opacity: 0.7 }}>
-              {languages.find(l => l.code === currentLanguage)?.nativeLabel}
-            </Typography>
-          </View>
-          <IconSymbol name="chevron-forward-outline" size={20} color={colors.blue} />
         </TouchableOpacity>
       </ScrollView>
 

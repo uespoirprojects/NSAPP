@@ -28,15 +28,14 @@
   },
   "profile": {
     "darkMode": "Mòd Fè Nwa",
-    "accountSettings": "Anviwònman Kont",
-    "privacyPolicy": "Règman sou Konfidansyalite",
+    "privacyPolicy": "Règleman sou Konfidansyalite",
     "language": "Lang",
     "selectLanguage": "Chwazi Lang"
   },
   "common": {
     "appName": "NSAPP",
     "videos": "videyo",
-    "logout": "Deconnecte",
+    "logout": "Dekonekte",
     "cancel": "Anile"
   }
 }
