@@ -1,0 +1,39 @@
+{
+  "common": {
+    "appName": "NSAPP",
+    "videos": "videos",
+    "logout": "Logout"
+  },
+  "tabs": {
+    "home": "Home",
+    "myLearning": "My Learning",
+    "profile": "Profile"
+  },
+  "login": {
+    "title": "NSAPP",
+    "subtitle": "Start the login here"
+  },
+  "home": {
+    "title": "Explore Categories",
+    "subtitle": "Choose a subject to start learning",
+    "categories": {
+      "computer": "Computer",
+      "mathematics": "Mathematics",
+      "physics": "Physics",
+      "languages": "Languages"
+    }
+  },
+  "myLearning": {
+    "title": "My Learning",
+    "subtitle": "Track your progress and continue learning",
+    "filters": {
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    }
+  },
+  "profile": {
+    "darkMode": "Dark Mode",
+    "accountSettings": "Account Settings",
+    "privacyPolicy": "Privacy Policy"
+  }
+}

@@ -1,21 +1,23 @@
 import { Typography } from '@/components/ui';
+import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
 export default function MyLearningScreen() {
   const colors = useThemeColors();
-  const [selectedFilter, setSelectedFilter] = useState<'In Progress' | 'Completed'>('In Progress');
+  const { t } = useI18n();
+  const [selectedFilter, setSelectedFilter] = useState<'inProgress' | 'completed'>('inProgress');
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.screenBackground }}>
       {/* Header Section */}
       <View style={{ padding: 20, paddingTop: 40 }}>
         <Typography variant="h2" color={colors.blue} style={{ marginBottom: 8 }}>
-          My Learning
+          {t('myLearning.title')}
         </Typography>
         <Typography variant="body" color={colors.text}>
-          Track your progress and continue learning
+          {t('myLearning.subtitle')}
         </Typography>
       </View>
 
@@ -33,40 +35,40 @@ export default function MyLearningScreen() {
         <TouchableOpacity
           style={{
             flex: 1,
-            backgroundColor: selectedFilter === 'In Progress' ? colors.white : 'transparent',
+            backgroundColor: selectedFilter === 'inProgress' ? colors.white : 'transparent',
             borderRadius: 50,
             paddingVertical: 12,
             paddingHorizontal: 16,
             alignItems: 'center',
           }}
-          onPress={() => setSelectedFilter('In Progress')}
+          onPress={() => setSelectedFilter('inProgress')}
         >
           <Typography
             variant="body"
             color={colors.text}
-            style={{ fontWeight: selectedFilter === 'In Progress' ? '600' : '400' }}
+            style={{ fontWeight: selectedFilter === 'inProgress' ? '600' : '400' }}
           >
-            In Progress
+            {t('myLearning.filters.inProgress')}
           </Typography>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={{
             flex: 1,
-            backgroundColor: selectedFilter === 'Completed' ? colors.white : 'transparent',
+            backgroundColor: selectedFilter === 'completed' ? colors.white : 'transparent',
             borderRadius: 50,
             paddingVertical: 12,
             paddingHorizontal: 16,
             alignItems: 'center',
           }}
-          onPress={() => setSelectedFilter('Completed')}
+          onPress={() => setSelectedFilter('completed')}
         >
           <Typography
             variant="body"
             color={colors.text}
-            style={{ fontWeight: selectedFilter === 'Completed' ? '600' : '400' }}
+            style={{ fontWeight: selectedFilter === 'completed' ? '600' : '400' }}
           >
-            Completed
+            {t('myLearning.filters.completed')}
           </Typography>
         </TouchableOpacity>
       </View>

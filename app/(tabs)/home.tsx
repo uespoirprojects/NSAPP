@@ -1,27 +1,29 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import { ScrollView, View } from 'react-native';
 
 const categories = [
-  { id: '1', name: 'Computer', icon: 'laptop-outline', videoCount: 24 },
-  { id: '2', name: 'Mathematics', icon: 'calculator-outline', videoCount: 18 },
-  { id: '3', name: 'Physics', icon: 'flask-outline', videoCount: 15 },
-  { id: '4', name: 'Languages', icon: 'chatbubbles-outline', videoCount: 12 },
+  { id: '1', key: 'computer', icon: 'laptop-outline', videoCount: 24 },
+  { id: '2', key: 'mathematics', icon: 'calculator-outline', videoCount: 18 },
+  { id: '3', key: 'physics', icon: 'flask-outline', videoCount: 15 },
+  { id: '4', key: 'languages', icon: 'chatbubbles-outline', videoCount: 12 },
 ];
 
 export default function HomeScreen() {
   const colors = useThemeColors();
+  const { t } = useI18n();
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.screenBackground }}>
       {/* Header Section */}
       <View style={{ padding: 20, paddingTop: 40 }}>
         <Typography variant="h2" color={colors.blue} style={{ marginBottom: 8 }}>
-          Explore Categories
+          {t('home.title')}
         </Typography>
         <Typography variant="body" color={colors.text}>
-          Choose a subject to start learning
+          {t('home.subtitle')}
         </Typography>
       </View>
 
@@ -54,10 +56,10 @@ export default function HomeScreen() {
                 color={colors.text}
                 style={{ marginTop: 24, marginBottom: 8, textAlign: 'center' }}
               >
-                {category.name}
+                {t(`home.categories.${category.key}`)}
               </Typography>
               <Typography variant="caption" color={colors.text} style={{ textAlign: 'center' }}>
-                {category.videoCount} videos
+                {category.videoCount} {t('common.videos')}
               </Typography>
             </View>
           ))}
