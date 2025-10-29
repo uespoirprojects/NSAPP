@@ -1,4 +1,5 @@
 import { Typography } from '@/components/ui';
+import { CustomColors } from '@/constants/theme';
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
@@ -11,14 +12,14 @@ export default function LoginScreen() {
 
   return (
     <View 
-      style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: '#F2F8FF' }}
+      style={{ flex: 1, justifyContent: 'center', padding: 20, backgroundColor: CustomColors.lightBlue }}
       onTouchEnd={handleLogin}
     >
-      <Typography variant="h1" color="#155DFC" style={{ marginBottom: 16, textAlign: 'center' }}>
+      <Typography variant="h1" color={CustomColors.blue} style={{ marginBottom: 16, textAlign: 'center' }}>
         NSAPP
       </Typography>
 
-      <Typography variant="body" color="#ECECF0" style={{ textAlign: 'center' }}>
+      <Typography variant="body" color={CustomColors.grey} style={{ textAlign: 'center' }}>
         Start the login here
       </Typography>
     </View>
