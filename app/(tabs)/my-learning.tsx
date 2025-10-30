@@ -1,6 +1,7 @@
 import { Typography } from '@/components/ui';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
+import { CustomColors } from '@/constants/theme';
 import { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
