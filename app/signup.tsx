@@ -1,4 +1,8 @@
 import { Typography } from '@/components/ui';
+import { IconSymbol } from '@/components/ui/icon-symbol';
+import { useI18n } from '@/contexts/i18n-context';
+import { useTheme } from '@/contexts/theme-context';
+import { useThemeColors } from '@/hooks/use-theme-colors';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import {
@@ -13,148 +17,372 @@ import {
 } from 'react-native';
 
 export default function SignupScreen() {
+  const colors = useThemeColors();
+  const { t } = useI18n();
+  const { effectiveTheme } = useTheme();
   const router = useRouter();
+  
+  // Use white border in dark mode, grey in light mode
+  const borderColor = effectiveTheme === 'dark' ? colors.white : colors.grey;
+
+  const [firstName, setFirstName] = React.useState('');
+  const [lastName, setLastName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [address, setAddress] = React.useState('');
+  const [city, setCity] = React.useState('');
+  const [province, setProvince] = React.useState('');
+  const [dateOfBirth, setDateOfBirth] = React.useState('');
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [errors, setErrors] = React.useState<{
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    address?: string;
+    city?: string;
+    province?: string;
+    dateOfBirth?: string;
+  }>({});
+
+  const validate = () => {
+    const newErrors: typeof errors = {};
+    const emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
+    
+    if (!firstName.trim()) newErrors.firstName = t('signup.firstNameRequired');
+    if (!lastName.trim()) newErrors.lastName = t('signup.lastNameRequired');
+    if (!emailRegex.test(email.trim())) newErrors.email = t('signup.invalidEmail');
+    if (!password || password.length < 6) newErrors.password = t('signup.passwordMinLength');
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSignUp = async () => {
+    if (!validate()) return;
+    try {
+      setIsSubmitting(true);
+      // TODO: Implement signup logic
+      (router.push as any)('/home');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
-      className="flex-1 bg-white"
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={{ flex: 1, backgroundColor: colors.screenBackground }}
     >
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 24, paddingVertical: 40 }}
         showsVerticalScrollIndicator={false}
       >
         {/* Heading */}
-        <View className="mb-10">
-          <Typography variant="h1" color="#155DFC">
-            Create Account
+        <View style={{ marginBottom: 40 }}>
+          <Typography variant="h1" color={colors.blue}>
+            {t('signup.title')}
           </Typography>
-          <Text className="text-gray-500 font-poppins-regular mt-1">
-            Sign up to start your learning journey
+          <Text style={{ color: colors.text, opacity: 0.7, marginTop: 4 }}>
+            {t('signup.subtitle')}
           </Text>
         </View>
 
         {/* Name Inputs */}
-        <View className="mb-4">
-          <Text className="text-gray-700 font-poppins-medium mb-2">First Name</Text>
+        <View style={{ marginBottom: 16 }}>
+          <Text style={{ color: colors.text, marginBottom: 8, fontFamily: 'Poppins-Medium' }}>
+            {t('signup.firstName')}
+          </Text>
           <TextInput
-            placeholder="Enter your first name"
-            className="border border-gray-300 rounded-2xl px-4 py-3 font-poppins-regular text-gray-800"
+            placeholder={t('signup.firstNamePlaceholder')}
+            placeholderTextColor={colors.grey}
+            value={firstName}
+            onChangeText={setFirstName}
+            style={{
+              borderWidth: 1,
+              borderColor: errors.firstName ? colors.red : borderColor,
+              borderRadius: 16,
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+              color: colors.text,
+              fontFamily: 'Poppins-Regular',
+              backgroundColor: colors.cardBackground,
+            }}
           />
+          {errors.firstName ? (
+            <Text style={{ color: colors.red, marginTop: 6, fontFamily: 'Poppins-Regular' }}>
+              {errors.firstName}
+            </Text>
+          ) : null}
         </View>
 
-        <View className="mb-4">
-          <Text className="text-gray-700 font-poppins-medium mb-2">Last Name</Text>
+        <View style={{ marginBottom: 16 }}>
+          <Text style={{ color: colors.text, marginBottom: 8, fontFamily: 'Poppins-Medium' }}>
+            {t('signup.lastName')}
+          </Text>
           <TextInput
-            placeholder="Enter your last name"
-            className="border border-gray-300 rounded-2xl px-4 py-3 font-poppins-regular text-gray-800"
+            placeholder={t('signup.lastNamePlaceholder')}
+            placeholderTextColor={colors.grey}
+            value={lastName}
+            onChangeText={setLastName}
+            style={{
+              borderWidth: 1,
+              borderColor: errors.lastName ? colors.red : borderColor,
+              borderRadius: 16,
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+              color: colors.text,
+              fontFamily: 'Poppins-Regular',
+              backgroundColor: colors.cardBackground,
+            }}
           />
+          {errors.lastName ? (
+            <Text style={{ color: colors.red, marginTop: 6, fontFamily: 'Poppins-Regular' }}>
+              {errors.lastName}
+            </Text>
+          ) : null}
         </View>
 
         {/* Email Input */}
-        <View className="mb-4">
-          <Text className="text-gray-700 font-poppins-medium mb-2">Email</Text>
+        <View style={{ marginBottom: 16 }}>
+          <Text style={{ color: colors.text, marginBottom: 8, fontFamily: 'Poppins-Medium' }}>
+            {t('signup.email')}
+          </Text>
           <TextInput
-            placeholder="Enter your email"
+            placeholder={t('signup.emailPlaceholder')}
+            placeholderTextColor={colors.grey}
+            value={email}
+            onChangeText={setEmail}
             keyboardType="email-address"
-            className="border border-gray-300 rounded-2xl px-4 py-3 font-poppins-regular text-gray-800"
+            autoCapitalize="none"
+            style={{
+              borderWidth: 1,
+              borderColor: errors.email ? colors.red : borderColor,
+              borderRadius: 16,
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+              color: colors.text,
+              fontFamily: 'Poppins-Regular',
+              backgroundColor: colors.cardBackground,
+            }}
           />
+          {errors.email ? (
+            <Text style={{ color: colors.red, marginTop: 6, fontFamily: 'Poppins-Regular' }}>
+              {errors.email}
+            </Text>
+          ) : null}
         </View>
 
         {/* Password Input */}
-        <View className="mb-4">
-          <Text className="text-gray-700 font-poppins-medium mb-2">Password</Text>
-          <TextInput
-            placeholder="Create a password"
-            secureTextEntry
-            className="border border-gray-300 rounded-2xl px-4 py-3 font-poppins-regular text-gray-800"
-          />
+        <View style={{ marginBottom: 16 }}>
+          <Text style={{ color: colors.text, marginBottom: 8, fontFamily: 'Poppins-Medium' }}>
+            {t('signup.password')}
+          </Text>
+          <View
+            style={{
+              borderWidth: 1,
+              borderColor: errors.password ? colors.red : borderColor,
+              borderRadius: 16,
+              paddingHorizontal: 16,
+              paddingVertical: 0,
+              backgroundColor: colors.cardBackground,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}
+          >
+            <TextInput
+              placeholder={t('signup.passwordPlaceholder')}
+              placeholderTextColor={colors.grey}
+              secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={setPassword}
+              style={{
+                flex: 1,
+                paddingVertical: 12,
+                color: colors.text,
+                fontFamily: 'Poppins-Regular',
+              }}
+            />
+            <TouchableOpacity
+              onPress={() => setShowPassword((v) => !v)}
+              style={{ paddingVertical: 8, paddingLeft: 12 }}
+            >
+              <IconSymbol
+                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                size={22}
+                color={colors.blue}
+              />
+            </TouchableOpacity>
+          </View>
+          {errors.password ? (
+            <Text style={{ color: colors.red, marginTop: 6, fontFamily: 'Poppins-Regular' }}>
+              {errors.password}
+            </Text>
+          ) : null}
         </View>
 
         {/* Address Input */}
-        <View className="mb-4">
-          <Text className="text-gray-700 font-poppins-medium mb-2">Address</Text>
+        <View style={{ marginBottom: 16 }}>
+          <Text style={{ color: colors.text, marginBottom: 8, fontFamily: 'Poppins-Medium' }}>
+            {t('signup.address')}
+          </Text>
           <TextInput
-            placeholder="Your address"
-            className="border border-gray-300 rounded-2xl px-4 py-3 font-poppins-regular text-gray-800"
+            placeholder={t('signup.addressPlaceholder')}
+            placeholderTextColor={colors.grey}
+            value={address}
+            onChangeText={setAddress}
+            style={{
+              borderWidth: 1,
+              borderColor: errors.address ? colors.red : borderColor,
+              borderRadius: 16,
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+              color: colors.text,
+              fontFamily: 'Poppins-Regular',
+              backgroundColor: colors.cardBackground,
+            }}
           />
+          {errors.address ? (
+            <Text style={{ color: colors.red, marginTop: 6, fontFamily: 'Poppins-Regular' }}>
+              {errors.address}
+            </Text>
+          ) : null}
         </View>
 
         {/* City Input */}
-        <View className="mb-4">
-          <Text className="text-gray-700 font-poppins-medium mb-2">City</Text>
+        <View style={{ marginBottom: 16 }}>
+          <Text style={{ color: colors.text, marginBottom: 8, fontFamily: 'Poppins-Medium' }}>
+            {t('signup.city')}
+          </Text>
           <TextInput
-            placeholder="Enter your city"
-            className="border border-gray-300 rounded-2xl px-4 py-3 font-poppins-regular text-gray-800"
+            placeholder={t('signup.cityPlaceholder')}
+            placeholderTextColor={colors.grey}
+            value={city}
+            onChangeText={setCity}
+            style={{
+              borderWidth: 1,
+              borderColor: errors.city ? colors.red : borderColor,
+              borderRadius: 16,
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+              color: colors.text,
+              fontFamily: 'Poppins-Regular',
+              backgroundColor: colors.cardBackground,
+            }}
           />
+          {errors.city ? (
+            <Text style={{ color: colors.red, marginTop: 6, fontFamily: 'Poppins-Regular' }}>
+              {errors.city}
+            </Text>
+          ) : null}
         </View>
 
         {/* Province Input */}
-        <View className="mb-4">
-          <Text className="text-gray-700 font-poppins-medium mb-2">Province</Text>
+        <View style={{ marginBottom: 16 }}>
+          <Text style={{ color: colors.text, marginBottom: 8, fontFamily: 'Poppins-Medium' }}>
+            {t('signup.province')}
+          </Text>
           <TextInput
-            placeholder="Enter your province"
-            className="border border-gray-300 rounded-2xl px-4 py-3 font-poppins-regular text-gray-800"
+            placeholder={t('signup.provincePlaceholder')}
+            placeholderTextColor={colors.grey}
+            value={province}
+            onChangeText={setProvince}
+            style={{
+              borderWidth: 1,
+              borderColor: errors.province ? colors.red : borderColor,
+              borderRadius: 16,
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+              color: colors.text,
+              fontFamily: 'Poppins-Regular',
+              backgroundColor: colors.cardBackground,
+            }}
           />
+          {errors.province ? (
+            <Text style={{ color: colors.red, marginTop: 6, fontFamily: 'Poppins-Regular' }}>
+              {errors.province}
+            </Text>
+          ) : null}
         </View>
 
         {/* Date of Birth Input */}
-        <View className="mb-6">
-          <Text className="text-gray-700 font-poppins-medium mb-2">Date of Birth</Text>
+        <View style={{ marginBottom: 24 }}>
+          <Text style={{ color: colors.text, marginBottom: 8, fontFamily: 'Poppins-Medium' }}>
+            {t('signup.dateOfBirth')}
+          </Text>
           <TextInput
-            placeholder="YYYY-MM-DD"
-            className="border border-gray-300 rounded-2xl px-4 py-3 font-poppins-regular text-gray-800"
+            placeholder={t('signup.dateOfBirthPlaceholder')}
+            placeholderTextColor={colors.grey}
+            value={dateOfBirth}
+            onChangeText={setDateOfBirth}
+            style={{
+              borderWidth: 1,
+              borderColor: errors.dateOfBirth ? colors.red : borderColor,
+              borderRadius: 16,
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+              color: colors.text,
+              fontFamily: 'Poppins-Regular',
+              backgroundColor: colors.cardBackground,
+            }}
           />
+          {errors.dateOfBirth ? (
+            <Text style={{ color: colors.red, marginTop: 6, fontFamily: 'Poppins-Regular' }}>
+              {errors.dateOfBirth}
+            </Text>
+          ) : null}
         </View>
 
         {/* Sign Up Button */}
-        <TouchableOpacity className="bg-brand-blue rounded-2xl py-4 items-center mb-4">
-          <Text className="text-white font-poppins-bold text-base">Sign Up</Text>
+        <TouchableOpacity
+          onPress={handleSignUp}
+          disabled={isSubmitting}
+          style={{
+            backgroundColor: colors.blue,
+            borderRadius: 16,
+            paddingVertical: 16,
+            alignItems: 'center',
+            marginBottom: 16,
+            opacity: isSubmitting ? 0.7 : 1,
+          }}
+        >
+          <Text style={{ color: colors.white, fontFamily: 'Poppins-Bold', fontSize: 16 }}>
+            {t('signup.signUp')}
+          </Text>
         </TouchableOpacity>
 
         {/* OR Continue with */}
-        <View className="flex-row items-center my-6">
-          <View className="flex-1 h-[1px] bg-gray-300" />
-          <Text className="mx-3 text-gray-500 font-poppins-regular">
-            or sign up with
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 24 }}>
+          <View style={{ flex: 1, height: 1, backgroundColor: colors.grey }} />
+          <Text style={{ marginHorizontal: 12, color: colors.text, opacity: 0.7, fontFamily: 'Poppins-Regular' }}>
+            {t('signup.orSignUp')}
           </Text>
-          <View className="flex-1 h-[1px] bg-gray-300" />
+          <View style={{ flex: 1, height: 1, backgroundColor: colors.grey }} />
         </View>
 
         {/* Social Buttons */}
-        <View className="flex-row justify-center gap-x-5 mb-8">
-          <TouchableOpacity className="p-3 border border-gray-300 rounded-2xl">
-            <Image
-              source={require('@/assets/icons/google.png')}
-              className="w-5 h-5"
-              resizeMode="contain"
-            />
+        <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 20, marginBottom: 32 }}>
+          <TouchableOpacity style={{ padding: 12, borderWidth: 1, borderColor: colors.grey, borderRadius: 16 }}>
+            <Image source={require('@/assets/icons/google.png')} style={{ width: 20, height: 20 }} resizeMode="contain" />
           </TouchableOpacity>
 
-          <TouchableOpacity className="p-3 border border-gray-300 rounded-2xl">
-            <Image
-              source={require('@/assets/icons/apple.png')}
-              className="w-5 h-5"
-              resizeMode="contain"
-            />
+          <TouchableOpacity style={{ padding: 12, borderWidth: 1, borderColor: colors.grey, borderRadius: 16 }}>
+            <Image source={require('@/assets/icons/apple.png')} style={{ width: 20, height: 20 }} resizeMode="contain" />
           </TouchableOpacity>
 
-          <TouchableOpacity className="p-3 border border-gray-300 rounded-2xl">
-            <Image
-              source={require('@/assets/icons/facebook.png')}
-              className="w-5 h-5"
-              resizeMode="contain"
-            />
+          <TouchableOpacity style={{ padding: 12, borderWidth: 1, borderColor: colors.grey, borderRadius: 16 }}>
+            <Image source={require('@/assets/icons/facebook.png')} style={{ width: 20, height: 20 }} resizeMode="contain" />
           </TouchableOpacity>
         </View>
 
         {/* Link to Login */}
-        <View className="flex-row justify-center mb-10">
-          <Text className="text-gray-600 font-poppins-regular">
-            Already have an account?{' '}
+        <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 40 }}>
+          <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular' }}>
+            {t('signup.hasAccount')}{' '}
           </Text>
-          <TouchableOpacity onPress={() => router.push('/login')}>
-            <Text className="text-brand-blue font-poppins-bold">Sign in</Text>
+          <TouchableOpacity onPress={() => (router.push as any)('/login')}>
+            <Text style={{ color: colors.blue, fontFamily: 'Poppins-Bold' }}>{t('signup.signIn')}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
