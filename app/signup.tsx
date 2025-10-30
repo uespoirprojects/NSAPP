@@ -6,14 +6,14 @@ import { useThemeColors } from '@/hooks/use-theme-colors';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import {
-    Image,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 export default function SignupScreen() {
@@ -76,15 +76,16 @@ export default function SignupScreen() {
       style={{ flex: 1, backgroundColor: colors.screenBackground }}
     >
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 24, paddingVertical: 40 }}
+        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 24, paddingVertical: 50, justifyContent: 'center', alignItems: 'center' }}
         showsVerticalScrollIndicator={false}
       >
+        <View style={{ width: '100%', maxWidth: 420 }}>
         {/* Heading */}
-        <View style={{ marginBottom: 40 }}>
+        <View style={{ marginBottom: 40, alignItems: 'center' }}>
           <Typography variant="h1" color={colors.blue}>
             {t('signup.title')}
           </Typography>
-          <Text style={{ color: colors.text, opacity: 0.7, marginTop: 4 }}>
+          <Text style={{ color: colors.text, opacity: 0.7, marginTop: 4, textAlign: 'center' }}>
             {t('signup.subtitle')}
           </Text>
         </View>
@@ -384,6 +385,7 @@ export default function SignupScreen() {
           <TouchableOpacity onPress={() => (router.push as any)('/login')}>
             <Text style={{ color: colors.blue, fontFamily: 'Poppins-Bold' }}>{t('signup.signIn')}</Text>
           </TouchableOpacity>
+        </View>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
