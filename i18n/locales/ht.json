@@ -1,0 +1,41 @@
+{
+  "tabs": {
+    "home": "Kay",
+    "myLearning": "Aprantisaj mwen",
+    "profile": "Pwofil"
+  },
+  "login": {
+    "title": "NSAPP",
+    "subtitle": "Kòmanse koneksyon an isit la"
+  },
+  "home": {
+    "title": "Eksplore Kategori yo",
+    "subtitle": "Chwazi yon sijè pou kòmanse aprann",
+    "categories": {
+      "computer": "Enfòmatik",
+      "mathematics": "Matematik",
+      "physics": "Fizik",
+      "languages": "Lang"
+    }
+  },
+  "myLearning": {
+    "title": "Aprantisaj mwen",
+    "subtitle": "Swiv pwogrè ou epi kontinye aprann",
+    "filters": {
+      "inProgress": "An Pwogrè",
+      "completed": "Fini"
+    }
+  },
+  "profile": {
+    "darkMode": "Mòd Fè Nwa",
+    "privacyPolicy": "Règleman sou Konfidansyalite",
+    "language": "Lang",
+    "selectLanguage": "Chwazi Lang"
+  },
+  "common": {
+    "appName": "NSAPP",
+    "videos": "videyo",
+    "logout": "Dekonekte",
+    "cancel": "Anile"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "tabs": {
+    "home": "Accueil",
+    "myLearning": "Mes Cours",
+    "profile": "Profil"
+  },
+  "login": {
+    "title": "NSAPP",
+    "subtitle": "Commencez la connexion ici"
+  },
+  "home": {
+    "title": "Explorer les Catégories",
+    "subtitle": "Choisissez un sujet pour commencer à apprendre",
+    "categories": {
+      "computer": "Informatique",
+      "mathematics": "Mathématiques",
+      "physics": "Physique",
+      "languages": "Langues"
+    }
+  },
+  "myLearning": {
+    "title": "Mes Cours",
+    "subtitle": "Suivez vos progrès et continuez à apprendre",
+    "filters": {
+      "inProgress": "En Cours",
+      "completed": "Terminé"
+    }
+  },
+  "profile": {
+    "darkMode": "Mode Sombre",
+    "privacyPolicy": "Politique de Confidentialité",
+    "language": "Langue",
+    "selectLanguage": "Sélectionner la Langue"
+  },
+  "common": {
+    "appName": "NSAPP",
+    "videos": "vidéos",
+    "logout": "Déconnexion",
+    "cancel": "Annuler"
+  }
+}

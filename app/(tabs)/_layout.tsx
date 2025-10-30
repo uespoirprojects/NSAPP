@@ -1,38 +1,42 @@
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { CustomColors } from '@/constants/theme';
+import { useI18n } from '@/contexts/i18n-context';
+import { useThemeColors } from '@/hooks/use-theme-colors';
 import { Tabs } from 'expo-router';
 
 export default function TabsLayout() {
+  const colors = useThemeColors();
+  const { t } = useI18n();
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: CustomColors.blue,
-        tabBarInactiveTintColor: CustomColors.black,
+        tabBarActiveTintColor: colors.tabIconSelected,
+        tabBarInactiveTintColor: colors.tabIconDefault,
         tabBarStyle: {
-          backgroundColor: '#FFFFFF',
+          backgroundColor: colors.tabBarBackground,
           borderTopWidth: 1,
-          borderTopColor: CustomColors.grey,
+          borderTopColor: colors.tabBarBorder,
         },
       }}>
       <Tabs.Screen
         name="home"
         options={{
-          title: 'Home',
+          title: t('tabs.home'),
           tabBarIcon: ({ color }) => <IconSymbol size={24} name="home-outline" color={color} />,
         }}
       />
       <Tabs.Screen
         name="my-learning"
         options={{
-          title: 'My Learning',
+          title: t('tabs.myLearning'),
           tabBarIcon: ({ color }) => <IconSymbol size={24} name="book-outline" color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
+          title: t('tabs.profile'),
           tabBarIcon: ({ color }) => <IconSymbol size={24} name="person-outline" color={color} />,
         }}
       />

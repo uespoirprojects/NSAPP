@@ -1,4 +1,6 @@
 import { Typography } from '@/components/ui';
+import { useI18n } from '@/contexts/i18n-context';
+import { useThemeColors } from '@/hooks/use-theme-colors';
 import { CustomColors } from '@/constants/theme';
 import { router } from 'expo-router';
 import { View } from 'react-native';
@@ -16,6 +18,9 @@ import {
 } from 'react-native';
 
 export default function LoginScreen() {
+  const colors = useThemeColors();
+  const { t } = useI18n();
+
     
   const handleLogin = () => {
     // TODO: Implement login logic
