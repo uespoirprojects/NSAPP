@@ -1,9 +1,9 @@
 import { Typography } from '@/components/ui';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
-import { CustomColors } from '@/constants/theme';
 import { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function MyLearningScreen() {
   const colors = useThemeColors();
@@ -11,9 +11,9 @@ export default function MyLearningScreen() {
   const [selectedFilter, setSelectedFilter] = useState<'inProgress' | 'completed'>('inProgress');
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.screenBackground }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground }} edges={['top', 'bottom', 'left', 'right']}>
       {/* Header Section */}
-      <View style={{ padding: 20, paddingTop: 40 }}>
+      <View style={{ padding: 20, paddingTop: 20 }}>
         <Typography variant="h2" color={colors.blue} style={{ marginBottom: 8 }}>
           {t('myLearning.title')}
         </Typography>
@@ -73,6 +73,6 @@ export default function MyLearningScreen() {
           </Typography>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

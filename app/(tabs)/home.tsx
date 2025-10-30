@@ -5,6 +5,7 @@ import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import { router } from 'expo-router';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const categoryIcons = {
   computer: 'laptop-outline',
@@ -23,9 +24,9 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.screenBackground }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground }} edges={['top', 'bottom', 'left', 'right']}>
       {/* Header Section */}
-      <View style={{ padding: 20, paddingTop: 40 }}>
+      <View style={{ padding: 20, paddingTop: 20 }}>
         <Typography variant="h2" color={colors.blue} style={{ marginBottom: 8 }}>
           {t('home.title')}
         </Typography>
@@ -80,6 +81,6 @@ export default function HomeScreen() {
           })}
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

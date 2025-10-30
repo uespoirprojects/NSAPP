@@ -6,6 +6,7 @@ import { useThemeColors } from '@/hooks/use-theme-colors';
 import { getYouTubeThumbnailUrl } from '@/utils/video-helpers';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function VideosListScreen() {
   const colors = useThemeColors();
@@ -17,11 +18,11 @@ export default function VideosListScreen() {
 
   if (!category) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.screenBackground }}>
+      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.screenBackground }} edges={['top', 'bottom', 'left', 'right']}>
         <Typography variant="body" color={colors.text}>
           Category not found
         </Typography>
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -33,9 +34,9 @@ export default function VideosListScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.screenBackground }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground }} edges={['top', 'bottom', 'left', 'right']}>
       {/* Header Section */}
-      <View style={{ padding: 20, paddingTop: 40 }}>
+      <View style={{ padding: 20, paddingTop: 20 }}>
         <Typography variant="h2" color={colors.blue} style={{ marginBottom: 8 }}>
           {categoryName}
         </Typography>
@@ -108,6 +109,6 @@ export default function VideosListScreen() {
           );
         })}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }

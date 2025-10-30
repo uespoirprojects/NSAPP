@@ -5,6 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import 'react-native-reanimated';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
 import { I18nProvider } from '@/contexts/i18n-context';
@@ -49,19 +50,21 @@ function RootLayoutContent() {
   }
 
   return (
-    <I18nProvider>
-      <GluestackUIProvider mode={effectiveTheme === 'dark' ? 'dark' : 'light'}>
-        <NavigationThemeProvider value={effectiveTheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack initialRouteName="index">
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen name="login" options={{ headerShown: false }} />
-            <Stack.Screen name="signup" options={{ headerShown: false }} />
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          </Stack>
-          <StatusBar style={effectiveTheme === 'dark' ? 'light' : 'dark'} />
-        </NavigationThemeProvider>
-      </GluestackUIProvider>
-    </I18nProvider>
+    <SafeAreaProvider>
+      <I18nProvider>
+        <GluestackUIProvider mode={effectiveTheme === 'dark' ? 'dark' : 'light'}>
+          <NavigationThemeProvider value={effectiveTheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <Stack initialRouteName="index">
+              <Stack.Screen name="index" options={{ headerShown: false }} />
+              <Stack.Screen name="login" options={{ headerShown: false }} />
+              <Stack.Screen name="signup" options={{ headerShown: false }} />
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            </Stack>
+            <StatusBar style={effectiveTheme === 'dark' ? 'light' : 'dark'} />
+          </NavigationThemeProvider>
+        </GluestackUIProvider>
+      </I18nProvider>
+    </SafeAreaProvider>
   );
 }
 
