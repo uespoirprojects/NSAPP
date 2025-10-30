@@ -1,4 +1,7 @@
 import { Typography } from '@/components/ui';
+import { CustomColors } from '@/constants/theme';
+import { router } from 'expo-router';
+import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import {
@@ -13,6 +16,13 @@ import {
 } from 'react-native';
 
 export default function LoginScreen() {
+    
+  const handleLogin = () => {
+    // TODO: Implement login logic
+    // After successful login, navigate to home tab
+    (router.push as any)('/home');
+  };
+    
   const router = useRouter();
 
   return (
