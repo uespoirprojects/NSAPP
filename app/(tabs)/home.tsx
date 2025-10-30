@@ -1,19 +1,26 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { videoCategories } from '@/constants/videos';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
-import { ScrollView, View } from 'react-native';
+import { router } from 'expo-router';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 
-const categories = [
-  { id: '1', key: 'computer', icon: 'laptop-outline', videoCount: 24 },
-  { id: '2', key: 'mathematics', icon: 'calculator-outline', videoCount: 18 },
-  { id: '3', key: 'physics', icon: 'flask-outline', videoCount: 15 },
-  { id: '4', key: 'languages', icon: 'chatbubbles-outline', videoCount: 12 },
-];
+const categoryIcons = {
+  computer: 'laptop-outline',
+  mathematics: 'calculator-outline',
+  physics: 'flask-outline',
+  languages: 'chatbubbles-outline',
+};
 
 export default function HomeScreen() {
   const colors = useThemeColors();
-  const { t } = useI18n();
+  const { t, currentLanguage } = useI18n();
+
+  const handleCategoryPress = (categoryId: string) => {
+    // Navigate to videos list screen for this category
+    (router.push as any)(`/videos/${categoryId}`);
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.screenBackground }}>
@@ -36,33 +43,41 @@ export default function HomeScreen() {
             justifyContent: 'space-between',
           }}
         >
-          {categories.map((category) => (
-            <View
-              key={category.id}
-              style={{
-                backgroundColor: colors.cardBackground,
-                borderRadius: 12,
-                padding: 16,
-                marginBottom: 16,
-                borderWidth: 1,
-                borderColor: colors.grey,
-                width: '48%',
-                alignItems: 'center',
-              }}
-            >
-              <IconSymbol name={category.icon} size={40} color={colors.blue} style={{ marginTop: 5, marginBottom: 25, textAlign: 'center' }}/>
-              <Typography
-                variant="h3"
-                color={colors.text}
-                style={{ marginTop: 24, marginBottom: 8, textAlign: 'center' }}
+          {videoCategories.map((category) => {
+            const videoCount = category.videos.length;
+            const icon = categoryIcons[category.id as keyof typeof categoryIcons] || 'folder-outline';
+            const categoryName = category.name[currentLanguage] || category.name.fr;
+
+            return (
+              <TouchableOpacity
+                key={category.id}
+                style={{
+                  backgroundColor: colors.cardBackground,
+                  borderRadius: 12,
+                  padding: 16,
+                  marginBottom: 16,
+                  borderWidth: 1,
+                  borderColor: colors.grey,
+                  width: '48%',
+                  alignItems: 'center',
+                }}
+                onPress={() => handleCategoryPress(category.id)}
+                activeOpacity={0.7}
               >
-                {t(`home.categories.${category.key}`)}
-              </Typography>
-              <Typography variant="caption" color={colors.text} style={{ textAlign: 'center' }}>
-                {category.videoCount} {t('common.videos')}
-              </Typography>
-            </View>
-          ))}
+                <IconSymbol name={icon} size={40} color={colors.blue} style={{ marginTop: 5, marginBottom: 25, textAlign: 'center' }}/>
+                <Typography
+                  variant="h3"
+                  color={colors.text}
+                  style={{ marginTop: 24, marginBottom: 8, textAlign: 'center' }}
+                >
+                  {categoryName}
+                </Typography>
+                <Typography variant="caption" color={colors.text} style={{ textAlign: 'center' }}>
+                  {videoCount} {t('common.videos')}
+                </Typography>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </ScrollView>
     </View>
