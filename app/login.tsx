@@ -57,15 +57,16 @@ export default function LoginScreen() {
       style={{ flex: 1, backgroundColor: colors.screenBackground }}
     >
       <ScrollView
-        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 24, paddingVertical: 40 }}
+        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 24, paddingVertical: 40, justifyContent: 'center', alignItems: 'center' }}
         showsVerticalScrollIndicator={false}
       >
+        <View style={{ width: '100%', maxWidth: 420 }}>
         {/* Heading */}
-        <View style={{ marginBottom: 40 }}>
+        <View style={{ marginBottom: 40, alignItems: 'center' }}>
           <Typography variant="h1" color={colors.blue}>
             {t('login.title')}
           </Typography>
-          <Text style={{ color: colors.text, opacity: 0.7, marginTop: 4 }}>
+          <Text style={{ color: colors.text, opacity: 0.7, marginTop: 4, textAlign: 'center' }}>
             {t('login.subtitle')}
           </Text>
         </View>
@@ -200,6 +201,7 @@ export default function LoginScreen() {
             {t('login.browseVideos')}
           </Text>
         </TouchableOpacity>
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
