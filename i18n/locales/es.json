@@ -2,7 +2,8 @@
   "tabs": {
     "home": "Inicio",
     "myLearning": "Mi Aprendizaje",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "settings": "Configuración"
   },
   "login": {
     "title": "Edulearn",
@@ -70,6 +71,13 @@
   "profile": {
     "darkMode": "Modo Oscuro",
     "privacyPolicy": "Política de Privacidad",
+    "language": "Idioma",
+    "selectLanguage": "Seleccionar Idioma"
+  },
+  "settings": {
+    "title": "Configuración",
+    "subtitle": "Personaliza tu experiencia",
+    "darkMode": "Modo Oscuro",
     "language": "Idioma",
     "selectLanguage": "Seleccionar Idioma"
   },

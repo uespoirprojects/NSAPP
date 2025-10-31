@@ -2,7 +2,8 @@
   "tabs": {
     "home": "Kay",
     "myLearning": "Aprantisaj mwen",
-    "profile": "Pwofil"
+    "profile": "Pwofil",
+    "settings": "Anviwònman"
   },
   "login": {
     "title": "Edulearn",
@@ -70,6 +71,13 @@
   "profile": {
     "darkMode": "Mòd Fè Nwa",
     "privacyPolicy": "Règleman sou Konfidansyalite",
+    "language": "Lang",
+    "selectLanguage": "Chwazi Lang"
+  },
+  "settings": {
+    "title": "Anviwònman",
+    "subtitle": "Pèsonalize eksperyans ou",
+    "darkMode": "Mòd Fè Nwa",
     "language": "Lang",
     "selectLanguage": "Chwazi Lang"
   },

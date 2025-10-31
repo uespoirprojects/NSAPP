@@ -1,19 +1,20 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { useAuth } from '@/contexts/auth-context';
 import { useI18n } from '@/contexts/i18n-context';
 import { useTheme } from '@/contexts/theme-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -21,6 +22,7 @@ export default function SignupScreen() {
   const colors = useThemeColors();
   const { t } = useI18n();
   const { effectiveTheme } = useTheme();
+  const { setIsAuthenticated, setIsGuest } = useAuth();
   const router = useRouter();
   
   // Use white border in dark mode, grey in light mode
@@ -64,8 +66,11 @@ export default function SignupScreen() {
     if (!validate()) return;
     try {
       setIsSubmitting(true);
-      // TODO: Implement signup logic
-      (router.push as any)('/home');
+      // TODO: Implement actual signup logic with API call
+      // For now, simulate successful signup
+      await setIsAuthenticated(true);
+      await setIsGuest(false);
+      (router.push as any)('/(tabs)/home');
     } finally {
       setIsSubmitting(false);
     }

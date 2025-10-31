@@ -1,5 +1,6 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { useAuth } from '@/contexts/auth-context';
 import { useI18n } from '@/contexts/i18n-context';
 import { useTheme } from '@/contexts/theme-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
@@ -21,6 +22,7 @@ export default function LoginScreen() {
   const colors = useThemeColors();
   const { t } = useI18n();
   const { effectiveTheme } = useTheme();
+  const { setIsGuest, setIsAuthenticated } = useAuth();
   const router = useRouter();
   
   // Use white border in dark mode, grey in light mode
@@ -45,8 +47,11 @@ export default function LoginScreen() {
     if (!validate()) return;
     try {
       setIsSubmitting(true);
-      // TODO: Implement login logic
-      (router.push as any)('/home');
+      // TODO: Implement actual login logic with API call
+      // For now, simulate successful login
+      await setIsAuthenticated(true);
+      await setIsGuest(false);
+      (router.push as any)('/(tabs)/home');
     } finally {
       setIsSubmitting(false);
     }
@@ -196,7 +201,11 @@ export default function LoginScreen() {
 
         {/* Browse Videos Button */}
         <TouchableOpacity
-          onPress={() => (router.push as any)('/home')}
+          onPress={async () => {
+            // Set guest mode and navigate to home
+            await setIsGuest(true);
+            (router.push as any)('/(tabs)/home');
+          }}
           style={{ borderWidth: 1, borderColor: colors.blue, borderRadius: 16, paddingVertical: 16, alignItems: 'center', marginBottom: 40 }}
         >
           <Text style={{ color: colors.blue, fontFamily: 'Poppins-Bold', fontSize: 16 }}>

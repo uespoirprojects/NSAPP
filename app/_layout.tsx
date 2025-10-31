@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
+import { AuthProvider } from '@/contexts/auth-context';
 import { I18nProvider } from '@/contexts/i18n-context';
 import { ThemeProvider, useTheme } from '@/contexts/theme-context';
 import '@/global.css';
@@ -51,19 +52,21 @@ function RootLayoutContent() {
 
   return (
     <SafeAreaProvider>
-      <I18nProvider>
-        <GluestackUIProvider mode={effectiveTheme === 'dark' ? 'dark' : 'light'}>
-          <NavigationThemeProvider value={effectiveTheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <Stack initialRouteName="index">
-              <Stack.Screen name="index" options={{ headerShown: false }} />
-              <Stack.Screen name="login" options={{ headerShown: false }} />
-              <Stack.Screen name="signup" options={{ headerShown: false }} />
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            </Stack>
-            <StatusBar style={effectiveTheme === 'dark' ? 'light' : 'dark'} />
-          </NavigationThemeProvider>
-        </GluestackUIProvider>
-      </I18nProvider>
+      <AuthProvider>
+        <I18nProvider>
+          <GluestackUIProvider mode={effectiveTheme === 'dark' ? 'dark' : 'light'}>
+            <NavigationThemeProvider value={effectiveTheme === 'dark' ? DarkTheme : DefaultTheme}>
+              <Stack initialRouteName="index">
+                <Stack.Screen name="index" options={{ headerShown: false }} />
+                <Stack.Screen name="login" options={{ headerShown: false }} />
+                <Stack.Screen name="signup" options={{ headerShown: false }} />
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              </Stack>
+              <StatusBar style={effectiveTheme === 'dark' ? 'light' : 'dark'} />
+            </NavigationThemeProvider>
+          </GluestackUIProvider>
+        </I18nProvider>
+      </AuthProvider>
     </SafeAreaProvider>
   );
 }

@@ -2,7 +2,8 @@
   "tabs": {
     "home": "Home",
     "myLearning": "My Learning",
-    "profile": "Profile"
+    "profile": "Profile",
+    "settings": "Settings"
   },
   "login": {
     "title": "Edulearn",
@@ -70,6 +71,13 @@
   "profile": {
     "darkMode": "Dark Mode",
     "privacyPolicy": "Privacy Policy",
+    "language": "Language",
+    "selectLanguage": "Select Language"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Customize your experience",
+    "darkMode": "Dark Mode",
     "language": "Language",
     "selectLanguage": "Select Language"
   },
