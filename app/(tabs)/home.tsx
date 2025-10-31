@@ -14,6 +14,13 @@ const categoryIcons = {
   languages: 'chatbubbles-outline',
 };
 
+const categoryColors = {
+  computer: '#155DFC', // Blue
+  mathematics: '#4CAF50', // Green
+  physics: '#FF9800', // Orange
+  languages: '#9C27B0', // Purple
+};
+
 export default function HomeScreen() {
   const colors = useThemeColors();
   const { t, currentLanguage } = useI18n();
@@ -48,6 +55,7 @@ export default function HomeScreen() {
             const videoCount = category.videos.length;
             const icon = categoryIcons[category.id as keyof typeof categoryIcons] || 'folder-outline';
             const categoryName = category.name[currentLanguage] || category.name.fr;
+            const iconColor = categoryColors[category.id as keyof typeof categoryColors] || colors.blue;
 
             return (
               <TouchableOpacity
@@ -65,7 +73,7 @@ export default function HomeScreen() {
                 onPress={() => handleCategoryPress(category.id)}
                 activeOpacity={0.7}
               >
-                <IconSymbol name={icon} size={40} color={colors.blue} style={{ marginTop: 5, marginBottom: 25, textAlign: 'center' }}/>
+                <IconSymbol name={icon} size={40} color={iconColor} style={{ marginTop: 5, marginBottom: 25, textAlign: 'center' }}/>
                 <Typography
                   variant="h3"
                   color={colors.text}
