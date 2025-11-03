@@ -1,16 +1,19 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { useAuth } from '@/contexts/auth-context';
 import { SupportedLanguage, useI18n } from '@/contexts/i18n-context';
 import { useTheme } from '@/contexts/theme-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
+import { router } from 'expo-router';
 import { useState } from 'react';
-import { Modal, ScrollView, Switch, TouchableOpacity, View } from 'react-native';
+import { Alert, Modal, ScrollView, Switch, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileScreen() {
   const colors = useThemeColors();
   const { effectiveTheme, themeMode, setThemeMode } = useTheme();
   const { t, currentLanguage, changeLanguage } = useI18n();
+  const { logout } = useAuth();
   const [isLogoutPressed, setIsLogoutPressed] = useState(false);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
 
@@ -30,6 +33,35 @@ export default function ProfileScreen() {
   const handleLanguageChange = async (language: SupportedLanguage) => {
     await changeLanguage(language);
     setShowLanguageModal(false);
+  };
+
+  const handleLogout = async () => {
+    Alert.alert(
+      t('common.logout') || 'Logout',
+      t('profile.logoutConfirm') || 'Are you sure you want to logout?',
+      [
+        {
+          text: t('common.cancel') || 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: t('common.logout') || 'Logout',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              // Clear all authentication state
+              await logout();
+              // Navigate to login screen and reset navigation stack
+              (router.replace as any)('/login');
+            } catch (error) {
+              console.error('Logout error:', error);
+              // Still navigate even if there's an error
+              (router.replace as any)('/login');
+            }
+          },
+        },
+      ]
+    );
   };
 
   const userInfo = {
@@ -166,6 +198,7 @@ export default function ProfileScreen() {
           activeOpacity={1}
           onPressIn={() => setIsLogoutPressed(true)}
           onPressOut={() => setIsLogoutPressed(false)}
+          onPress={handleLogout}
         >
           <IconSymbol name="log-out-outline" size={20} color={isLogoutPressed ? colors.white : colors.red} />
           <Typography variant="body" color={isLogoutPressed ? colors.white : colors.red} style={{ marginLeft: 8 }}>

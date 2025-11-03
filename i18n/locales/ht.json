@@ -1,6 +1,6 @@
 {
   "tabs": {
-    "home": "Kay",
+    "home": "Akèy",
     "myLearning": "Aprantisaj mwen",
     "profile": "Pwofil",
     "settings": "Anviwònman"
@@ -72,7 +72,8 @@
     "darkMode": "Mòd Fè Nwa",
     "privacyPolicy": "Règleman sou Konfidansyalite",
     "language": "Lang",
-    "selectLanguage": "Chwazi Lang"
+    "selectLanguage": "Chwazi Lang",
+    "logoutConfirm": "Èske w sèten ou vle dekonekte?"
   },
   "settings": {
     "title": "Anviwònman",

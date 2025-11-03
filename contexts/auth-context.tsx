@@ -6,6 +6,7 @@ interface AuthContextType {
   isGuest: boolean;
   setIsAuthenticated: (value: boolean) => void;
   setIsGuest: (value: boolean) => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -75,6 +76,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
+  // Logout function to clear all auth state
+  const logout = async () => {
+    try {
+      setIsAuthenticatedState(false);
+      setIsGuestState(false);
+      // Clear both storage keys
+      await AsyncStorage.multiRemove([AUTH_STORAGE_KEY, GUEST_STORAGE_KEY]);
+    } catch (error) {
+      console.error('Failed to logout:', error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -82,6 +95,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         isGuest,
         setIsAuthenticated,
         setIsGuest,
+        logout,
       }}
     >
       {children}

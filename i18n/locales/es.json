@@ -72,7 +72,8 @@
     "darkMode": "Modo Oscuro",
     "privacyPolicy": "Política de Privacidad",
     "language": "Idioma",
-    "selectLanguage": "Seleccionar Idioma"
+    "selectLanguage": "Seleccionar Idioma",
+    "logoutConfirm": "¿Estás seguro de que quieres cerrar sesión?"
   },
   "settings": {
     "title": "Configuración",

@@ -72,7 +72,8 @@
     "darkMode": "Mode Sombre",
     "privacyPolicy": "Politique de Confidentialité",
     "language": "Langue",
-    "selectLanguage": "Sélectionner la Langue"
+    "selectLanguage": "Sélectionner la Langue",
+    "logoutConfirm": "Êtes-vous sûr de vouloir vous déconnecter ?"
   },
   "settings": {
     "title": "Paramètres",
