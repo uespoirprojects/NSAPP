@@ -6,6 +6,7 @@ import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import type { Video } from '@/types/video';
 import { getYouTubeEmbedUrl } from '@/utils/video-helpers';
+import Constants from 'expo-constants';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import {
@@ -13,6 +14,7 @@ import {
   Alert,
   Animated,
   Dimensions,
+  InteractionManager,
   Modal,
   Platform,
   ScrollView,
@@ -116,13 +118,30 @@ export default function VideoScreen() {
   };
 
   const openSidebar = () => {
+    if (isSidebarOpen) return;
     setIsSidebarOpen(true);
-    sidebarAnim.setValue(-SIDEBAR_WIDTH);
-    Animated.timing(sidebarAnim, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
+    
+    // Use InteractionManager on mobile to ensure layout is ready before animation
+    if (Platform.OS !== 'web') {
+      InteractionManager.runAfterInteractions(() => {
+        sidebarAnim.setValue(-SIDEBAR_WIDTH);
+        Animated.timing(sidebarAnim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
+      });
+    } else {
+      // On web, use requestAnimationFrame for smoother animation
+      requestAnimationFrame(() => {
+        sidebarAnim.setValue(-SIDEBAR_WIDTH);
+        Animated.timing(sidebarAnim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }).start();
+      });
+    }
   };
 
   const closeSidebar = () => {
@@ -184,6 +203,29 @@ export default function VideoScreen() {
   // Validate and get embed URL
   const embedUrl = selectedVideo?.videoId ? getYouTubeEmbedUrl(selectedVideo.videoId, false) : null;
   
+  // Get the referer URL based on bundle identifier for YouTube API compliance
+  // This sets the HTTP Referer header when loading HTML content in WebView
+  const refererUrl = React.useMemo(() => {
+    if (Platform.OS === 'web') {
+      // On web, use the current origin
+      if (typeof window !== 'undefined' && window.location) {
+        return window.location.origin;
+      }
+      return 'https://nsapp.com';
+    }
+    
+    // For native platforms, use bundle identifier
+    // This follows YouTube's recommendation: https://[bundle-id]
+    const bundleId = Constants.expoConfig?.ios?.bundleIdentifier || 
+                     Constants.expoConfig?.android?.package ||
+                     Constants.manifest?.ios?.bundleIdentifier ||
+                     Constants.manifest?.android?.package ||
+                     'com.nsapp';
+    
+    // Format as https://[bundle-id] as per YouTube documentation
+    return `https://${bundleId.toLowerCase()}`;
+  }, []);
+
   // Create HTML wrapper for YouTube embed (required for React Native WebView)
   // Use useMemo to ensure it updates when embedUrl changes
   const videoHtml = React.useMemo(() => {
@@ -352,7 +394,10 @@ export default function VideoScreen() {
               videoHtml && WebView ? (
                 <WebView
                   key={selectedVideo.id} // Force re-render when video changes
-                  source={{ html: videoHtml }}
+                  source={{ 
+                    html: videoHtml,
+                    baseUrl: refererUrl // Set baseUrl to establish Referer header for YouTube API compliance
+                  }}
                   style={{ backgroundColor: colors.black, flex: 1 }}
                   onLoadStart={() => setVideoLoading(true)}
                   onLoadEnd={() => setVideoLoading(false)}
@@ -572,21 +617,23 @@ export default function VideoScreen() {
 
       {/* Sidebar Overlay */}
       {isSidebarOpen && (
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={closeSidebar}
-          style={StyleSheet.absoluteFill}
-        >
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              bottom: 0,
-              right: 0,
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            }}
-          />
+        <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={closeSidebar}
+            style={StyleSheet.absoluteFill}
+          >
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              }}
+            />
+          </TouchableOpacity>
           <Animated.View
             style={{
               transform: [{ translateX: sidebarAnim }],
@@ -601,7 +648,9 @@ export default function VideoScreen() {
               shadowOpacity: 0.25,
               shadowRadius: 10,
               elevation: 10,
+              zIndex: 1000,
             }}
+            pointerEvents="auto"
           >
             <View style={{ flex: 1 }}>
               {/* Sidebar Header */}
@@ -666,7 +715,7 @@ export default function VideoScreen() {
               </ScrollView>
             </View>
           </Animated.View>
-        </TouchableOpacity>
+        </View>
       )}
 
       {/* Signup Required Modal */}
