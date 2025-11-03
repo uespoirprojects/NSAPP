@@ -6,7 +6,7 @@ import { useTheme } from '@/contexts/theme-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Modal, ScrollView, Switch, TouchableOpacity, View } from 'react-native';
+import { Modal, ScrollView, Switch, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileScreen() {
@@ -16,6 +16,7 @@ export default function ProfileScreen() {
   const { logout } = useAuth();
   const [isLogoutPressed, setIsLogoutPressed] = useState(false);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const isDarkMode = effectiveTheme === 'dark';
 
@@ -35,33 +36,25 @@ export default function ProfileScreen() {
     setShowLanguageModal(false);
   };
 
-  const handleLogout = async () => {
-    Alert.alert(
-      t('common.logout') || 'Logout',
-      t('profile.logoutConfirm') || 'Are you sure you want to logout?',
-      [
-        {
-          text: t('common.cancel') || 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: t('common.logout') || 'Logout',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              // Clear all authentication state
-              await logout();
-              // Navigate to login screen and reset navigation stack
-              (router.replace as any)('/login');
-            } catch (error) {
-              console.error('Logout error:', error);
-              // Still navigate even if there's an error
-              (router.replace as any)('/login');
-            }
-          },
-        },
-      ]
-    );
+  const handleLogout = () => {
+    setShowLogoutModal(true);
+  };
+
+  const confirmLogout = async () => {
+    try {
+      // Clear all authentication state
+      await logout();
+      // Close modal
+      setShowLogoutModal(false);
+      // Navigate to login screen and reset navigation stack
+      router.replace('/login');
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Close modal
+      setShowLogoutModal(false);
+      // Still navigate even if there's an error
+      router.replace('/login');
+    }
   };
 
   const userInfo = {
@@ -260,6 +253,55 @@ export default function ProfileScreen() {
                 {t('common.cancel')}
               </Typography>
             </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Logout Confirmation Modal */}
+      <Modal
+        visible={showLogoutModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowLogoutModal(false)}
+      >
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+          <View style={{ backgroundColor: colors.cardBackground, borderRadius: 20, padding: 24, width: '100%', maxWidth: 400 }}>
+            <Typography variant="h2" color={colors.text} style={{ marginBottom: 12, textAlign: 'center' }}>
+              {t('common.logout') || 'Logout'}
+            </Typography>
+            <Typography variant="body" color={colors.text} style={{ marginBottom: 24, textAlign: 'center', opacity: 0.8 }}>
+              {t('profile.logoutConfirm') || 'Are you sure you want to logout?'}
+            </Typography>
+            <View style={{ flexDirection: 'row', gap: 12 }}>
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.grey,
+                  borderRadius: 12,
+                  padding: 16,
+                  alignItems: 'center',
+                }}
+                onPress={() => setShowLogoutModal(false)}
+              >
+                <Typography variant="body" color={colors.text}>
+                  {t('common.cancel') || 'Cancel'}
+                </Typography>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.red,
+                  borderRadius: 12,
+                  padding: 16,
+                  alignItems: 'center',
+                }}
+                onPress={confirmLogout}
+              >
+                <Typography variant="body" color={colors.white}>
+                  {t('common.logout') || 'Logout'}
+                </Typography>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
