@@ -13,6 +13,7 @@ import {
   Alert,
   Animated,
   Dimensions,
+  Modal,
   Platform,
   ScrollView,
   StyleSheet,
@@ -71,6 +72,7 @@ export default function VideoScreen() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarAnim = React.useRef(new Animated.Value(-SIDEBAR_WIDTH)).current;
   const [videoLoading, setVideoLoading] = useState(true);
+  const [showSignupModal, setShowSignupModal] = useState(false);
 
   // Update selected video when videoId param changes
   React.useEffect(() => {
@@ -88,19 +90,12 @@ export default function VideoScreen() {
   }, [category, allVideos, completedVideos, isAuthenticated]);
 
   const handleTakeQuiz = () => {
-    Alert.alert(
-      t('video.signupRequired'),
-      t('video.signupRequiredMessage'),
-      [
-        { text: t('common.cancel'), style: 'cancel' },
-        {
-          text: t('login.signUp'),
-          onPress: () => {
-            (router.push as any)('/signup');
-          },
-        },
-      ]
-    );
+    setShowSignupModal(true);
+  };
+
+  const confirmSignup = () => {
+    setShowSignupModal(false);
+    router.push('/login');
   };
 
   const handleMarkAsComplete = () => {
@@ -673,6 +668,55 @@ export default function VideoScreen() {
           </Animated.View>
         </TouchableOpacity>
       )}
+
+      {/* Signup Required Modal */}
+      <Modal
+        visible={showSignupModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowSignupModal(false)}
+      >
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+          <View style={{ backgroundColor: colors.cardBackground, borderRadius: 20, padding: 24, width: '100%', maxWidth: 400 }}>
+            <Typography variant="h2" color={colors.text} style={{ marginBottom: 12, textAlign: 'center' }}>
+              {t('video.signupRequired')}
+            </Typography>
+            <Typography variant="body" color={colors.text} style={{ marginBottom: 24, textAlign: 'center', opacity: 0.8 }}>
+              {t('video.signupRequiredMessage')}
+            </Typography>
+            <View style={{ flexDirection: 'row', gap: 12 }}>
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.grey,
+                  borderRadius: 12,
+                  padding: 16,
+                  alignItems: 'center',
+                }}
+                onPress={() => setShowSignupModal(false)}
+              >
+                <Typography variant="body" color={colors.text}>
+                  {t('common.cancel') || 'Cancel'}
+                </Typography>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.blue,
+                  borderRadius: 12,
+                  padding: 16,
+                  alignItems: 'center',
+                }}
+                onPress={confirmSignup}
+              >
+                <Typography variant="body" color={colors.white}>
+                  {t('login.signIn') || 'Sign In'}
+                </Typography>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
 
     </SafeAreaView>
   );
