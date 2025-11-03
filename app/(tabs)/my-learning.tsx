@@ -46,7 +46,7 @@ export default function MyLearningScreen() {
         >
           <Typography
             variant="body"
-            color={colors.text}
+            color={selectedFilter === 'inProgress' ? colors.blue : colors.text}
             style={{ fontWeight: selectedFilter === 'inProgress' ? '600' : '400' }}
           >
             {t('myLearning.filters.inProgress')}
@@ -66,7 +66,7 @@ export default function MyLearningScreen() {
         >
           <Typography
             variant="body"
-            color={colors.text}
+            color={selectedFilter === 'completed' ? colors.blue : colors.text}
             style={{ fontWeight: selectedFilter === 'completed' ? '600' : '400' }}
           >
             {t('myLearning.filters.completed')}
