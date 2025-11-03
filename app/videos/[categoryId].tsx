@@ -29,7 +29,7 @@ export default function VideosListScreen() {
   const categoryName = category.name[currentLanguage] || category.name.fr;
 
   const handleVideoPress = (videoId: string) => {
-    // Navigate to video player screen
+    // Navigate to video screen - will be handled by auth-aware route
     (router.push as any)(`/video/${videoId}`);
   };
 

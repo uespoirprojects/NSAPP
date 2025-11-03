@@ -58,7 +58,7 @@ export const Colors = {
     red: CustomColors.red,
     black: CustomColors.black,
     white: CustomColors.white,
-    whiteSmoke: '#1A1A1A',
+    whiteSmoke: '#9BA1A6', // Lighter color for better visibility in dark mode (same as icon color)
   },
 };
 

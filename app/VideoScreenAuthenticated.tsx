@@ -102,7 +102,7 @@ const LessonSidebar: React.FC<LessonSidebarProps> = ({
   );
 };
 
-export default function VideoScreen() {
+export default function VideoScreenAuthenticated() {
   const colors = useThemeColors();
   const { t, currentLanguage } = useI18n();
   const { videoId } = useLocalSearchParams<{ videoId: string }>();
@@ -110,7 +110,7 @@ export default function VideoScreen() {
   // Get video and category data
   const video = getVideoById(videoId || '');
   const category = video ? getCategoryById(video.categoryId) : null;
-  const allVideos = category ? getVideosByCategory(video.categoryId) : [];
+  const allVideos = category && video ? getVideosByCategory(video.categoryId) : [];
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(video || null);
 
   // Update selected video when videoId param changes
@@ -119,35 +119,32 @@ export default function VideoScreen() {
       setSelectedVideo(video);
     }
   }, [videoId]);
-
+  const [completedVideos, setCompletedVideos] = useState<Set<string>>(new Set());
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarAnim = useState(new Animated.Value(-SIDEBAR_WIDTH))[0];
   const [videoLoading, setVideoLoading] = useState(true);
 
+  // Calculate progress
   const progressPercentage = useMemo(() => {
     if (!category || allVideos.length === 0) return 0;
-    // For guest users, show 0% progress
-    return 0;
-  }, [category, allVideos]);
+    const completedCount = allVideos.filter((v) => completedVideos.has(v.id)).length;
+    return (completedCount / allVideos.length) * 100;
+  }, [category, allVideos, completedVideos]);
 
   const handleBackPress = () => {
     router.back();
   };
 
-  const handleTakeQuiz = () => {
-    Alert.alert(
-      t('video.signupRequired'),
-      t('video.signupRequiredMessage'),
-      [
-        { text: t('common.cancel'), style: 'cancel' },
-        {
-          text: t('login.signUp'),
-          onPress: () => {
-            (router.push as any)('/signup');
-          },
-        },
-      ]
-    );
+  const handleMarkAsComplete = () => {
+    if (!selectedVideo) return;
+
+    if (completedVideos.has(selectedVideo.id)) {
+      Alert.alert(t('video.alreadyCompleted'), t('video.alreadyCompletedMessage'));
+      return;
+    }
+
+    setCompletedVideos(new Set([...completedVideos, selectedVideo.id]));
+    Alert.alert(t('common.success'), t('video.markedAsComplete'));
   };
 
   const openSidebar = () => {
@@ -194,7 +191,8 @@ export default function VideoScreen() {
   const videoDescription = selectedVideo.description
     ? selectedVideo.description[currentLanguage as keyof typeof selectedVideo.description] || selectedVideo.description.fr
     : '';
-  const embedUrl = selectedVideo ? getYouTubeEmbedUrl(selectedVideo.videoId, false) : '';
+  const isCompleted = completedVideos.has(selectedVideo.id);
+  const embedUrl = getYouTubeEmbedUrl(selectedVideo.videoId, false);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground }} edges={['top', 'bottom', 'left', 'right']}>
@@ -219,7 +217,7 @@ export default function VideoScreen() {
             {categoryName}
           </Typography>
           <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 12, marginTop: 2 }}>
-            0 of {allVideos.length} {t('video.completed')}
+            {Math.round(progressPercentage * allVideos.length / 100)} of {allVideos.length} {t('video.completed')}
           </Text>
         </View>
 
@@ -261,16 +259,14 @@ export default function VideoScreen() {
               <ActivityIndicator size="large" color={colors.white} />
             </View>
           )}
-          {embedUrl && (
-            <WebView
-              source={{ uri: embedUrl }}
-              style={{ backgroundColor: colors.black }}
-              onLoadStart={() => setVideoLoading(true)}
-              onLoadEnd={() => setVideoLoading(false)}
-              allowsFullscreenVideo
-              mediaPlaybackRequiresUserAction={false}
-            />
-          )}
+          <WebView
+            source={{ uri: embedUrl }}
+            style={{ backgroundColor: colors.black }}
+            onLoadStart={() => setVideoLoading(true)}
+            onLoadEnd={() => setVideoLoading(false)}
+            allowsFullscreenVideo
+            mediaPlaybackRequiresUserAction={false}
+          />
         </View>
 
         {/* Video Info */}
@@ -284,27 +280,14 @@ export default function VideoScreen() {
           </Typography>
         )}
 
-        {/* Sign Up Reminder */}
-        <View
-          style={{
-            backgroundColor: colors.lightBlue,
-            padding: 16,
-            borderRadius: 12,
-            marginBottom: 16,
-          }}
-        >
-          <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 14, lineHeight: 20 }}>
-            {t('video.signInToTrack')}
-          </Text>
-        </View>
+        <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 14, marginBottom: 16, lineHeight: 20 }}>
+          {t('video.completeToTrack')}
+        </Text>
 
-        {/* Take Quiz Button */}
         <TouchableOpacity
-          onPress={handleTakeQuiz}
+          onPress={handleMarkAsComplete}
           style={{
-            backgroundColor: colors.cardBackground,
-            borderWidth: 2,
-            borderColor: colors.blue,
+            backgroundColor: isCompleted ? '#4CAF50' : colors.blue,
             borderRadius: 12,
             paddingVertical: 16,
             alignItems: 'center',
@@ -312,8 +295,8 @@ export default function VideoScreen() {
           }}
           activeOpacity={0.7}
         >
-          <Text style={{ color: colors.blue, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
-            {t('video.takeQuiz')}
+          <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
+            {isCompleted ? `${t('video.completed')} ✓` : t('video.markAsComplete')}
           </Text>
         </TouchableOpacity>
       </ScrollView>

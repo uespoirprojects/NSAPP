@@ -1,6 +1,6 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { videoCategories } from '@/constants/videos';
+import { getVideosByCategory, videoCategories } from '@/constants/videos';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import { router } from 'expo-router';
@@ -26,8 +26,12 @@ export default function HomeScreen() {
   const { t, currentLanguage } = useI18n();
 
   const handleCategoryPress = (categoryId: string) => {
-    // Navigate to videos list screen for this category
-    (router.push as any)(`/videos/${categoryId}`);
+    // Get the first video from this category and navigate directly to video screen
+    const videos = getVideosByCategory(categoryId);
+    if (videos.length > 0) {
+      // Navigate directly to the first video
+      (router.push as any)(`/video/${videos[0].id}`);
+    }
   };
 
   return (

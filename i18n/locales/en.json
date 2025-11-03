@@ -81,10 +81,29 @@
     "language": "Language",
     "selectLanguage": "Select Language"
   },
+  "video": {
+    "courseVideos": "Course Videos",
+    "completed": "completed",
+    "courseProgress": "Course Progress",
+    "signInToTrack": "Sign in to track your progress and take quizzes.",
+    "takeQuiz": "Take Quiz",
+    "completeToTrack": "Complete this video to track your progress and continue to the next lesson.",
+    "markAsComplete": "Mark as Complete",
+    "signupRequired": "Sign Up Required",
+    "signupRequiredMessage": "Please sign in to track your progress and take quizzes.",
+    "alreadyCompleted": "Already Completed",
+    "alreadyCompletedMessage": "This lesson is already marked as completed.",
+    "markedAsComplete": "Lesson marked as completed!",
+    "notFound": "Video not found",
+    "next": "Next",
+    "previous": "Previous"
+  },
   "common": {
     "appName": "NSAPP",
     "videos": "videos",
     "logout": "Logout",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "back": "Back",
+    "success": "Success"
   }
 }

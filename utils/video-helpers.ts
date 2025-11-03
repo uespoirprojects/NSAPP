@@ -19,16 +19,31 @@ export function extractYouTubeVideoId(url: string): string | null {
 
 /**
  * Generate YouTube embed URL from video ID
+ * Handles both video IDs and full YouTube URLs
  */
-export function getYouTubeEmbedUrl(videoId: string, autoplay = false): string {
+export function getYouTubeEmbedUrl(videoIdOrUrl: string, autoplay = false): string {
+  // Extract video ID if a full URL is provided
+  let videoId = videoIdOrUrl;
+  const extractedId = extractYouTubeVideoId(videoIdOrUrl);
+  if (extractedId) {
+    videoId = extractedId;
+  }
+
+  // Clean the video ID (remove any extra characters)
+  videoId = videoId.trim();
+
   const params = new URLSearchParams({
     rel: '0',
     modestbranding: '1',
     controls: '1',
+    enablejsapi: '1',
+    playsinline: '1',
+    origin: 'https://www.youtube.com',
   });
 
   if (autoplay) {
     params.append('autoplay', '1');
+    params.append('mute', '0');
   }
 
   return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;

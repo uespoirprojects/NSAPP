@@ -81,10 +81,29 @@
     "language": "Idioma",
     "selectLanguage": "Seleccionar Idioma"
   },
+  "video": {
+    "courseVideos": "Videos del Curso",
+    "completed": "completado",
+    "courseProgress": "Progreso del Curso",
+    "signInToTrack": "Inicia sesión para rastrear tu progreso y realizar cuestionarios.",
+    "takeQuiz": "Realizar Cuestionario",
+    "completeToTrack": "Completa este video para rastrear tu progreso y continuar con la siguiente lección.",
+    "markAsComplete": "Marcar como Completado",
+    "signupRequired": "Registro Requerido",
+    "signupRequiredMessage": "Por favor inicia sesión para rastrear tu progreso y realizar cuestionarios.",
+    "alreadyCompleted": "Ya Completado",
+    "alreadyCompletedMessage": "Esta lección ya está marcada como completada.",
+    "markedAsComplete": "¡Lección marcada como completada!",
+    "notFound": "Video no encontrado",
+    "next": "Siguiente",
+    "previous": "Anterior"
+  },
   "common": {
     "appName": "NSAPP",
     "videos": "videos",
     "logout": "Cerrar Sesión",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "back": "Atrás",
+    "success": "Éxito"
   }
 }

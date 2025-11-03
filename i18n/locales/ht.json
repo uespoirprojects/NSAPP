@@ -81,10 +81,29 @@
     "language": "Lang",
     "selectLanguage": "Chwazi Lang"
   },
+  "video": {
+    "courseVideos": "Videyo kou yo",
+    "completed": "fini",
+    "courseProgress": "Pwogrè kou a",
+    "signInToTrack": "Konekte pou swiv pwogrè ou epi pase tès yo.",
+    "takeQuiz": "Pase Tès la",
+    "completeToTrack": "Konplete videyo sa a pou swiv pwogrè ou epi kontinye nan leson kap vini an.",
+    "markAsComplete": "Make kòm Fini",
+    "signupRequired": "Enskripsyon Obligatwa",
+    "signupRequiredMessage": "Tanpri konekte pou swiv pwogrè ou epi pase tès yo.",
+    "alreadyCompleted": "Deja Fini",
+    "alreadyCompletedMessage": "Leson sa a deja make kòm fini.",
+    "markedAsComplete": "Leson make kòm fini!",
+    "notFound": "Videyo pa jwenn",
+    "next": "Apre",
+    "previous": "Anvan"
+  },
   "common": {
     "appName": "NSAPP",
     "videos": "videyo",
     "logout": "Dekonekte",
-    "cancel": "Anile"
+    "cancel": "Anile",
+    "back": "Retounen",
+    "success": "Siksè"
   }
 }

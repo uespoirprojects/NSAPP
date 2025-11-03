@@ -7,14 +7,14 @@ import { useThemeColors } from '@/hooks/use-theme-colors';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import {
-    Image,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -104,7 +104,7 @@ export default function SignupScreen() {
           </Text>
           <TextInput
             placeholder={t('signup.firstNamePlaceholder')}
-            placeholderTextColor={colors.grey}
+            placeholderTextColor={effectiveTheme === 'dark' ? colors.whiteSmoke : colors.grey}
             value={firstName}
             onChangeText={setFirstName}
             style={{
@@ -131,7 +131,7 @@ export default function SignupScreen() {
           </Text>
           <TextInput
             placeholder={t('signup.lastNamePlaceholder')}
-            placeholderTextColor={colors.grey}
+            placeholderTextColor={effectiveTheme === 'dark' ? colors.whiteSmoke : colors.grey}
             value={lastName}
             onChangeText={setLastName}
             style={{
@@ -159,7 +159,7 @@ export default function SignupScreen() {
           </Text>
           <TextInput
             placeholder={t('signup.emailPlaceholder')}
-            placeholderTextColor={colors.grey}
+            placeholderTextColor={effectiveTheme === 'dark' ? colors.whiteSmoke : colors.grey}
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
@@ -201,7 +201,7 @@ export default function SignupScreen() {
           >
             <TextInput
               placeholder={t('signup.passwordPlaceholder')}
-              placeholderTextColor={colors.grey}
+              placeholderTextColor={effectiveTheme === 'dark' ? colors.whiteSmoke : colors.grey}
               secureTextEntry={!showPassword}
               value={password}
               onChangeText={setPassword}
@@ -237,7 +237,7 @@ export default function SignupScreen() {
           </Text>
           <TextInput
             placeholder={t('signup.addressPlaceholder')}
-            placeholderTextColor={colors.grey}
+            placeholderTextColor={effectiveTheme === 'dark' ? colors.whiteSmoke : colors.grey}
             value={address}
             onChangeText={setAddress}
             style={{
@@ -265,7 +265,7 @@ export default function SignupScreen() {
           </Text>
           <TextInput
             placeholder={t('signup.cityPlaceholder')}
-            placeholderTextColor={colors.grey}
+            placeholderTextColor={effectiveTheme === 'dark' ? colors.whiteSmoke : colors.grey}
             value={city}
             onChangeText={setCity}
             style={{
@@ -293,7 +293,7 @@ export default function SignupScreen() {
           </Text>
           <TextInput
             placeholder={t('signup.provincePlaceholder')}
-            placeholderTextColor={colors.grey}
+            placeholderTextColor={effectiveTheme === 'dark' ? colors.whiteSmoke : colors.grey}
             value={province}
             onChangeText={setProvince}
             style={{
@@ -321,7 +321,7 @@ export default function SignupScreen() {
           </Text>
           <TextInput
             placeholder={t('signup.dateOfBirthPlaceholder')}
-            placeholderTextColor={colors.grey}
+            placeholderTextColor={effectiveTheme === 'dark' ? colors.whiteSmoke : colors.grey}
             value={dateOfBirth}
             onChangeText={setDateOfBirth}
             style={{
