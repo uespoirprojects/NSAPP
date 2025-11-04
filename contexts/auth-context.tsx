@@ -1,12 +1,19 @@
+import { auth } from '@/app/lib/firebase';
+import { getUserData, signOutUser, UserData } from '@/app/services/authService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { User as FirebaseUser, onAuthStateChanged } from 'firebase/auth';
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
 interface AuthContextType {
   isAuthenticated: boolean;
   isGuest: boolean;
+  user: UserData | null;
+  firebaseUser: FirebaseUser | null;
+  isLoading: boolean;
   setIsAuthenticated: (value: boolean) => void;
   setIsGuest: (value: boolean) => void;
   logout: () => Promise<void>;
+  refreshUserData: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,8 +28,81 @@ interface AuthProviderProps {
 export function AuthProvider({ children }: AuthProviderProps) {
   const [isAuthenticated, setIsAuthenticatedState] = useState(false);
   const [isGuest, setIsGuestState] = useState(false);
+  const [user, setUser] = useState<UserData | null>(null);
+  const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Load auth state from storage on mount
+  // Load user profile data from Firestore
+  const loadUserProfile = async (firebaseUid: string) => {
+    try {
+      const userData = await getUserData(firebaseUid);
+      setUser(userData);
+    } catch (error) {
+      console.error('Failed to load user profile:', error);
+      setUser(null);
+    }
+  };
+
+  // Refresh user data from Firestore
+  const refreshUserData = async () => {
+    if (firebaseUser?.uid) {
+      await loadUserProfile(firebaseUser.uid);
+    }
+  };
+
+  // Listen to Firebase Auth state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setIsLoading(true);
+      
+      if (firebaseUser) {
+        // User is signed in
+        setFirebaseUser(firebaseUser);
+        setIsAuthenticatedState(true);
+        setIsGuestState(false);
+        
+        // Load user profile from Firestore
+        await loadUserProfile(firebaseUser.uid);
+        
+        // Save auth state
+        try {
+          await AsyncStorage.multiSet([
+            [AUTH_STORAGE_KEY, 'true'],
+            [GUEST_STORAGE_KEY, 'false'],
+          ]);
+        } catch (error) {
+          console.error('Failed to save auth state:', error);
+        }
+      } else {
+        // User is signed out
+        setFirebaseUser(null);
+        setUser(null);
+        
+        // Check if user is in guest mode
+        try {
+          const guestState = await AsyncStorage.getItem(GUEST_STORAGE_KEY);
+          if (guestState === 'true') {
+            setIsGuestState(true);
+            setIsAuthenticatedState(false);
+          } else {
+            setIsAuthenticatedState(false);
+            setIsGuestState(false);
+          }
+        } catch (error) {
+          console.error('Failed to load guest state:', error);
+          setIsAuthenticatedState(false);
+          setIsGuestState(false);
+        }
+      }
+      
+      setIsLoading(false);
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+
+  // Load auth state from storage on mount (before Firebase Auth listener)
   useEffect(() => {
     const loadAuthState = async () => {
       try {
@@ -70,21 +150,36 @@ export function AuthProvider({ children }: AuthProviderProps) {
         // When entering guest mode, clear auth state
         await AsyncStorage.setItem(AUTH_STORAGE_KEY, 'false');
         setIsAuthenticatedState(false);
+        setFirebaseUser(null);
+        setUser(null);
       }
     } catch (error) {
       console.error('Failed to save guest state:', error);
     }
   };
 
-  // Logout function to clear all auth state
+  // Logout function to clear all auth state and sign out from Firebase
   const logout = async () => {
     try {
+      // Sign out from Firebase Auth
+      await signOutUser();
+      
+      // Clear local state
       setIsAuthenticatedState(false);
       setIsGuestState(false);
-      // Clear both storage keys
+      setFirebaseUser(null);
+      setUser(null);
+      
+      // Clear storage keys
       await AsyncStorage.multiRemove([AUTH_STORAGE_KEY, GUEST_STORAGE_KEY]);
     } catch (error) {
       console.error('Failed to logout:', error);
+      // Still clear local state even if Firebase signout fails
+      setIsAuthenticatedState(false);
+      setIsGuestState(false);
+      setFirebaseUser(null);
+      setUser(null);
+      await AsyncStorage.multiRemove([AUTH_STORAGE_KEY, GUEST_STORAGE_KEY]);
     }
   };
 
@@ -93,9 +188,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
       value={{
         isAuthenticated,
         isGuest,
+        user,
+        firebaseUser,
+        isLoading,
         setIsAuthenticated,
         setIsGuest,
         logout,
+        refreshUserData,
       }}
     >
       {children}

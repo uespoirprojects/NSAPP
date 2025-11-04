@@ -1,17 +1,16 @@
 // app/services/authService.ts
-import { auth, db } from "../lib/firebase";
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  User,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut
 } from "firebase/auth";
 import {
-  doc,
-  setDoc,
-  getDoc,
-  Timestamp,
+    doc,
+    getDoc,
+    setDoc,
+    Timestamp,
 } from "firebase/firestore";
+import { auth, db } from "../lib/firebase";
 
 /**
  * Type pour les données utilisateur étendues
@@ -144,5 +143,22 @@ export const getUserData = async (firebaseUid: string): Promise<UserData | null>
   } catch (error) {
     console.error("Get user data error:", error);
     return null;
+  }
+};
+
+/**
+ * Mettre à jour les données utilisateur dans Firestore
+ */
+export const updateUserData = async (
+  firebaseUid: string,
+  updates: Partial<Omit<UserData, 'firebaseUid' | 'createdAt' | 'email'>>
+): Promise<{ success: boolean; error?: string }> => {
+  try {
+    const docRef = doc(db, "users", firebaseUid);
+    await setDoc(docRef, updates, { merge: true });
+    return { success: true };
+  } catch (error: any) {
+    console.error("Update user data error:", error);
+    return { success: false, error: "Échec de la mise à jour du profil." };
   }
 };

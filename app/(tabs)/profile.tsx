@@ -4,21 +4,28 @@ import { useAuth } from '@/contexts/auth-context';
 import { SupportedLanguage, useI18n } from '@/contexts/i18n-context';
 import { useTheme } from '@/contexts/theme-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
-import { router } from 'expo-router';
-import { useState } from 'react';
-import { Modal, ScrollView, Switch, TouchableOpacity, View } from 'react-native';
+import { useFocusEffect } from 'expo-router';
+import React, { useCallback, useState } from 'react';
+import { ActivityIndicator, Modal, ScrollView, Switch, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileScreen() {
   const colors = useThemeColors();
   const { effectiveTheme, themeMode, setThemeMode } = useTheme();
   const { t, currentLanguage, changeLanguage } = useI18n();
-  const { logout } = useAuth();
+  const { logout, user, isLoading, refreshUserData } = useAuth();
   const [isLogoutPressed, setIsLogoutPressed] = useState(false);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const isDarkMode = effectiveTheme === 'dark';
+
+  // Refresh user data when screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      refreshUserData();
+    }, [refreshUserData])
+  );
 
   const handleThemeToggle = (value: boolean) => {
     setThemeMode(value ? 'dark' : 'light');
@@ -57,41 +64,100 @@ export default function ProfileScreen() {
     }
   };
 
-  const userInfo = {
-    name: 'John Doe',
-    email: 'johndoe@gmail.com',
-    initials: 'JD',
-  };
+  // Get user info from Firestore or use defaults
+  const userInfo = React.useMemo(() => {
+    if (user) {
+      const firstName = user.firstName || '';
+      const lastName = user.lastName || '';
+      const fullName = `${firstName} ${lastName}`.trim() || 'User';
+      const email = user.email || '';
+      const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase() || 'U';
+      
+      return {
+        name: fullName,
+        email: email,
+        initials: initials,
+        firstName: firstName,
+        lastName: lastName,
+        address: user.address || null,
+        city: user.city || null,
+        province: user.province || null,
+        dateOfBirth: user.dateOfBirth || null,
+      };
+    }
+    
+    // Default values if user data not loaded
+    return {
+      name: 'User',
+      email: '',
+      initials: 'U',
+      firstName: '',
+      lastName: '',
+      address: null,
+      city: null,
+      province: null,
+      dateOfBirth: null,
+    };
+  }, [user]);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground }} edges={['top', 'bottom', 'left', 'right']}>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 20, paddingTop: 20 }}>
         {/* Avatar Section */}
         <View style={{ alignItems: 'center', marginBottom: 24 }}>
-          <View
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 50,
-              backgroundColor: colors.blue,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderWidth: 3,
-              borderColor: colors.white,
-              marginBottom: 16,
-            }}
-          >
-            <Typography variant="h1" style={{ color: colors.white }}>
-              {userInfo.initials}
-            </Typography>
-          </View>
+          {isLoading ? (
+            <ActivityIndicator size="large" color={colors.blue} style={{ marginBottom: 16 }} />
+          ) : (
+            <>
+              <View
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 50,
+                  backgroundColor: colors.blue,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderWidth: 3,
+                  borderColor: colors.white,
+                  marginBottom: 16,
+                }}
+              >
+                <Typography variant="h1" style={{ color: colors.white }}>
+                  {userInfo.initials}
+                </Typography>
+              </View>
 
-          <Typography variant="h2" color={colors.text} style={{ marginBottom: 8 }}>
-            {userInfo.name}
-          </Typography>
-          <Typography variant="body" color={colors.text}>
-            {userInfo.email}
-          </Typography>
+              <Typography variant="h2" color={colors.text} style={{ marginBottom: 8 }}>
+                {userInfo.name}
+              </Typography>
+              {userInfo.email && (
+                <Typography variant="body" color={colors.text} style={{ marginBottom: 4 }}>
+                  {userInfo.email}
+                </Typography>
+              )}
+              
+              {/* Additional User Info */}
+              {(userInfo.address || userInfo.city || userInfo.province) && (
+                <View style={{ marginTop: 8, alignItems: 'center' }}>
+                  {userInfo.address && (
+                    <Typography variant="caption" color={colors.text} style={{ opacity: 0.7, marginBottom: 2 }}>
+                      {userInfo.address}
+                    </Typography>
+                  )}
+                  {(userInfo.city || userInfo.province) && (
+                    <Typography variant="caption" color={colors.text} style={{ opacity: 0.7 }}>
+                      {[userInfo.city, userInfo.province].filter(Boolean).join(', ')}
+                    </Typography>
+                  )}
+                </View>
+              )}
+              {userInfo.dateOfBirth && (
+                <Typography variant="caption" color={colors.text} style={{ marginTop: 4, opacity: 0.7 }}>
+                  {t('profile.dateOfBirth') || 'Date of Birth'}: {userInfo.dateOfBirth}
+                </Typography>
+              )}
+            </>
+          )}
         </View>
 
         {/* Settings Cards */}
