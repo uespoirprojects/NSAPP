@@ -73,7 +73,8 @@
     "privacyPolicy": "Privacy Policy",
     "language": "Language",
     "selectLanguage": "Select Language",
-    "logoutConfirm": "Are you sure you want to logout?"
+    "logoutConfirm": "Are you sure you want to logout?",
+    "dateOfBirth": "Date of Birth"
   },
   "settings": {
     "title": "Settings",

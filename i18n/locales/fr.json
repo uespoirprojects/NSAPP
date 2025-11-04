@@ -73,7 +73,8 @@
     "privacyPolicy": "Politique de Confidentialité",
     "language": "Langue",
     "selectLanguage": "Sélectionner la Langue",
-    "logoutConfirm": "Êtes-vous sûr de vouloir vous déconnecter ?"
+    "logoutConfirm": "Êtes-vous sûr de vouloir vous déconnecter ?",
+    "dateOfBirth": "Date de naissance"
   },
   "settings": {
     "title": "Paramètres",

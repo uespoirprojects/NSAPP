@@ -73,7 +73,8 @@
     "privacyPolicy": "Règleman sou Konfidansyalite",
     "language": "Lang",
     "selectLanguage": "Chwazi Lang",
-    "logoutConfirm": "Èske w sèten ou vle dekonekte?"
+    "logoutConfirm": "Èske w sèten ou vle dekonekte?",
+    "dateOfBirth": "Dat Nesans"
   },
   "settings": {
     "title": "Anviwònman",
