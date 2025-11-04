@@ -4,20 +4,21 @@ import { useAuth } from "@/contexts/auth-context";
 import { useI18n } from "@/contexts/i18n-context";
 import { useTheme } from "@/contexts/theme-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
-import { signUp } from "./services/authService";
 import React from "react";
 import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { signUp } from "./services/authService";
 
 export default function SignupScreen() {
   const colors = useThemeColors();
@@ -37,6 +38,8 @@ export default function SignupScreen() {
   const [city, setCity] = React.useState("");
   const [province, setProvince] = React.useState("");
   const [dateOfBirth, setDateOfBirth] = React.useState("");
+  const [dateOfBirthDate, setDateOfBirthDate] = React.useState<Date | null>(null);
+  const [showDatePicker, setShowDatePicker] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [errors, setErrors] = React.useState<{
@@ -459,24 +462,162 @@ export default function SignupScreen() {
               >
                 {t("signup.dateOfBirth")}
               </Text>
-              <TextInput
-                placeholder={t("signup.dateOfBirthPlaceholder")}
-                placeholderTextColor={
-                  effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
-                }
-                value={dateOfBirth}
-                onChangeText={setDateOfBirth}
-                style={{
-                  borderWidth: 1,
-                  borderColor: errors.dateOfBirth ? colors.red : borderColor,
-                  borderRadius: 16,
-                  paddingHorizontal: 16,
-                  paddingVertical: 12,
-                  color: colors.text,
-                  fontFamily: "Poppins-Regular",
-                  backgroundColor: colors.cardBackground,
-                }}
-              />
+              {Platform.OS === "web" ? (
+                <View
+                  style={{
+                    borderWidth: 1,
+                    borderColor: errors.dateOfBirth ? colors.red : borderColor,
+                    borderRadius: 16,
+                    paddingHorizontal: 16,
+                    paddingVertical: 12,
+                    backgroundColor: colors.cardBackground,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    position: 'relative',
+                  }}
+                >
+                  {/* Web: Styled date input */}
+                  {/* @ts-ignore - input type="date" is valid for web */}
+                  <input
+                    type="date"
+                    max={new Date().toISOString().split('T')[0]}
+                    value={dateOfBirthDate ? dateOfBirthDate.toISOString().split('T')[0] : ''}
+                    onChange={(e: any) => {
+                      if (e.target.value) {
+                        const selectedDate = new Date(e.target.value);
+                        setDateOfBirthDate(selectedDate);
+                        // Format as DD/MM/YYYY
+                        const day = String(selectedDate.getDate()).padStart(2, "0");
+                        const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+                        const year = selectedDate.getFullYear();
+                        setDateOfBirth(`${day}/${month}/${year}`);
+                      }
+                    }}
+                    placeholder={t("signup.dateOfBirthPlaceholder")}
+                    style={{
+                      flex: 1,
+                      border: 'none',
+                      outline: 'none',
+                      backgroundColor: 'transparent',
+                      color: dateOfBirth ? colors.text : (effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey),
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 16,
+                      padding: 0,
+                      margin: 0,
+                      cursor: 'pointer',
+                    }}
+                  />
+                  <IconSymbol
+                    name="calendar-outline"
+                    size={22}
+                    color={colors.blue}
+                    style={{ marginLeft: 8 }}
+                  />
+                </View>
+              ) : (
+                <>
+                  <TouchableOpacity
+                    onPress={() => setShowDatePicker(true)}
+                    style={{
+                      borderWidth: 1,
+                      borderColor: errors.dateOfBirth ? colors.red : borderColor,
+                      borderRadius: 16,
+                      paddingHorizontal: 16,
+                      paddingVertical: 12,
+                      backgroundColor: colors.cardBackground,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: dateOfBirth ? colors.text : (effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey),
+                        fontFamily: "Poppins-Regular",
+                        flex: 1,
+                      }}
+                    >
+                      {dateOfBirth || t("signup.dateOfBirthPlaceholder")}
+                    </Text>
+                    <IconSymbol
+                      name="calendar-outline"
+                      size={22}
+                      color={colors.blue}
+                    />
+                  </TouchableOpacity>
+                  
+                  {/* Date Picker for Native Platforms */}
+                  {showDatePicker && (
+                    Platform.OS === "ios" ? (
+                      <View style={{ marginTop: 12 }}>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 12 }}>
+                          <TouchableOpacity
+                            onPress={() => setShowDatePicker(false)}
+                            style={{
+                              paddingVertical: 8,
+                              paddingHorizontal: 16,
+                            }}
+                          >
+                            <Text style={{ color: colors.blue, fontFamily: "Poppins-Medium" }}>
+                              {t("common.cancel") || "Cancel"}
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => {
+                              if (dateOfBirthDate) {
+                                // Format as DD/MM/YYYY
+                                const day = String(dateOfBirthDate.getDate()).padStart(2, "0");
+                                const month = String(dateOfBirthDate.getMonth() + 1).padStart(2, "0");
+                                const year = dateOfBirthDate.getFullYear();
+                                setDateOfBirth(`${day}/${month}/${year}`);
+                              }
+                              setShowDatePicker(false);
+                            }}
+                            style={{
+                              paddingVertical: 8,
+                              paddingHorizontal: 16,
+                            }}
+                          >
+                            <Text style={{ color: colors.blue, fontFamily: "Poppins-Bold" }}>
+                              {t("common.done") || "Done"}
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                        <DateTimePicker
+                          value={dateOfBirthDate || new Date()}
+                          mode="date"
+                          display="spinner"
+                          maximumDate={new Date()}
+                          onChange={(event: any, selectedDate?: Date) => {
+                            if (selectedDate) {
+                              setDateOfBirthDate(selectedDate);
+                            }
+                          }}
+                          style={{ backgroundColor: colors.cardBackground }}
+                        />
+                      </View>
+                    ) : (
+                      <DateTimePicker
+                        value={dateOfBirthDate || new Date()}
+                        mode="date"
+                        display="default"
+                        maximumDate={new Date()}
+                        onChange={(event: any, selectedDate?: Date) => {
+                          setShowDatePicker(false);
+                          if (event.type === "set" && selectedDate) {
+                            setDateOfBirthDate(selectedDate);
+                            // Format as DD/MM/YYYY
+                            const day = String(selectedDate.getDate()).padStart(2, "0");
+                            const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
+                            const year = selectedDate.getFullYear();
+                            setDateOfBirth(`${day}/${month}/${year}`);
+                          }
+                        }}
+                      />
+                    )
+                  )}
+                </>
+              )}
               {errors.dateOfBirth ? (
                 <Text
                   style={{
