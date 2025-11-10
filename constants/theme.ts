@@ -14,6 +14,7 @@ export const CustomColors = {
   black: '#030213',
   white: '#FFFFFF',
   whiteSmoke: '#F3F3F5',
+  transparent: '#ffffff'
 };
 
 const tintColorLight = CustomColors.blue;
@@ -59,6 +60,7 @@ export const Colors = {
     black: CustomColors.black,
     white: CustomColors.white,
     whiteSmoke: '#9BA1A6', // Lighter color for better visibility in dark mode (same as icon color)
+    transparent: CustomColors.transparent,
   },
 };
 

@@ -31,12 +31,14 @@ export default function MyLearningScreen() {
           borderRadius: 50,
           padding: 4,
           flexDirection: 'row',
+          gap: 6,
         }}
       >
         <TouchableOpacity
           style={{
             flex: 1,
-            backgroundColor: selectedFilter === 'inProgress' ? colors.white : 'transparent',
+            backgroundColor:
+              selectedFilter === 'inProgress' ? colors.blue : 'transparent',
             borderRadius: 50,
             paddingVertical: 12,
             paddingHorizontal: 16,
@@ -46,8 +48,8 @@ export default function MyLearningScreen() {
         >
           <Typography
             variant="body"
-            color={selectedFilter === 'inProgress' ? colors.blue : colors.text}
-            style={{ fontWeight: selectedFilter === 'inProgress' ? '600' : '400' }}
+            color={selectedFilter === 'inProgress' ? colors.white : colors.text}
+            style={{ fontFamily: selectedFilter === 'inProgress' ? 'Poppins-Bold' : 'Poppins-Regular' }}
           >
             {t('myLearning.filters.inProgress')}
           </Typography>
@@ -56,7 +58,8 @@ export default function MyLearningScreen() {
         <TouchableOpacity
           style={{
             flex: 1,
-            backgroundColor: selectedFilter === 'completed' ? colors.white : 'transparent',
+            backgroundColor:
+              selectedFilter === 'completed' ? colors.blue : 'transparent',
             borderRadius: 50,
             paddingVertical: 12,
             paddingHorizontal: 16,
@@ -66,8 +69,8 @@ export default function MyLearningScreen() {
         >
           <Typography
             variant="body"
-            color={selectedFilter === 'completed' ? colors.blue : colors.text}
-            style={{ fontWeight: selectedFilter === 'completed' ? '600' : '400' }}
+              color={selectedFilter === 'completed' ? colors.white : colors.text}
+              style={{ fontFamily: selectedFilter === 'completed' ? 'Poppins-Bold' : 'Poppins-Regular' }}
           >
             {t('myLearning.filters.completed')}
           </Typography>
