@@ -118,6 +118,12 @@
     "continueLearning": "Kontinye aprann",
     "retakeQuiz": "Repase tès la"
   },
+  "errors": {
+    "offlineTitle": "Ou pa konekte",
+    "offlineMessage": "Nou pa ka chaje enfòmasyon ou kounye a. Tcheke koneksyon entènèt ou epi eseye ankò.",
+    "generalTitle": "Yon erè rive",
+    "generalMessage": "Nou pa kapab chaje enfòmasyon ou pou kounye a. Tanpri eseye ankò pita."
+  },
   "common": {
     "appName": "Akademix",
     "videos": "videyo",

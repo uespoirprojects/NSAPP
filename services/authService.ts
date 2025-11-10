@@ -12,6 +12,19 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../lib/firebase";
 
+export type FriendlyErrorType = 'offline' | 'unknown';
+
+export class FriendlyError extends Error {
+  type: FriendlyErrorType;
+
+  constructor(type: FriendlyErrorType, message?: string) {
+    super(message);
+    this.name = 'FriendlyError';
+    this.type = type;
+    Object.setPrototypeOf(this, FriendlyError.prototype);
+  }
+}
+
 /**
  * Type pour les données utilisateur étendues
  */
@@ -142,7 +155,19 @@ export const getUserData = async (firebaseUid: string): Promise<UserData | null>
     return null;
   } catch (error) {
     console.error("Get user data error:", error);
-    return null;
+    const firebaseError = error as { code?: string; message?: string };
+    const message = firebaseError?.message || '';
+    const code = firebaseError?.code || '';
+    const isOffline =
+      code === 'unavailable' ||
+      code === 'failed-precondition' ||
+      message.toLowerCase().includes('client is offline');
+
+    if (isOffline) {
+      throw new FriendlyError('offline');
+    }
+
+    throw new FriendlyError('unknown');
   }
 };
 

@@ -118,6 +118,12 @@
     "continueLearning": "Continuar aprendiendo",
     "retakeQuiz": "Repetir quiz"
   },
+  "errors": {
+    "offlineTitle": "Estás sin conexión",
+    "offlineMessage": "No podemos cargar tu información. Verifica tu conexión a internet e inténtalo de nuevo.",
+    "generalTitle": "Ocurrió un problema",
+    "generalMessage": "No pudimos cargar tu información por el momento. Por favor, inténtalo más tarde."
+  },
   "common": {
     "appName": "Akademix",
     "videos": "videos",

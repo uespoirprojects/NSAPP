@@ -118,6 +118,12 @@
     "continueLearning": "Continuer l'apprentissage",
     "retakeQuiz": "Recommencer le quiz"
   },
+  "errors": {
+    "offlineTitle": "Vous êtes hors ligne",
+    "offlineMessage": "Impossible de charger vos informations. Vérifiez votre connexion internet et réessayez.",
+    "generalTitle": "Une erreur est survenue",
+    "generalMessage": "Nous ne pouvons pas charger vos informations pour le moment. Veuillez réessayer plus tard."
+  },
   "common": {
     "appName": "Akademix",
     "videos": "vidéos",

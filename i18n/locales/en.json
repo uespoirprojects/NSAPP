@@ -118,6 +118,12 @@
     "continueLearning": "Continue Learning",
     "retakeQuiz": "Retake Quiz"
   },
+  "errors": {
+    "offlineTitle": "You’re offline",
+    "offlineMessage": "We can’t load your information right now. Check your internet connection and try again.",
+    "generalTitle": "Something went wrong",
+    "generalMessage": "We couldn’t load your information at the moment. Please try again later."
+  },
   "common": {
     "appName": "Akademix",
     "videos": "videos",

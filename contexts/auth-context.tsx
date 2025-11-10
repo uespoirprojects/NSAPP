@@ -1,8 +1,10 @@
 import { auth } from '@/lib/firebase';
-import { getUserData, signOutUser, UserData } from '@/services/authService';
+import { FriendlyError, getUserData, signOutUser, UserData } from '@/services/authService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User as FirebaseUser, onAuthStateChanged } from 'firebase/auth';
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { Alert } from 'react-native';
+import { useI18n } from './i18n-context';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -31,6 +33,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserData | null>(null);
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { t } = useI18n();
 
   // Load user profile data from Firestore
   const loadUserProfile = async (firebaseUid: string) => {
@@ -39,6 +42,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setUser(userData);
     } catch (error) {
       console.error('Failed to load user profile:', error);
+      if (error instanceof FriendlyError) {
+        if (error.type === 'offline') {
+          Alert.alert(t('errors.offlineTitle'), t('errors.offlineMessage'));
+        } else {
+          Alert.alert(t('errors.generalTitle'), t('errors.generalMessage'));
+        }
+      } else {
+        Alert.alert(t('errors.generalTitle'), t('errors.generalMessage'));
+      }
       setUser(null);
     }
   };
