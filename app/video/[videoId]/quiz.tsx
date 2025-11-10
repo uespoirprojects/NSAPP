@@ -125,6 +125,14 @@ export default function VideoQuizScreen() {
   const isNextDisabled = !hasSelectedAnswer;
   const nextLabel = isLastQuestion ? t('quiz.submit') : t('quiz.next');
 
+  const handleBackToVideos = () => {
+    if (video?.categoryId) {
+      router.replace(`/videos/${video.categoryId}`);
+      return;
+    }
+    router.back();
+  };
+
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: colors.screenBackground }}
@@ -132,7 +140,7 @@ export default function VideoQuizScreen() {
     >
       <View style={styles.header}>
         <TouchableOpacity
-          onPress={() => router.back()}
+          onPress={handleBackToVideos}
           style={styles.backButton}
         >
           <IconSymbol name="arrow-back-outline" size={24} color={colors.text} />
