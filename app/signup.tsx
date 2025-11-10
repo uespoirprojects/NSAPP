@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { useI18n } from "@/contexts/i18n-context";
 import { useTheme } from "@/contexts/theme-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
+import { signUp } from "@/services/authService";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -18,7 +19,6 @@ import {
     View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { signUp } from "./services/authService";
 
 export default function SignupScreen() {
   const colors = useThemeColors();
@@ -104,11 +104,11 @@ export default function SignupScreen() {
       style={{ flex: 1, backgroundColor: colors.screenBackground }}
       edges={["top", "bottom", "left", "right"]}
     >
-      <KeyboardAvoidingView
+    <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={{ flex: 1 }}
-      >
-        <ScrollView
+    >
+      <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
             paddingHorizontal: 24,
@@ -116,14 +116,14 @@ export default function SignupScreen() {
             justifyContent: "center",
             alignItems: "center",
           }}
-          showsVerticalScrollIndicator={false}
-        >
+        showsVerticalScrollIndicator={false}
+      >
           <View style={{ width: "100%", maxWidth: 420 }}>
-            {/* Heading */}
+        {/* Heading */}
             <View style={{ marginBottom: 40, alignItems: "center" }}>
               <Typography variant="h1" color={colors.blue}>
                 {t("signup.title")}
-              </Typography>
+          </Typography>
               <Text
                 style={{
                   color: colors.text,
@@ -133,10 +133,10 @@ export default function SignupScreen() {
                 }}
               >
                 {t("signup.subtitle")}
-              </Text>
-            </View>
+          </Text>
+        </View>
 
-            {/* Name Inputs */}
+        {/* Name Inputs */}
             <View style={{ marginBottom: 16 }}>
               <Text
                 style={{
@@ -147,7 +147,7 @@ export default function SignupScreen() {
               >
                 {t("signup.firstName")}
               </Text>
-              <TextInput
+          <TextInput
                 placeholder={t("signup.firstNamePlaceholder")}
                 placeholderTextColor={
                   effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
@@ -176,7 +176,7 @@ export default function SignupScreen() {
                   {errors.firstName}
                 </Text>
               ) : null}
-            </View>
+        </View>
 
             <View style={{ marginBottom: 16 }}>
               <Text
@@ -188,7 +188,7 @@ export default function SignupScreen() {
               >
                 {t("signup.lastName")}
               </Text>
-              <TextInput
+          <TextInput
                 placeholder={t("signup.lastNamePlaceholder")}
                 placeholderTextColor={
                   effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
@@ -217,9 +217,9 @@ export default function SignupScreen() {
                   {errors.lastName}
                 </Text>
               ) : null}
-            </View>
+        </View>
 
-            {/* Email Input */}
+        {/* Email Input */}
             <View style={{ marginBottom: 16 }}>
               <Text
                 style={{
@@ -230,14 +230,14 @@ export default function SignupScreen() {
               >
                 {t("signup.email")}
               </Text>
-              <TextInput
+          <TextInput
                 placeholder={t("signup.emailPlaceholder")}
                 placeholderTextColor={
                   effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
                 }
                 value={email}
                 onChangeText={setEmail}
-                keyboardType="email-address"
+            keyboardType="email-address"
                 autoCapitalize="none"
                 style={{
                   borderWidth: 1,
@@ -261,9 +261,9 @@ export default function SignupScreen() {
                   {errors.email}
                 </Text>
               ) : null}
-            </View>
+        </View>
 
-            {/* Password Input */}
+        {/* Password Input */}
             <View style={{ marginBottom: 16 }}>
               <Text
                 style={{
@@ -286,7 +286,7 @@ export default function SignupScreen() {
                   alignItems: "center",
                 }}
               >
-                <TextInput
+          <TextInput
                   placeholder={t("signup.passwordPlaceholder")}
                   placeholderTextColor={
                     effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
@@ -323,9 +323,9 @@ export default function SignupScreen() {
                   {errors.password}
                 </Text>
               ) : null}
-            </View>
+        </View>
 
-            {/* Address Input */}
+        {/* Address Input */}
             <View style={{ marginBottom: 16 }}>
               <Text
                 style={{
@@ -336,7 +336,7 @@ export default function SignupScreen() {
               >
                 {t("signup.address")}
               </Text>
-              <TextInput
+          <TextInput
                 placeholder={t("signup.addressPlaceholder")}
                 placeholderTextColor={
                   effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
@@ -365,9 +365,9 @@ export default function SignupScreen() {
                   {errors.address}
                 </Text>
               ) : null}
-            </View>
+        </View>
 
-            {/* City Input */}
+        {/* City Input */}
             <View style={{ marginBottom: 16 }}>
               <Text
                 style={{
@@ -378,7 +378,7 @@ export default function SignupScreen() {
               >
                 {t("signup.city")}
               </Text>
-              <TextInput
+          <TextInput
                 placeholder={t("signup.cityPlaceholder")}
                 placeholderTextColor={
                   effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
@@ -407,9 +407,9 @@ export default function SignupScreen() {
                   {errors.city}
                 </Text>
               ) : null}
-            </View>
+        </View>
 
-            {/* Province Input */}
+        {/* Province Input */}
             <View style={{ marginBottom: 16 }}>
               <Text
                 style={{
@@ -420,7 +420,7 @@ export default function SignupScreen() {
               >
                 {t("signup.province")}
               </Text>
-              <TextInput
+          <TextInput
                 placeholder={t("signup.provincePlaceholder")}
                 placeholderTextColor={
                   effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
@@ -449,9 +449,9 @@ export default function SignupScreen() {
                   {errors.province}
                 </Text>
               ) : null}
-            </View>
+        </View>
 
-            {/* Date of Birth Input */}
+        {/* Date of Birth Input */}
             <View style={{ marginBottom: 24 }}>
               <Text
                 style={{
@@ -629,9 +629,9 @@ export default function SignupScreen() {
                   {errors.dateOfBirth}
                 </Text>
               ) : null}
-            </View>
+        </View>
 
-            {/* Sign Up Button */}
+        {/* Sign Up Button */}
             <TouchableOpacity
               onPress={handleSignUp}
               disabled={isSubmitting}
@@ -653,9 +653,9 @@ export default function SignupScreen() {
               >
                 {t("signup.signUp")}
               </Text>
-            </TouchableOpacity>
+        </TouchableOpacity>
 
-            {/* OR Continue with */}
+        {/* OR Continue with */}
             <View
               style={{
                 flexDirection: "row",
@@ -675,13 +675,13 @@ export default function SignupScreen() {
                 }}
               >
                 {t("signup.orSignUp")}
-              </Text>
+          </Text>
               <View
                 style={{ flex: 1, height: 1, backgroundColor: colors.grey }}
               />
-            </View>
+        </View>
 
-            {/* Social Buttons */}
+        {/* Social Buttons */}
             <View
               style={{
                 flexDirection: "row",
@@ -698,12 +698,12 @@ export default function SignupScreen() {
                   borderRadius: 16,
                 }}
               >
-                <Image
+            <Image
                   source={require("@/assets/icons/google.png")}
                   style={{ width: 20, height: 20 }}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
 
               <TouchableOpacity
                 style={{
@@ -713,12 +713,12 @@ export default function SignupScreen() {
                   borderRadius: 16,
                 }}
               >
-                <Image
+            <Image
                   source={require("@/assets/icons/apple.png")}
                   style={{ width: 20, height: 20 }}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
 
               <TouchableOpacity
                 style={{
@@ -728,15 +728,15 @@ export default function SignupScreen() {
                   borderRadius: 16,
                 }}
               >
-                <Image
+            <Image
                   source={require("@/assets/icons/facebook.png")}
                   style={{ width: 20, height: 20 }}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
-            </View>
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </View>
 
-            {/* Link to Login */}
+        {/* Link to Login */}
             <View
               style={{
                 flexDirection: "row",
@@ -754,12 +754,12 @@ export default function SignupScreen() {
                   style={{ color: colors.blue, fontFamily: "Poppins-Bold" }}
                 >
                   {t("signup.signIn")}
-                </Text>
-              </TouchableOpacity>
+          </Text>
+          </TouchableOpacity>
             </View>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

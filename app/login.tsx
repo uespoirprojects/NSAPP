@@ -4,8 +4,8 @@ import { useAuth } from "@/contexts/auth-context";
 import { useI18n } from "@/contexts/i18n-context";
 import { useTheme } from "@/contexts/theme-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
+import { signIn } from "@/services/authService";
 import { useRouter } from "expo-router";
-import { signIn } from "./services/authService";
 import React from "react";
 import {
   Image,
