@@ -1,0 +1,197 @@
+[
+  {
+    "title": "Fòma tèks nan Excel (nivo debitan)",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Ki opsyon ki pèmèt ou mete tèks la an grè (gras) ?",
+        "options": ["Italik", "Souliye", "Grè (Gras)"],
+        "answer": "Grè (Gras)"
+      },
+      {
+        "id": 2,
+        "question": "Ki opsyon ki pèmèt ou chanje koulè tèks la ?",
+        "options": ["Koulè polis", "Bòdi", "Aliyman"],
+        "answer": "Koulè polis"
+      },
+      {
+        "id": 3,
+        "question": "Ki opsyon ki pèmèt ou mete tèks la nan mitan selil la ?",
+        "options": ["Aliyen agoch", "Nan mitan", "Aliyen adwat"],
+        "answer": "Nan mitan"
+      },
+      {
+        "id": 4,
+        "question": "Ki opsyon ki pèmèt ou mete tèks la an italik ?",
+        "options": ["Grè", "Italik", "Souliye"],
+        "answer": "Italik"
+      },
+      {
+        "id": 5,
+        "question": "Ki opsyon ki pèmèt ou souliye tèks la ?",
+        "options": ["Grè", "Italik", "Souliye"],
+        "answer": "Souliye"
+      },
+      {
+        "id": 6,
+        "question": "Ki kòmand ki pèmèt ou rasanble plizyè selil pou fè youn sèl ?",
+        "options": ["Fizyonnen epi santre", "Bòdi", "Oriyantasyon tèks"],
+        "answer": "Fizyonnen epi santre"
+      },
+      {
+        "id": 7,
+        "question": "Ki kote ou ka chanje gwosè tèks la ?",
+        "options": ["Nan seksyon Polis", "Nan seksyon Ensersyon", "Nan seksyon Done"],
+        "answer": "Nan seksyon Polis"
+      },
+      {
+        "id": 8,
+        "question": "Ki opsyon ki pèmèt ou mete yon ankadreman bò tèks la ?",
+        "options": ["Bòdi", "Koulè polis", "Santre"],
+        "answer": "Bòdi"
+      },
+      {
+        "id": 9,
+        "question": "Si tèks ou a two long epi ou vle wè tout tèks la nan selil la, ou itilize :",
+        "options": ["Ranvwa otomatik sou liy", "Fizyonnen", "Efase"],
+        "answer": "Ranvwa otomatik sou liy"
+      },
+      {
+        "id": 10,
+        "question": "Nan ki onglet nan riban an nou jwenn opsyon pou fòma tèks la ?",
+        "options": ["Akèy", "Ensersyon", "Done"],
+        "answer": "Akèy"
+      }
+    ]
+  },
+  {
+    "title": "Fizyonman selil nan Excel (nivo debitan)",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Kisa sa vle di 'fizyonnen selil' ?",
+        "options": ["Efase plizyè selil", "Rasanble plizyè selil pou fè youn sèl", "Kopi plizyè selil"],
+        "answer": "Rasanble plizyè selil pou fè youn sèl"
+      },
+      {
+        "id": 2,
+        "question": "Ki opsyon nan riban an ki pèmèt ou fizyonnen selil yo ?",
+        "options": ["Fizyonnen epi santre", "Koulè polis", "Bòdi"],
+        "answer": "Fizyonnen epi santre"
+      },
+      {
+        "id": 3,
+        "question": "Nan ki onglet ou jwenn opsyon 'Fizyonnen epi santre' ?",
+        "options": ["Ensersyon", "Akèy", "Done"],
+        "answer": "Akèy"
+      },
+      {
+        "id": 4,
+        "question": "Kisa 'Fizyonnen epi santre' fè egzakteman ?",
+        "options": ["Fizyonnen selil yo epi mete tèks la nan mitan", "Efase selil yo", "Kopi tèks la nan tout selil yo"],
+        "answer": "Fizyonnen selil yo epi mete tèks la nan mitan"
+      },
+      {
+        "id": 5,
+        "question": "Èske ou ka fizyonnen selil ki gen plizyè tèks diferan ?",
+        "options": ["Wi, Excel kenbe tout tèks yo", "Non, Excel kenbe sèlman tèks premye selil la", "Wi, men tout tèks yo melanje"],
+        "answer": "Non, Excel kenbe sèlman tèks premye selil la"
+      },
+      {
+        "id": 6,
+        "question": "Ki diferans ki genyen ant 'Fizyonnen epi santre' ak 'Fizyonnen selil' ?",
+        "options": ["Pa gen diferans", "'Fizyonnen epi santre' santre tèks la, 'Fizyonnen selil' pa fè sa", "'Fizyonnen selil' efase tèks la"],
+        "answer": "'Fizyonnen epi santre' santre tèks la, 'Fizyonnen selil' pa fè sa"
+      },
+      {
+        "id": 7,
+        "question": "Èske ou ka anile yon fizyonman ?",
+        "options": ["Wi", "Non", "Sèlman si fichye a fèmen"],
+        "answer": "Wi"
+      },
+      {
+        "id": 8,
+        "question": "Apre yon fizyonman, konbyen selil ki rete ?",
+        "options": ["Menm kantite avan", "Yonn sèl", "De"],
+        "answer": "Yonn sèl"
+      },
+      {
+        "id": 9,
+        "question": "Si ou vle santre yon tit sou plizyè kolòn san ou pa fizyonnen yo, ou ka itilize :",
+        "options": ["Opsyon 'Santre sou seleksyon'", "Opsyon 'Fizyonnen'", "Opsyon 'Aliyen adwat'"],
+        "answer": "Opsyon 'Santre sou seleksyon'"
+      },
+      {
+        "id": 10,
+        "question": "Poukisa ou dwe fè atansyon lè w ap fizyonnen selil yo ?",
+        "options": ["Paske sa ka kache tèks", "Paske sa ka rann kalkil oswa tri pi difisil", "Paske sa chanje koulè tèks la"],
+        "answer": "Paske sa ka rann kalkil oswa tri pi difisil"
+      }
+    ]
+  },
+  {
+    "title": "Sove ak enprime nan Excel (nivo debitan)",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Kisa 'sove yon fichye' vle di ?",
+        "options": ["Fèmen li", "Anrejistre li pou pa pèdi travay la", "Efase li"],
+        "answer": "Anrejistre li pou pa pèdi travay la"
+      },
+      {
+        "id": 2,
+        "question": "Nan ki meni nou jwenn opsyon 'Anrejistre kòm' ?",
+        "options": ["Akèy", "Fichye", "Ensersyon"],
+        "answer": "Fichye"
+      },
+      {
+        "id": 3,
+        "question": "Lè ou chwazi 'Anrejistre kòm', kisa ou ka fè ?",
+        "options": ["Chanje non fichye a", "Chanje kote fichye a pral sove", "Tou de vre"],
+        "answer": "Tou de vre"
+      },
+      {
+        "id": 4,
+        "question": "Ki ekstansyon fichye Excel la genyen ?",
+        "options": [".docx", ".xlsx", ".pptx"],
+        "answer": ".xlsx"
+      },
+      {
+        "id": 5,
+        "question": "Ki opsyon ki pèmèt ou enprime yon fèy kalkil ?",
+        "options": ["Fichye → Enprime", "Akèy → Polis", "Done → Triye"],
+        "answer": "Fichye → Enprime"
+      },
+      {
+        "id": 6,
+        "question": "Anvan ou enprime, kisa ou ka fè nan aperçu enprime a ?",
+        "options": ["Chanje koulè tèks la", "Gade kijan fèy la pral enprime", "Ekri tèks"],
+        "answer": "Gade kijan fèy la pral enprime"
+      },
+      {
+        "id": 7,
+        "question": "Kisa bouton 'Miz an paj' fè nan Excel ?",
+        "options": ["Pèmèt chanje gwosè papye, marg, ak oryantasyon", "Fèmen dokiman an", "Kreye yon grafik"],
+        "answer": "Pèmèt chanje gwosè papye, marg, ak oryantasyon"
+      },
+      {
+        "id": 8,
+        "question": "Ki opsyon ki pèmèt ou enprime tout fèy la ?",
+        "options": ["Zòn enprime", "Enprime tout kaye travay la", "Enprime seleksyon an"],
+        "answer": "Enprime tout kaye travay la"
+      },
+      {
+        "id": 9,
+        "question": "Kisa opsyon 'Oriyantasyon' fè ?",
+        "options": ["Chanje direksyon tèks la", "Chanje fason paj la ye (pòtrè oswa peyizaj)", "Kopi paj la"],
+        "answer": "Chanje fason paj la ye (pòtrè oswa peyizaj)"
+      },
+      {
+        "id": 10,
+        "question": "Ki diferans ki genyen ant 'Anrejistre' ak 'Anrejistre kòm' ?",
+        "options": ["Pa gen diferans", "'Anrejistre' mete ajou fichye a, 'Anrejistre kòm' kreye yon nouvo kopi", "'Anrejistre kòm' efase fichye a"],
+        "answer": "'Anrejistre' mete ajou fichye a, 'Anrejistre kòm' kreye yon nouvo kopi"
+      }
+    ]
+  }
+]

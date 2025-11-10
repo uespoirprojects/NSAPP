@@ -1,0 +1,197 @@
+[
+  {
+    "title": "Mise en forme du texte dans Excel (niveau débutant)",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Quelle option permet de mettre le texte en gras ?",
+        "options": ["Italique", "Souligné", "Gras"],
+        "answer": "Gras"
+      },
+      {
+        "id": 2,
+        "question": "Quelle option permet de changer la couleur du texte ?",
+        "options": ["Couleur de police", "Bordure", "Alignement"],
+        "answer": "Couleur de police"
+      },
+      {
+        "id": 3,
+        "question": "Quelle option permet de centrer le texte dans la cellule ?",
+        "options": ["Aligné à gauche", "Centré", "Aligné à droite"],
+        "answer": "Centré"
+      },
+      {
+        "id": 4,
+        "question": "Quelle option permet de mettre le texte en italique ?",
+        "options": ["Gras", "Italique", "Souligné"],
+        "answer": "Italique"
+      },
+      {
+        "id": 5,
+        "question": "Quelle option permet de souligner un texte ?",
+        "options": ["Gras", "Italique", "Souligné"],
+        "answer": "Souligné"
+      },
+      {
+        "id": 6,
+        "question": "Quelle commande permet de fusionner plusieurs cellules pour n’en faire qu’une seule ?",
+        "options": ["Fusionner et centrer", "Bordure", "Orientation du texte"],
+        "answer": "Fusionner et centrer"
+      },
+      {
+        "id": 7,
+        "question": "Où peut-on changer la taille du texte ?",
+        "options": ["Dans la section Police", "Dans la section Insertion", "Dans la section Données"],
+        "answer": "Dans la section Police"
+      },
+      {
+        "id": 8,
+        "question": "Quelle option permet de mettre un cadre autour du texte ?",
+        "options": ["Bordures", "Couleur de police", "Centrer"],
+        "answer": "Bordures"
+      },
+      {
+        "id": 9,
+        "question": "Si ton texte est trop long et tu veux le voir en entier dans la cellule, tu utilises :",
+        "options": ["Renvoi à la ligne automatique", "Fusionner", "Supprimer"],
+        "answer": "Renvoi à la ligne automatique"
+      },
+      {
+        "id": 10,
+        "question": "Dans quel onglet du ruban trouve-t-on les options de mise en forme du texte ?",
+        "options": ["Accueil", "Insertion", "Données"],
+        "answer": "Accueil"
+      }
+    ]
+  },
+  {
+    "title": "La fusion de cellules dans Excel (niveau débutant)",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Que veut dire “fusionner des cellules” ?",
+        "options": ["Supprimer plusieurs cellules", "Regrouper plusieurs cellules en une seule", "Copier plusieurs cellules"],
+        "answer": "Regrouper plusieurs cellules en une seule"
+      },
+      {
+        "id": 2,
+        "question": "Quelle option du ruban permet de fusionner des cellules ?",
+        "options": ["Fusionner et centrer", "Couleur de police", "Bordures"],
+        "answer": "Fusionner et centrer"
+      },
+      {
+        "id": 3,
+        "question": "Dans quel onglet se trouve l’option “Fusionner et centrer” ?",
+        "options": ["Insertion", "Accueil", "Données"],
+        "answer": "Accueil"
+      },
+      {
+        "id": 4,
+        "question": "Que fait “Fusionner et centrer” exactement ?",
+        "options": ["Fusionne les cellules et centre le texte au milieu", "Supprime les cellules fusionnées", "Copie le texte dans toutes les cellules"],
+        "answer": "Fusionne les cellules et centre le texte au milieu"
+      },
+      {
+        "id": 5,
+        "question": "Peut-on fusionner des cellules qui contiennent déjà plusieurs textes différents ?",
+        "options": ["Oui, Excel garde tous les textes", "Non, Excel garde seulement le texte de la première cellule", "Oui, mais tous les textes sont mélangés"],
+        "answer": "Non, Excel garde seulement le texte de la première cellule"
+      },
+      {
+        "id": 6,
+        "question": "Quelle est la différence entre “Fusionner et centrer” et “Fusionner les cellules” ?",
+        "options": ["Aucune différence", "“Fusionner et centrer” centre le texte, “Fusionner les cellules” non", "“Fusionner les cellules” supprime le texte"],
+        "answer": "“Fusionner et centrer” centre le texte, “Fusionner les cellules” non"
+      },
+      {
+        "id": 7,
+        "question": "Peut-on annuler la fusion d’une cellule ?",
+        "options": ["Oui", "Non", "Seulement si le fichier est fermé"],
+        "answer": "Oui"
+      },
+      {
+        "id": 8,
+        "question": "Après une fusion, combien de cellules reste-t-il ?",
+        "options": ["Autant qu’avant", "Une seule", "Deux"],
+        "answer": "Une seule"
+      },
+      {
+        "id": 9,
+        "question": "Si on veut centrer un titre sur plusieurs colonnes sans vraiment les fusionner, on peut utiliser :",
+        "options": ["L’option “Centrer sur la sélection”", "L’option “Fusionner”", "L’option “Aligner à droite”"],
+        "answer": "L’option “Centrer sur la sélection”"
+      },
+      {
+        "id": 10,
+        "question": "Pourquoi faut-il faire attention en fusionnant des cellules ?",
+        "options": ["Parce que cela peut cacher le texte", "Parce que cela peut rendre les calculs ou tris plus difficiles", "Parce que cela change la couleur du texte"],
+        "answer": "Parce que cela peut rendre les calculs ou tris plus difficiles"
+      }
+    ]
+  },
+  {
+    "title": "Sauvegarde et impression dans Excel (niveau débutant)",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Que veut dire sauvegarder un fichier ?",
+        "options": ["Le fermer", "L’enregistrer pour ne pas perdre son travail", "Le supprimer"],
+        "answer": "L’enregistrer pour ne pas perdre son travail"
+      },
+      {
+        "id": 2,
+        "question": "Dans quel menu trouve-t-on l’option “Enregistrer sous” ?",
+        "options": ["Accueil", "Fichier", "Insertion"],
+        "answer": "Fichier"
+      },
+      {
+        "id": 3,
+        "question": "Quand on choisit “Enregistrer sous”, que peut-on faire ?",
+        "options": ["Changer le nom du fichier", "Changer l’emplacement où le fichier sera enregistré", "A et B sont vrais"],
+        "answer": "A et B sont vrais"
+      },
+      {
+        "id": 4,
+        "question": "Quelle est l’extension d’un fichier Excel ?",
+        "options": [".docx", ".xlsx", ".pptx"],
+        "answer": ".xlsx"
+      },
+      {
+        "id": 5,
+        "question": "Quelle option permet d’imprimer une feuille de calcul ?",
+        "options": ["Fichier → Imprimer", "Accueil → Police", "Données → Trier"],
+        "answer": "Fichier → Imprimer"
+      },
+      {
+        "id": 6,
+        "question": "Avant d’imprimer, que peut-on faire dans l’aperçu d’impression ?",
+        "options": ["Modifier la couleur du texte", "Voir comment la feuille sera imprimée", "Écrire du texte"],
+        "answer": "Voir comment la feuille sera imprimée"
+      },
+      {
+        "id": 7,
+        "question": "Que fait le bouton “Mise en page” dans Excel ?",
+        "options": ["Permet de changer la taille du papier, les marges et l’orientation", "Ferme le document", "Crée un graphique"],
+        "answer": "Permet de changer la taille du papier, les marges et l’orientation"
+      },
+      {
+        "id": 8,
+        "question": "Quelle option permet d’imprimer toute la feuille ?",
+        "options": ["Zone d’impression", "Imprimer tout le classeur", "Imprimer la sélection"],
+        "answer": "Imprimer tout le classeur"
+      },
+      {
+        "id": 9,
+        "question": "Que fait l’option “Orientation” ?",
+        "options": ["Change la direction du texte", "Change la disposition de la page (portrait ou paysage)", "Copie la page"],
+        "answer": "Change la disposition de la page (portrait ou paysage)"
+      },
+      {
+        "id": 10,
+        "question": "Quelle est la différence entre “Enregistrer” et “Enregistrer sous” ?",
+        "options": ["Aucune différence", "“Enregistrer” met à jour le fichier existant, “Enregistrer sous” crée une nouvelle copie", "“Enregistrer sous” supprime le fichier"],
+        "answer": "“Enregistrer” met à jour le fichier existant, “Enregistrer sous” crée une nouvelle copie"
+      }
+    ]
+  }
+]

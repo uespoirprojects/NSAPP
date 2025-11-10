@@ -7,7 +7,7 @@ export type SupportedLanguage = 'fr' | 'ht' | 'en' | 'es';
 interface I18nContextType {
   currentLanguage: SupportedLanguage;
   changeLanguage: (language: SupportedLanguage) => Promise<void>;
-  t: (key: string) => string;
+  t: (key: string, options?: Record<string, unknown>) => string;
 }
 
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
@@ -18,7 +18,7 @@ interface I18nProviderProps {
 
 export function I18nProvider({ children }: I18nProviderProps) {
   // useTranslation automatically subscribes to language changes and triggers re-renders
-  const { t: i18nT, i18n: i18nInstance } = useTranslation();
+  const { t: i18nT } = useTranslation();
   const [currentLang, setCurrentLang] = useState<SupportedLanguage>((i18n.language as SupportedLanguage) || 'fr');
 
   // Update currentLang when language changes - this ensures UI reflects the change
@@ -38,12 +38,18 @@ export function I18nProvider({ children }: I18nProviderProps) {
   }, []);
 
   // Use i18nT directly from useTranslation - it's already reactive
-  const t = React.useCallback((key: string): string => {
-    if (i18n.isInitialized) {
-      return i18nT(key);
-    }
-    return key; // Return key if not initialized yet
-  }, [i18nT]); // Remove currentLang dependency - i18nT already handles reactivity
+  const t = React.useCallback(
+    (key: string, options?: Record<string, unknown>): string => {
+      if (i18n.isInitialized) {
+        return i18nT(key, options);
+      }
+      if (options && typeof options.defaultValue === 'string') {
+        return options.defaultValue;
+      }
+      return key;
+    },
+    [i18nT],
+  );
 
   const changeLanguage = React.useCallback(async (language: SupportedLanguage) => {
     try {

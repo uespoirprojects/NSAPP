@@ -1,5 +1,5 @@
-import { auth } from '@/app/lib/firebase';
-import { getUserData, signOutUser, UserData } from '@/app/services/authService';
+import { auth } from '@/lib/firebase';
+import { getUserData, signOutUser, UserData } from '@/services/authService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { User as FirebaseUser, onAuthStateChanged } from 'firebase/auth';
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';

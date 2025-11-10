@@ -10,18 +10,18 @@ import Constants from 'expo-constants';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import {
-  ActivityIndicator,
-  Alert,
-  Animated,
-  Dimensions,
-  InteractionManager,
-  Modal,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
+    ActivityIndicator,
+    Alert,
+    Animated,
+    Dimensions,
+    InteractionManager,
+    Modal,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -92,7 +92,16 @@ export default function VideoScreen() {
   }, [category, allVideos, completedVideos, isAuthenticated]);
 
   const handleTakeQuiz = () => {
-    setShowSignupModal(true);
+    if (!selectedVideo) {
+      return;
+    }
+
+    if (!isAuthenticated) {
+      setShowSignupModal(true);
+      return;
+    }
+
+    router.push(`/video/${selectedVideo.id}/quiz`);
   };
 
   const confirmSignup = () => {
@@ -515,41 +524,36 @@ export default function VideoScreen() {
         )}
 
         {!isAuthenticated && (
-          <>
-            {/* Sign Up Reminder */}
-            <View
-              style={{
-                backgroundColor: colors.lightBlue,
-                padding: 16,
-                borderRadius: 12,
-                marginBottom: 16,
-              }}
-            >
-              <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 14, lineHeight: 20 }}>
-                {t('video.signInToTrack')}
-              </Text>
-            </View>
-
-            {/* Take Quiz Button */}
-            <TouchableOpacity
-              onPress={handleTakeQuiz}
-              style={{
-                backgroundColor: colors.cardBackground,
-                borderWidth: 2,
-                borderColor: colors.blue,
-                borderRadius: 12,
-                paddingVertical: 16,
-                alignItems: 'center',
-                marginBottom: 16,
-              }}
-              activeOpacity={0.7}
-            >
-              <Text style={{ color: colors.blue, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
-                {t('video.takeQuiz')}
-              </Text>
-            </TouchableOpacity>
-          </>
+          <View
+            style={{
+              backgroundColor: colors.lightBlue,
+              padding: 16,
+              borderRadius: 12,
+              marginBottom: 16,
+            }}
+          >
+            <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 14, lineHeight: 20 }}>
+              {t('video.signInToTrack')}
+            </Text>
+          </View>
         )}
+
+        {/* Take Quiz Button */}
+        <TouchableOpacity
+          onPress={handleTakeQuiz}
+          style={{
+            backgroundColor: colors.blue,
+            borderRadius: 12,
+            paddingVertical: 16,
+            alignItems: 'center',
+            marginBottom: 16,
+          }}
+          activeOpacity={0.7}
+        >
+          <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
+            {t('video.takeQuiz')}
+          </Text>
+        </TouchableOpacity>
 
         {isAuthenticated && (
           <>

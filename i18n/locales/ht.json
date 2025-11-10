@@ -100,8 +100,26 @@
     "next": "Apre",
     "previous": "Anvan"
   },
+  "quiz": {
+    "defaultTitle": "Tès",
+    "subtitle": "Reponn kesyon yo pou verifye konesans ou",
+    "empty": "Pa gen okenn tès disponib pou kounye a.",
+    "question": "Kesyon",
+    "of": "sou",
+    "previous": "Anvan",
+    "next": "Swivan",
+    "submit": "Soumèt",
+    "resultsTitle": "Rezilta tès la",
+    "resultsCongrats": "Felisitasyon!",
+    "resultsTryAgain": "Pa lage! Kontinye pratike!",
+    "resultsSummary": "Ou reponn kòrèk {{score}} sou {{total}} kesyon.",
+    "resultsFailureSummary": "Ou reponn kòrèk {{score}} sou {{total}} kesyon. Revize leson an epi eseye ankò.",
+    "scoreLabel": "Nòt ou",
+    "continueLearning": "Kontinye aprann",
+    "retakeQuiz": "Repase tès la"
+  },
   "common": {
-    "appName": "NSAPP",
+    "appName": "Akademix",
     "videos": "videyo",
     "logout": "Dekonekte",
     "cancel": "Anile",

@@ -100,8 +100,26 @@
     "next": "Next",
     "previous": "Previous"
   },
+  "quiz": {
+    "defaultTitle": "Quiz",
+    "subtitle": "Answer the questions to test your knowledge",
+    "empty": "No quizzes are available right now.",
+    "question": "Question",
+    "of": "of",
+    "previous": "Previous",
+    "next": "Next",
+    "submit": "Submit",
+    "resultsTitle": "Quiz Results",
+    "resultsCongrats": "Congratulations!",
+    "resultsTryAgain": "Keep practicing!",
+    "resultsSummary": "You scored {{score}} out of {{total}} questions correctly.",
+    "resultsFailureSummary": "You answered {{score}} out of {{total}} questions correctly. Review the lesson and try again.",
+    "scoreLabel": "Your Score",
+    "continueLearning": "Continue Learning",
+    "retakeQuiz": "Retake Quiz"
+  },
   "common": {
-    "appName": "NSAPP",
+    "appName": "Akademix",
     "videos": "videos",
     "logout": "Logout",
     "cancel": "Cancel",
