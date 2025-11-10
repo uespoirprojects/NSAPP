@@ -52,8 +52,8 @@ function RootLayoutContent() {
 
   return (
     <SafeAreaProvider>
-      <AuthProvider>
-        <I18nProvider>
+      <I18nProvider>
+        <AuthProvider>
           <GluestackUIProvider mode={effectiveTheme === 'dark' ? 'dark' : 'light'}>
             <NavigationThemeProvider value={effectiveTheme === 'dark' ? DarkTheme : DefaultTheme}>
               <Stack 
@@ -69,8 +69,8 @@ function RootLayoutContent() {
               <StatusBar style={effectiveTheme === 'dark' ? 'light' : 'dark'} />
             </NavigationThemeProvider>
           </GluestackUIProvider>
-        </I18nProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </I18nProvider>
     </SafeAreaProvider>
   );
 }
