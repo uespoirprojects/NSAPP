@@ -98,7 +98,17 @@
     "markedAsComplete": "Leson make kòm fini!",
     "notFound": "Videyo pa jwenn",
     "next": "Apre",
-    "previous": "Anvan"
+    "previous": "Anvan",
+    "playlistLoadError": "Nou pa ka chaje playlist sa a. Tcheke koneksyon ou epi eseye ankò.",
+    "playlistMissing": "Playlist pou sijè sa a poko disponib.",
+    "loadingPlaylist": "Nap chaje playlist la..."
+  },
+  "videos": {
+    "subjects": "sijè",
+    "noSubjects": "Pa gen okenn sijè disponib pou kounye a.",
+    "lessonCount": "{{count}} leson",
+    "loadingCount": "Nap chaje leson yo…",
+    "startSubject": "Kòmanse aprann"
   },
   "quiz": {
     "defaultTitle": "Tès",
@@ -130,6 +140,7 @@
     "logout": "Dekonekte",
     "cancel": "Anile",
     "back": "Retounen",
-    "success": "Siksè"
+    "success": "Siksè",
+    "retry": "Re-eseye"
   }
 }

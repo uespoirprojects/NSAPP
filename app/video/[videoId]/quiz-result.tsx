@@ -12,10 +12,11 @@ const PASSING_SCORE = 70;
 export default function QuizResultScreen() {
   const { t } = useI18n();
   const colors = useThemeColors();
-  const { videoId, score, total } = useLocalSearchParams<{
+  const { videoId, score, total, subjectId } = useLocalSearchParams<{
     videoId?: string;
     score?: string;
     total?: string;
+    subjectId?: string;
   }>();
 
   const totalQuestions = React.useMemo(() => {
@@ -54,7 +55,10 @@ export default function QuizResultScreen() {
 
   const handleGoBack = () => {
     if (videoId) {
-      router.replace(`/video/${videoId}`);
+      router.replace({
+        pathname: '/video/[videoId]',
+        params: subjectId ? { videoId, subjectId } : { videoId },
+      });
     } else {
       router.back();
     }
@@ -64,7 +68,10 @@ export default function QuizResultScreen() {
     if (!videoId) {
       return;
     }
-    router.replace(`/video/${videoId}/quiz`);
+    router.replace({
+      pathname: '/video/[videoId]/quiz',
+      params: subjectId ? { videoId, subjectId } : { videoId },
+    });
   };
 
   return (

@@ -98,7 +98,17 @@
     "markedAsComplete": "Lesson marked as completed!",
     "notFound": "Video not found",
     "next": "Next",
-    "previous": "Previous"
+    "previous": "Previous",
+    "playlistLoadError": "We couldn’t load this playlist. Please check your connection and try again.",
+    "playlistMissing": "The playlist for this subject is not available yet.",
+    "loadingPlaylist": "Loading playlist..."
+  },
+  "videos": {
+    "subjects": "subjects",
+    "noSubjects": "No subjects available yet.",
+    "lessonCount": "{{count}} lessons",
+    "loadingCount": "Loading lessons…",
+    "startSubject": "Start learning"
   },
   "quiz": {
     "defaultTitle": "Quiz",
@@ -130,6 +140,7 @@
     "logout": "Logout",
     "cancel": "Cancel",
     "back": "Back",
-    "success": "Success"
+    "success": "Success",
+    "retry": "Retry"
   }
 }

@@ -98,7 +98,17 @@
     "markedAsComplete": "Leçon marquée comme complétée !",
     "notFound": "Vidéo non trouvée",
     "next": "Suivant",
-    "previous": "Précédent"
+    "previous": "Précédent",
+    "playlistLoadError": "Impossible de charger cette playlist. Vérifiez votre connexion et réessayez.",
+    "playlistMissing": "La playlist pour ce sujet n'est pas encore disponible.",
+    "loadingPlaylist": "Chargement de la playlist..."
+  },
+  "videos": {
+    "subjects": "sujets",
+    "noSubjects": "Aucun sujet disponible pour le moment.",
+    "lessonCount": "{{count}} leçons",
+    "loadingCount": "Chargement des leçons…",
+    "startSubject": "Commencer"
   },
   "quiz": {
     "defaultTitle": "Quiz",
@@ -130,6 +140,7 @@
     "logout": "Déconnexion",
     "cancel": "Annuler",
     "back": "Retour",
-    "success": "Succès"
+    "success": "Succès",
+    "retry": "Réessayer"
   }
 }

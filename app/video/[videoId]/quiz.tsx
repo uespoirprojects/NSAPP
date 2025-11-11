@@ -1,6 +1,6 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { getVideoById } from '@/constants/videos';
+import { getSubjectById } from '@/constants/subjects';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import {
@@ -22,7 +22,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const TOTAL_QUESTIONS = 10;
 
 export default function VideoQuizScreen() {
-  const { videoId } = useLocalSearchParams<{ videoId?: string }>();
+  const { videoId, subjectId } = useLocalSearchParams<{ videoId?: string; subjectId?: string }>();
   const colors = useThemeColors();
   const { currentLanguage, t } = useI18n();
   const [questions, setQuestions] = React.useState<QuizQuestionWithMeta[]>([]);
@@ -30,9 +30,9 @@ export default function VideoQuizScreen() {
   const [answers, setAnswers] = React.useState<Record<string | number, string>>(
     {},
   );
-  const video = React.useMemo(
-    () => (videoId ? getVideoById(videoId) : undefined),
-    [videoId],
+  const subject = React.useMemo(
+    () => (subjectId ? getSubjectById(subjectId) : undefined),
+    [subjectId],
   );
 
   const totalQuestions = questions.length;
@@ -53,7 +53,7 @@ export default function VideoQuizScreen() {
     setQuestions(items);
     setCurrentIndex(0);
     setAnswers({});
-  }, [currentLanguage, videoId]);
+  }, [currentLanguage, videoId, subjectId]);
 
   const handleOptionPress = (option: string) => {
     if (!currentQuestion) {
@@ -81,12 +81,13 @@ export default function VideoQuizScreen() {
       videoId,
       score: computedScore.toString(),
       total: totalQuestions.toString(),
+      subjectId,
     };
     router.push({
       pathname: '/video/[videoId]/quiz-result',
       params,
     });
-  }, [calculateScore, router, totalQuestions, videoId]);
+  }, [calculateScore, router, totalQuestions, videoId, subjectId]);
 
   const handleNext = () => {
     if (!currentQuestion || !selectedOption) {
@@ -126,8 +127,8 @@ export default function VideoQuizScreen() {
   const nextLabel = isLastQuestion ? t('quiz.submit') : t('quiz.next');
 
   const handleBackToVideos = () => {
-    if (video?.categoryId) {
-      router.replace(`/videos/${video.categoryId}`);
+    if (subject?.categoryId) {
+      router.replace(`/videos/${subject.categoryId}`);
       return;
     }
     router.back();
@@ -151,8 +152,8 @@ export default function VideoQuizScreen() {
             color={colors.text}
             style={{ fontFamily: 'Poppins-SemiBold' }}
           >
-            {video
-              ? `${video.title[currentLanguage as keyof typeof video.title]}`
+            {subject
+              ? subject.title[currentLanguage as keyof typeof subject.title] || subject.title.fr
               : t('quiz.defaultTitle')}
           </Typography>
           <Text

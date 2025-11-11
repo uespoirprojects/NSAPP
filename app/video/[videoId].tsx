@@ -1,27 +1,28 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { getCategoryById, getVideoById, getVideosByCategory } from '@/constants/videos';
+import { getSubjectById } from '@/constants/subjects';
+import { getCategoryById } from '@/constants/videos';
 import { useAuth } from '@/contexts/auth-context';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
-import type { Video } from '@/types/video';
+import { getPlaylistVideos, PlaylistVideo } from '@/services/youtubeService';
 import { getYouTubeEmbedUrl } from '@/utils/video-helpers';
 import Constants from 'expo-constants';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import {
-    ActivityIndicator,
-    Alert,
-    Animated,
-    Dimensions,
-    InteractionManager,
-    Modal,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
+  ActivityIndicator,
+  Alert,
+  Animated,
+  Dimensions,
+  InteractionManager,
+  Modal,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -43,22 +44,72 @@ export default function VideoScreen() {
   const colors = useThemeColors();
   const { t, currentLanguage } = useI18n();
   const { isAuthenticated } = useAuth();
-  const { videoId } = useLocalSearchParams<{ videoId: string }>();
+  const { videoId, subjectId } = useLocalSearchParams<{ videoId: string; subjectId?: string }>();
+  const subject = subjectId ? getSubjectById(subjectId) : undefined;
+  const category = subject ? getCategoryById(subject.categoryId) : null;
+  const [playlistVideos, setPlaylistVideos] = useState<PlaylistVideo[]>([]);
+  const [playlistError, setPlaylistError] = useState<string | null>(null);
+  const [playlistLoading, setPlaylistLoading] = useState<boolean>(true);
+  const [selectedVideo, setSelectedVideo] = useState<PlaylistVideo | null>(null);
 
-  // Get video and category data
-  const video = getVideoById(videoId || '');
-  const category = video ? getCategoryById(video.categoryId) : null;
-  // Get videos sorted by order
-  const allVideos = category && video 
-    ? getVideosByCategory(video.categoryId).sort((a, b) => a.order - b.order)
-    : [];
+  React.useEffect(() => {
+    let isMounted = true;
 
-  const [selectedVideo, setSelectedVideo] = useState<Video | null>(video || null);
+    const loadPlaylist = async () => {
+      if (!subject || !subject.playlistId) {
+        if (!isMounted) return;
+        setPlaylistVideos([]);
+        setSelectedVideo(null);
+        setPlaylistLoading(false);
+        setPlaylistError(t('video.playlistMissing'));
+        return;
+      }
+
+      try {
+        setPlaylistLoading(true);
+        setPlaylistError(null);
+        const videos = await getPlaylistVideos(subject.playlistId);
+        if (!isMounted) return;
+
+        setPlaylistVideos(videos);
+        const initialVideo =
+          videos.find((item) => item.videoId === videoId) || videos[0] || null;
+        setSelectedVideo(initialVideo);
+      } catch (error) {
+        console.error('Failed to load playlist videos:', error);
+        if (isMounted) {
+          setPlaylistVideos([]);
+          setSelectedVideo(null);
+          setPlaylistError(t('video.playlistLoadError'));
+        }
+      } finally {
+        if (isMounted) {
+          setPlaylistLoading(false);
+        }
+      }
+    };
+
+    loadPlaylist();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [subject?.playlistId, videoId, subject?.id, t]);
+
+  React.useEffect(() => {
+    if (!playlistVideos.length) return;
+    const match = playlistVideos.find((item) => item.videoId === videoId);
+    if (match && match.videoId !== selectedVideo?.videoId) {
+      setSelectedVideo(match);
+    }
+  }, [playlistVideos, videoId]);
+
+  const allVideos = playlistVideos;
   
   // Find current video index and calculate next/previous videos
   const currentVideoIndex = useMemo(() => {
     if (!selectedVideo) return -1;
-    return allVideos.findIndex((v) => v.id === selectedVideo.id);
+    return allVideos.findIndex((v) => v.videoId === selectedVideo.videoId);
   }, [selectedVideo, allVideos]);
 
   const previousVideo = useMemo(() => {
@@ -76,23 +127,16 @@ export default function VideoScreen() {
   const [videoLoading, setVideoLoading] = useState(true);
   const [showSignupModal, setShowSignupModal] = useState(false);
 
-  // Update selected video when videoId param changes
-  React.useEffect(() => {
-    if (video) {
-      setSelectedVideo(video);
-    }
-  }, [videoId]);
-
   // Calculate progress
   const progressPercentage = useMemo(() => {
     if (!category || allVideos.length === 0) return 0;
     if (!isAuthenticated) return 0; // Guest users have 0% progress
-    const completedCount = allVideos.filter((v) => completedVideos.has(v.id)).length;
+    const completedCount = allVideos.filter((v) => completedVideos.has(v.videoId)).length;
     return (completedCount / allVideos.length) * 100;
   }, [category, allVideos, completedVideos, isAuthenticated]);
 
   const handleTakeQuiz = () => {
-    if (!selectedVideo) {
+    if (!selectedVideo || !subject) {
       return;
     }
 
@@ -101,7 +145,10 @@ export default function VideoScreen() {
       return;
     }
 
-    router.push(`/video/${selectedVideo.id}/quiz`);
+    router.push({
+      pathname: '/video/[videoId]/quiz',
+      params: { videoId: selectedVideo.videoId, subjectId: subject.id },
+    });
   };
 
   const confirmSignup = () => {
@@ -112,18 +159,22 @@ export default function VideoScreen() {
   const handleMarkAsComplete = () => {
     if (!selectedVideo || !isAuthenticated) return;
 
-    if (completedVideos.has(selectedVideo.id)) {
+    if (completedVideos.has(selectedVideo.videoId)) {
       Alert.alert(t('video.alreadyCompleted'), t('video.alreadyCompletedMessage'));
       return;
     }
 
-    setCompletedVideos(new Set([...completedVideos, selectedVideo.id]));
+    setCompletedVideos(new Set([...completedVideos, selectedVideo.videoId]));
     Alert.alert(t('common.success'), t('video.markedAsComplete'));
   };
 
   // Navigate back to the previous page (not previous video)
   const handleBackPress = () => {
-    router.back();
+    if (subject?.categoryId) {
+      router.replace(`/videos/${subject.categoryId}`);
+    } else {
+      router.back();
+    }
   };
 
   const openSidebar = () => {
@@ -163,11 +214,14 @@ export default function VideoScreen() {
     });
   };
 
-  const handleVideoSelect = (video: Video) => {
+  const handleVideoSelect = (video: PlaylistVideo) => {
     setSelectedVideo(video);
     // Use replace instead of push to avoid adding to navigation stack
     // This ensures back button goes to previous page, not previous video
-    (router.replace as any)(`/video/${video.id}`);
+    router.replace({
+      pathname: '/video/[videoId]',
+      params: { videoId: video.videoId, subjectId: subject?.id },
+    });
     closeSidebar();
   };
 
@@ -175,7 +229,10 @@ export default function VideoScreen() {
     if (previousVideo) {
       setSelectedVideo(previousVideo);
       // Use replace to update URL without adding to navigation stack
-      (router.replace as any)(`/video/${previousVideo.id}`);
+      router.replace({
+        pathname: '/video/[videoId]',
+        params: { videoId: previousVideo.videoId, subjectId: subject?.id },
+      });
     }
   };
 
@@ -183,63 +240,40 @@ export default function VideoScreen() {
     if (nextVideo) {
       setSelectedVideo(nextVideo);
       // Use replace to update URL without adding to navigation stack
-      (router.replace as any)(`/video/${nextVideo.id}`);
+      router.replace({
+        pathname: '/video/[videoId]',
+        params: { videoId: nextVideo.videoId, subjectId: subject?.id },
+      });
     }
   };
 
-  if (!video || !category || !selectedVideo) {
-    return (
-      <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.screenBackground }} edges={['top', 'bottom', 'left', 'right']}>
-        <Typography variant="body" color={colors.text}>
-          {t('video.notFound')}
-        </Typography>
-        <TouchableOpacity
-          onPress={handleBackPress}
-          style={{ marginTop: 20, padding: 12, backgroundColor: colors.blue, borderRadius: 8 }}
-        >
-          <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold' }}>{t('common.back')}</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-    );
-  }
+  const showLoadingState = playlistLoading && !selectedVideo;
+  const showErrorState = Boolean(playlistError && !selectedVideo);
+  const showNotFoundState = !subject || !category || !selectedVideo;
 
-  const categoryName = category.name[currentLanguage as keyof typeof category.name] || category.name.fr;
-  const videoTitle = selectedVideo.title[currentLanguage as keyof typeof selectedVideo.title] || selectedVideo.title.fr;
-  const videoDescription = selectedVideo.description
-    ? selectedVideo.description[currentLanguage as keyof typeof selectedVideo.description] || selectedVideo.description.fr
-    : '';
-  const isCompleted = completedVideos.has(selectedVideo.id);
-  // Validate and get embed URL
   const embedUrl = selectedVideo?.videoId ? getYouTubeEmbedUrl(selectedVideo.videoId, false) : null;
-  
-  // Get the referer URL based on bundle identifier for YouTube API compliance
-  // This sets the HTTP Referer header when loading HTML content in WebView
+
   const refererUrl = React.useMemo(() => {
     if (Platform.OS === 'web') {
-      // On web, use the current origin
       if (typeof window !== 'undefined' && window.location) {
         return window.location.origin;
       }
       return 'https://nsapp.com';
     }
-    
-    // For native platforms, use bundle identifier
-    // This follows YouTube's recommendation: https://[bundle-id]
-    const bundleId = Constants.expoConfig?.ios?.bundleIdentifier || 
-                     Constants.expoConfig?.android?.package ||
-                     Constants.manifest?.ios?.bundleIdentifier ||
-                     Constants.manifest?.android?.package ||
-                     'com.nsapp';
-    
-    // Format as https://[bundle-id] as per YouTube documentation
+
+    const bundleId =
+      Constants.expoConfig?.ios?.bundleIdentifier ||
+      Constants.expoConfig?.android?.package ||
+      Constants.manifest?.ios?.bundleIdentifier ||
+      Constants.manifest?.android?.package ||
+      'com.nsapp';
+
     return `https://${bundleId.toLowerCase()}`;
   }, []);
 
-  // Create HTML wrapper for YouTube embed (required for React Native WebView)
-  // Use useMemo to ensure it updates when embedUrl changes
   const videoHtml = React.useMemo(() => {
     if (!embedUrl) return '';
-    
+
     return `
     <!DOCTYPE html>
     <html>
@@ -286,126 +320,219 @@ export default function VideoScreen() {
     `;
   }, [embedUrl]);
 
-  // Update video loading and HTML when selectedVideo changes
-  React.useEffect(() => {
-    if (selectedVideo) {
-      setVideoLoading(true);
-    }
-  }, [selectedVideo?.id]);
+  let content: React.ReactNode;
 
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground }} edges={['top', 'bottom', 'left', 'right']}>
-      {/* Header */}
+  if (showLoadingState) {
+    content = (
       <View
         style={{
-          flexDirection: 'row',
+          flex: 1,
+          justifyContent: 'center',
           alignItems: 'center',
-          paddingHorizontal: 16,
-          paddingVertical: 12,
-          borderBottomWidth: 1,
-          borderBottomColor: colors.grey,
-          backgroundColor: colors.cardBackground,
+          backgroundColor: colors.screenBackground,
         }}
       >
-        <TouchableOpacity onPress={handleBackPress} style={{ padding: 8, marginRight: 8 }}>
-          <IconSymbol name="arrow-back-outline" size={24} color={colors.text} />
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={openSidebar} style={{ padding: 8, marginRight: 8 }}>
-          <IconSymbol name="menu-outline" size={24} color={colors.text} />
-        </TouchableOpacity>
-
-        <View style={{ flex: 1 }}>
-          <Typography variant="h3" color={colors.text} style={{ fontFamily: 'Poppins-SemiBold' }}>
-            {categoryName}
-          </Typography>
-          <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 12, marginTop: 2 }}>
-            {isAuthenticated 
-              ? `${Math.round(progressPercentage * allVideos.length / 100)} of ${allVideos.length} ${t('video.completed')}`
-              : `0 of ${allVideos.length} ${t('video.completed')}`
-            }
-          </Text>
-        </View>
+        <ActivityIndicator size="large" color={colors.blue} />
+        <Typography variant="body" color={colors.text} style={{ marginTop: 16 }}>
+          {t('video.loadingPlaylist')}
+        </Typography>
       </View>
-
-      {/* Main Content */}
-      <ScrollView
-        style={{ flex: 1 }}
-        contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 16 }}
-        showsVerticalScrollIndicator={false}
+    );
+  } else if (showErrorState) {
+    content = (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: colors.screenBackground,
+          paddingHorizontal: 24,
+        }}
       >
-        {/* Video Player */}
-        <View
+        <Typography variant="body" color={colors.text} style={{ textAlign: 'center' }}>
+          {playlistError}
+        </Typography>
+        <TouchableOpacity
+          onPress={() => {
+            if (subject?.playlistId) {
+              setPlaylistError(null);
+              setPlaylistLoading(true);
+              getPlaylistVideos(subject.playlistId, { forceRefresh: true })
+                .then((videos) => {
+                  setPlaylistVideos(videos);
+                  const initialVideo =
+                    videos.find((item) => item.videoId === videoId) || videos[0] || null;
+                  setSelectedVideo(initialVideo);
+                })
+                .catch((error) => {
+                  console.error('Failed to refresh playlist videos:', error);
+                  setPlaylistError(t('video.playlistLoadError'));
+                })
+                .finally(() => setPlaylistLoading(false));
+            }
+          }}
           style={{
-            width: '100%',
-            backgroundColor: colors.black,
-            borderRadius: 12,
-            marginBottom: 16,
-            overflow: 'hidden',
-            aspectRatio: 16 / 9,
+            marginTop: 24,
+            padding: 12,
+            backgroundColor: colors.blue,
+            borderRadius: 8,
           }}
         >
-          {videoLoading && (
-            <View
+          <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold' }}>
+            {t('common.retry')}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  } else if (showNotFoundState) {
+    content = (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: colors.screenBackground,
+        }}
+      >
+        <Typography variant="body" color={colors.text}>
+          {t('video.notFound')}
+        </Typography>
+        <TouchableOpacity
+          onPress={handleBackPress}
+          style={{ marginTop: 20, padding: 12, backgroundColor: colors.blue, borderRadius: 8 }}
+        >
+          <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold' }}>
+            {t('common.back')}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  } else {
+    const ensuredCategory = category!;
+    const ensuredSubject = subject!;
+    const ensuredVideo = selectedVideo!;
+    const categoryName =
+      ensuredCategory.name[currentLanguage as keyof typeof ensuredCategory.name] ||
+      ensuredCategory.name.fr;
+    const videoTitle = ensuredVideo.title || '';
+    const videoDescription = ensuredVideo.description || '';
+
+    content = (
+      <>
+        {/* Header */}
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 16,
+            paddingVertical: 12,
+            borderBottomWidth: 1,
+            borderBottomColor: colors.grey,
+            backgroundColor: colors.cardBackground,
+          }}
+        >
+          <TouchableOpacity onPress={handleBackPress} style={{ padding: 8, marginRight: 8 }}>
+            <IconSymbol name="arrow-back-outline" size={24} color={colors.text} />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={openSidebar} style={{ padding: 8, marginRight: 8 }}>
+            <IconSymbol name="menu-outline" size={24} color={colors.text} />
+          </TouchableOpacity>
+
+          <View style={{ flex: 1 }}>
+            <Typography variant="h3" color={colors.text} style={{ fontFamily: 'Poppins-SemiBold' }}>
+              {categoryName}
+            </Typography>
+            <Text
               style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: colors.black,
+                color: colors.text,
+                fontFamily: 'Poppins-Regular',
+                fontSize: 12,
+                marginTop: 2,
               }}
             >
-              <ActivityIndicator size="large" color={colors.white} />
-            </View>
-          )}
-          {embedUrl && selectedVideo ? (
-            Platform.OS === 'web' ? (
-              // Web platform: Use native iframe
-              <View style={{ flex: 1 }}>
-                {videoLoading && (
-                  <View
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: colors.black,
-                      zIndex: 1,
-                    }}
-                  >
-                    <ActivityIndicator size="large" color={colors.white} />
-                  </View>
-                )}
-                {/* @ts-ignore - iframe is valid for web */}
-                <iframe
-                  key={selectedVideo.id}
-                  src={embedUrl}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    border: 'none',
-                    backgroundColor: colors.black,
-                  }}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
-                  allowFullScreen
-                  onLoad={() => setVideoLoading(false)}
-                  title={videoTitle}
-                />
+              {isAuthenticated
+                ? `${Math.round((progressPercentage * allVideos.length) / 100)} of ${allVideos.length} ${t('video.completed')}`
+                : `0 of ${allVideos.length} ${t('video.completed')}`}
+            </Text>
+          </View>
+        </View>
+
+        {/* Main Content */}
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 16 }}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Video Player */}
+          <View
+            style={{
+              width: '100%',
+              backgroundColor: colors.black,
+              borderRadius: 12,
+              marginBottom: 16,
+              overflow: 'hidden',
+              aspectRatio: 16 / 9,
+            }}
+          >
+            {videoLoading && (
+              <View
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: colors.black,
+                }}
+              >
+                <ActivityIndicator size="large" color={colors.white} />
               </View>
-            ) : (
-              // Native platforms (iOS/Android): Use WebView
-              videoHtml && WebView ? (
+            )}
+            {embedUrl && ensuredVideo ? (
+              Platform.OS === 'web' ? (
+                <View style={{ flex: 1 }}>
+                  {videoLoading && (
+                    <View
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: colors.black,
+                        zIndex: 1,
+                      }}
+                    >
+                      <ActivityIndicator size="large" color={colors.white} />
+                    </View>
+                  )}
+                  {/* @ts-ignore - iframe is valid for web */}
+                  <iframe
+                    key={ensuredVideo.videoId}
+                    src={embedUrl}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      border: 'none',
+                      backgroundColor: colors.black,
+                    }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                    allowFullScreen
+                    onLoad={() => setVideoLoading(false)}
+                    title={videoTitle}
+                  />
+                </View>
+              ) : videoHtml && WebView ? (
                 <WebView
-                  key={selectedVideo.id} // Force re-render when video changes
-                  source={{ 
+                  key={ensuredVideo.videoId}
+                  source={{
                     html: videoHtml,
-                    baseUrl: refererUrl // Set baseUrl to establish Referer header for YouTube API compliance
+                    baseUrl: refererUrl,
                   }}
                   style={{ backgroundColor: colors.black, flex: 1 }}
                   onLoadStart={() => setVideoLoading(true)}
@@ -436,113 +563,134 @@ export default function VideoScreen() {
                   </Typography>
                 </View>
               )
-            )
-          ) : (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <Typography variant="body" color={colors.text}>
-                {t('video.notFound')}
-              </Typography>
-            </View>
-          )}
-        </View>
-
-        {/* Next/Previous Navigation Buttons */}
-        {allVideos.length > 1 && (
-          <View
-            style={{
-              flexDirection: 'row',
-              marginBottom: 16,
-            }}
-          >
-            <TouchableOpacity
-              onPress={handlePreviousVideo}
-              disabled={!previousVideo}
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: previousVideo ? colors.blue : colors.grey,
-                borderRadius: 12,
-                paddingVertical: 14,
-                paddingHorizontal: 16,
-                marginRight: 6,
-                opacity: previousVideo ? 1 : 0.5,
-              }}
-              activeOpacity={0.7}
-            >
-              <IconSymbol 
-                name="chevron-back" 
-                size={20} 
-                color={colors.white} 
-                style={{ marginRight: 8 }} 
-              />
-              <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
-                {t('video.previous') || 'Previous'}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={handleNextVideo}
-              disabled={!nextVideo}
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: nextVideo ? colors.blue : colors.grey,
-                borderRadius: 12,
-                paddingVertical: 14,
-                paddingHorizontal: 16,
-                marginLeft: 6,
-                opacity: nextVideo ? 1 : 0.5,
-              }}
-              activeOpacity={0.7}
-            >
-              <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
-                {t('video.next') || 'Next'}
-              </Text>
-              <IconSymbol 
-                name="chevron-forward" 
-                size={20} 
-                color={colors.white} 
-                style={{ marginLeft: 8 }} 
-              />
-            </TouchableOpacity>
+            ) : (
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Typography variant="body" color={colors.text}>
+                  {t('video.notFound')}
+                </Typography>
+              </View>
+            )}
           </View>
-        )}
 
-        {/* Video Info */}
-        <Typography variant="h2" color={colors.text} style={{ marginBottom: 8, fontFamily: 'Poppins-SemiBold' }}>
-          {videoTitle}
-        </Typography>
-
-        {videoDescription && (
-          <Typography variant="body" color={colors.text} style={{ marginBottom: 16, opacity: 0.8 }}>
-            {videoDescription}
-          </Typography>
-        )}
-
-        {!isAuthenticated && (
-          <View
-            style={{
-              backgroundColor: colors.lightBlue,
-              padding: 16,
-              borderRadius: 12,
-              marginBottom: 16,
-            }}
-          >
-            <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 14, lineHeight: 20 }}>
-              {t('video.signInToTrack')}
-            </Text>
-          </View>
-        )}
-
-        {/* Take Quiz Button */}
+          {/* Next/Previous Navigation Buttons */}
+          {allVideos.length > 1 && (
+            <View
+              style={{
+                flexDirection: 'row',
+                marginBottom: 16,
+              }}
+            >
         <TouchableOpacity
-          onPress={handleTakeQuiz}
+          onPress={handlePreviousVideo}
+          disabled={!previousVideo}
           style={{
-            backgroundColor: colors.blue,
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: previousVideo ? colors.blue : colors.grey,
+            borderRadius: 12,
+            paddingVertical: 14,
+            paddingHorizontal: 16,
+            marginRight: 6,
+            opacity: previousVideo ? 1 : 0.5,
+          }}
+          activeOpacity={0.7}
+        >
+          <IconSymbol
+            name="chevron-back"
+            size={20}
+            color={colors.white}
+            style={{ marginRight: 8 }}
+          />
+          <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
+            {t('video.previous') || 'Previous'}
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={handleNextVideo}
+          disabled={!nextVideo}
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: nextVideo ? colors.blue : colors.grey,
+            borderRadius: 12,
+            paddingVertical: 14,
+            paddingHorizontal: 16,
+            marginLeft: 6,
+            opacity: nextVideo ? 1 : 0.5,
+          }}
+          activeOpacity={0.7}
+        >
+          <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
+            {t('video.next') || 'Next'}
+          </Text>
+          <IconSymbol
+            name="chevron-forward"
+            size={20}
+            color={colors.white}
+            style={{ marginLeft: 8 }}
+          />
+        </TouchableOpacity>
+      </View>
+    )}
+
+    {/* Video Info */}
+    <Typography variant="h2" color={colors.text} style={{ marginBottom: 8, fontFamily: 'Poppins-SemiBold' }}>
+      {videoTitle}
+    </Typography>
+
+    {videoDescription && (
+      <Typography variant="body" color={colors.text} style={{ marginBottom: 16, opacity: 0.8 }}>
+        {videoDescription}
+      </Typography>
+    )}
+
+    {!isAuthenticated && (
+      <View
+        style={{
+          backgroundColor: colors.lightBlue,
+          padding: 16,
+          borderRadius: 12,
+          marginBottom: 16,
+        }}
+      >
+        <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 14, lineHeight: 20 }}>
+          {t('video.signInToTrack')}
+        </Text>
+      </View>
+    )}
+
+    {/* Take Quiz Button */}
+    <TouchableOpacity
+      onPress={handleTakeQuiz}
+      style={{
+        backgroundColor: colors.blue,
+        borderRadius: 12,
+        paddingVertical: 16,
+        alignItems: 'center',
+        marginBottom: 16,
+      }}
+      activeOpacity={0.7}
+    >
+      <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
+        {t('video.takeQuiz')}
+      </Text>
+    </TouchableOpacity>
+
+    {isAuthenticated && (
+      <>
+        <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 14, marginBottom: 16, lineHeight: 20 }}>
+          {t('video.completeToTrack')}
+        </Text>
+
+        <TouchableOpacity
+          onPress={handleMarkAsComplete}
+          style={{
+            backgroundColor: completedVideos.has(selectedVideo?.videoId || '') ? '#4CAF50' : colors.blue,
             borderRadius: 12,
             paddingVertical: 16,
             alignItems: 'center',
@@ -551,34 +699,12 @@ export default function VideoScreen() {
           activeOpacity={0.7}
         >
           <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
-            {t('video.takeQuiz')}
+            {completedVideos.has(selectedVideo?.videoId || '') ? `${t('video.completed')} ✓` : t('video.markAsComplete')}
           </Text>
         </TouchableOpacity>
-
-        {isAuthenticated && (
-          <>
-            <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 14, marginBottom: 16, lineHeight: 20 }}>
-              {t('video.completeToTrack')}
-            </Text>
-
-            <TouchableOpacity
-              onPress={handleMarkAsComplete}
-              style={{
-                backgroundColor: isCompleted ? '#4CAF50' : colors.blue,
-                borderRadius: 12,
-                paddingVertical: 16,
-                alignItems: 'center',
-                marginBottom: 16,
-              }}
-              activeOpacity={0.7}
-            >
-              <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
-                {isCompleted ? `${t('video.completed')} ✓` : t('video.markAsComplete')}
-              </Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </ScrollView>
+      </>
+    )}
+  </ScrollView>
 
       {/* Course Progress Bar */}
       {isAuthenticated && (
@@ -678,13 +804,13 @@ export default function VideoScreen() {
                 contentContainerStyle={{ paddingVertical: 8 }}
               >
                 {allVideos.map((vid) => {
-                  const vidTitle = vid.title[currentLanguage as keyof typeof vid.title] || vid.title.fr;
-                  const isSelected = selectedVideo?.id === vid.id;
-                  const isCompleted = completedVideos.has(vid.id);
+                  const vidTitle = vid.title;
+                  const isSelected = selectedVideo?.videoId === vid.videoId;
+                  const isCompleted = completedVideos.has(vid.videoId);
 
                   return (
                     <TouchableOpacity
-                      key={vid.id}
+                      key={vid.videoId}
                       onPress={() => handleVideoSelect(vid)}
                       style={{
                         paddingHorizontal: 16,
@@ -769,8 +895,17 @@ export default function VideoScreen() {
             </View>
           </View>
         </View>
-      </Modal>
-
-    </SafeAreaView>
-  );
-}
+          </Modal>
+    
+            </>
+          );
+    
+      }
+    
+      return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground }}>
+          <View style={{ flex: 1 }}>{content}</View>
+        </SafeAreaView>
+      );
+    }
+  
