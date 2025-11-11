@@ -10,19 +10,21 @@ import { getYouTubeEmbedUrl } from '@/utils/video-helpers';
 import Constants from 'expo-constants';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo, useState } from 'react';
+import type { ViewStyle } from 'react-native';
 import {
-  ActivityIndicator,
-  Alert,
-  Animated,
-  Dimensions,
-  InteractionManager,
-  Modal,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
+    ActivityIndicator,
+    Alert,
+    Animated,
+    Dimensions,
+    InteractionManager,
+    Modal,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    useWindowDimensions,
+    View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -45,6 +47,13 @@ export default function VideoScreen() {
   const { t, currentLanguage } = useI18n();
   const { isAuthenticated } = useAuth();
   const { videoId, subjectId } = useLocalSearchParams<{ videoId: string; subjectId?: string }>();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const isWideLayout = windowWidth > windowHeight || windowWidth >= 900;
+  const contentMaxWidth = Math.min(windowWidth * 0.7, 900);
+  const responsiveWidthStyle: ViewStyle = {
+    width: isWideLayout ? contentMaxWidth : '100%',
+    alignSelf: isWideLayout ? 'center' : 'stretch',
+  };
   const subject = subjectId ? getSubjectById(subjectId) : undefined;
   const category = subject ? getCategoryById(subject.categoryId) : null;
   const [playlistVideos, setPlaylistVideos] = useState<PlaylistVideo[]>([]);
@@ -332,10 +341,18 @@ export default function VideoScreen() {
           backgroundColor: colors.screenBackground,
         }}
       >
-        <ActivityIndicator size="large" color={colors.blue} />
-        <Typography variant="body" color={colors.text} style={{ marginTop: 16 }}>
-          {t('video.loadingPlaylist')}
-        </Typography>
+        <View
+          style={{
+            width: isWideLayout ? contentMaxWidth : '100%',
+            alignItems: 'center',
+            paddingHorizontal: 20,
+          }}
+        >
+          <ActivityIndicator size="large" color={colors.blue} />
+          <Typography variant="body" color={colors.text} style={{ marginTop: 16, textAlign: 'center' }}>
+            {t('video.loadingPlaylist')}
+          </Typography>
+        </View>
       </View>
     );
   } else if (showErrorState) {
@@ -346,42 +363,49 @@ export default function VideoScreen() {
           justifyContent: 'center',
           alignItems: 'center',
           backgroundColor: colors.screenBackground,
-          paddingHorizontal: 24,
         }}
       >
-        <Typography variant="body" color={colors.text} style={{ textAlign: 'center' }}>
-          {playlistError}
-        </Typography>
-        <TouchableOpacity
-          onPress={() => {
-            if (subject?.playlistId) {
-              setPlaylistError(null);
-              setPlaylistLoading(true);
-              getPlaylistVideos(subject.playlistId, { forceRefresh: true })
-                .then((videos) => {
-                  setPlaylistVideos(videos);
-                  const initialVideo =
-                    videos.find((item) => item.videoId === videoId) || videos[0] || null;
-                  setSelectedVideo(initialVideo);
-                })
-                .catch((error) => {
-                  console.error('Failed to refresh playlist videos:', error);
-                  setPlaylistError(t('video.playlistLoadError'));
-                })
-                .finally(() => setPlaylistLoading(false));
-            }
-          }}
+        <View
           style={{
-            marginTop: 24,
-            padding: 12,
-            backgroundColor: colors.blue,
-            borderRadius: 8,
+            width: isWideLayout ? contentMaxWidth : '100%',
+            alignItems: 'center',
+            paddingHorizontal: 24,
           }}
         >
-          <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold' }}>
-            {t('common.retry')}
-          </Text>
-        </TouchableOpacity>
+          <Typography variant="body" color={colors.text} style={{ textAlign: 'center' }}>
+            {playlistError}
+          </Typography>
+          <TouchableOpacity
+            onPress={() => {
+              if (subject?.playlistId) {
+                setPlaylistError(null);
+                setPlaylistLoading(true);
+                getPlaylistVideos(subject.playlistId, { forceRefresh: true })
+                  .then((videos) => {
+                    setPlaylistVideos(videos);
+                    const initialVideo =
+                      videos.find((item) => item.videoId === videoId) || videos[0] || null;
+                    setSelectedVideo(initialVideo);
+                  })
+                  .catch((error) => {
+                    console.error('Failed to refresh playlist videos:', error);
+                    setPlaylistError(t('video.playlistLoadError'));
+                  })
+                  .finally(() => setPlaylistLoading(false));
+              }
+            }}
+            style={{
+              marginTop: 24,
+              padding: 12,
+              backgroundColor: colors.blue,
+              borderRadius: 8,
+            }}
+          >
+            <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold' }}>
+              {t('common.retry')}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   } else if (showNotFoundState) {
@@ -394,17 +418,25 @@ export default function VideoScreen() {
           backgroundColor: colors.screenBackground,
         }}
       >
-        <Typography variant="body" color={colors.text}>
-          {t('video.notFound')}
-        </Typography>
-        <TouchableOpacity
-          onPress={handleBackPress}
-          style={{ marginTop: 20, padding: 12, backgroundColor: colors.blue, borderRadius: 8 }}
+        <View
+          style={{
+            width: isWideLayout ? contentMaxWidth : '100%',
+            alignItems: 'center',
+            paddingHorizontal: 24,
+          }}
         >
-          <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold' }}>
-            {t('common.back')}
-          </Text>
-        </TouchableOpacity>
+          <Typography variant="body" color={colors.text}>
+            {t('video.notFound')}
+          </Typography>
+          <TouchableOpacity
+            onPress={handleBackPress}
+            style={{ marginTop: 20, padding: 12, backgroundColor: colors.blue, borderRadius: 8 }}
+          >
+            <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold' }}>
+              {t('common.back')}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   } else {
@@ -421,15 +453,18 @@ export default function VideoScreen() {
       <>
         {/* Header */}
         <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 16,
-            paddingVertical: 12,
-            borderBottomWidth: 1,
-            borderBottomColor: colors.grey,
-            backgroundColor: colors.cardBackground,
-          }}
+          style={[
+            {
+              flexDirection: 'row',
+              alignItems: 'center',
+              paddingHorizontal: 16,
+              paddingVertical: 12,
+              borderBottomWidth: 1,
+              borderBottomColor: colors.grey,
+              backgroundColor: colors.cardBackground,
+            },
+            responsiveWidthStyle,
+          ]}
         >
           <TouchableOpacity onPress={handleBackPress} style={{ padding: 8, marginRight: 8 }}>
             <IconSymbol name="arrow-back-outline" size={24} color={colors.text} />
@@ -461,13 +496,17 @@ export default function VideoScreen() {
         {/* Main Content */}
         <ScrollView
           style={{ flex: 1 }}
-          contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 16 }}
+          contentContainerStyle={{
+            paddingHorizontal: isWideLayout ? 0 : 16,
+            paddingVertical: 16,
+            alignItems: isWideLayout ? 'center' : 'stretch',
+          }}
           showsVerticalScrollIndicator={false}
         >
           {/* Video Player */}
           <View
             style={{
-              width: '100%',
+              width: isWideLayout ? contentMaxWidth : '100%',
               backgroundColor: colors.black,
               borderRadius: 12,
               marginBottom: 16,
@@ -578,6 +617,8 @@ export default function VideoScreen() {
               style={{
                 flexDirection: 'row',
                 marginBottom: 16,
+                width: isWideLayout ? contentMaxWidth : '100%',
+                alignSelf: isWideLayout ? 'center' : 'stretch',
               }}
             >
         <TouchableOpacity
@@ -639,90 +680,106 @@ export default function VideoScreen() {
     )}
 
     {/* Video Info */}
-    <Typography variant="h2" color={colors.text} style={{ marginBottom: 8, fontFamily: 'Poppins-SemiBold' }}>
-      {videoTitle}
-    </Typography>
+          <View
+            style={{
+              width: isWideLayout ? contentMaxWidth : '100%',
+              alignSelf: isWideLayout ? 'center' : 'stretch',
+            }}
+          >
+            <Typography variant="h2" color={colors.text} style={{ marginBottom: 8, fontFamily: 'Poppins-SemiBold' }}>
+              {videoTitle}
+            </Typography>
 
-    {videoDescription && (
-      <Typography variant="body" color={colors.text} style={{ marginBottom: 16, opacity: 0.8 }}>
-        {videoDescription}
-      </Typography>
-    )}
+            {videoDescription && (
+              <Typography variant="body" color={colors.text} style={{ marginBottom: 16, opacity: 0.8 }}>
+                {videoDescription}
+              </Typography>
+            )}
 
-    {!isAuthenticated && (
-      <View
-        style={{
-          backgroundColor: colors.lightBlue,
-          padding: 16,
-          borderRadius: 12,
-          marginBottom: 16,
-        }}
-      >
-        <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 14, lineHeight: 20 }}>
-          {t('video.signInToTrack')}
-        </Text>
-      </View>
-    )}
+            {!isAuthenticated && (
+              <View
+                style={{
+                  backgroundColor: colors.lightBlue,
+                  padding: 16,
+                  borderRadius: 12,
+                  marginBottom: 16,
+                }}
+              >
+                <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 14, lineHeight: 20 }}>
+                  {t('video.signInToTrack')}
+                </Text>
+              </View>
+            )}
 
-    {/* Take Quiz Button */}
-    <TouchableOpacity
-      onPress={handleTakeQuiz}
-      style={{
-        backgroundColor: colors.blue,
-        borderRadius: 12,
-        paddingVertical: 16,
-        alignItems: 'center',
-        marginBottom: 16,
-      }}
-      activeOpacity={0.7}
-    >
-      <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
-        {t('video.takeQuiz')}
-      </Text>
-    </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleTakeQuiz}
+              style={{
+                backgroundColor: colors.blue,
+                borderRadius: 12,
+                paddingVertical: 16,
+                alignItems: 'center',
+                marginBottom: 16,
+              }}
+              activeOpacity={0.7}
+            >
+              <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
+                {t('video.takeQuiz')}
+              </Text>
+            </TouchableOpacity>
 
-    {isAuthenticated && (
-      <>
-        <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 14, marginBottom: 16, lineHeight: 20 }}>
-          {t('video.completeToTrack')}
-        </Text>
+            {isAuthenticated && (
+              <>
+                <Text style={{ color: colors.text, fontFamily: 'Poppins-Regular', fontSize: 14, marginBottom: 16, lineHeight: 20 }}>
+                  {t('video.completeToTrack')}
+                </Text>
 
-        <TouchableOpacity
-          onPress={handleMarkAsComplete}
-          style={{
-            backgroundColor: completedVideos.has(selectedVideo?.videoId || '') ? '#4CAF50' : colors.blue,
-            borderRadius: 12,
-            paddingVertical: 16,
-            alignItems: 'center',
-            marginBottom: 16,
-          }}
-          activeOpacity={0.7}
-        >
-          <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
-            {completedVideos.has(selectedVideo?.videoId || '') ? `${t('video.completed')} ✓` : t('video.markAsComplete')}
-          </Text>
-        </TouchableOpacity>
-      </>
-    )}
+                <TouchableOpacity
+                  onPress={handleMarkAsComplete}
+                  style={{
+                    backgroundColor: completedVideos.has(selectedVideo?.videoId || '') ? '#4CAF50' : colors.blue,
+                    borderRadius: 12,
+                    paddingVertical: 16,
+                    alignItems: 'center',
+                    marginBottom: 16,
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Text style={{ color: colors.white, fontFamily: 'Poppins-SemiBold', fontSize: 16 }}>
+                    {completedVideos.has(selectedVideo?.videoId || '') ? `${t('video.completed')} ✓` : t('video.markAsComplete')}
+                  </Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
   </ScrollView>
 
       {/* Course Progress Bar */}
       {isAuthenticated && (
         <View
           style={{
-            paddingHorizontal: 16,
+              paddingHorizontal: isWideLayout ? 0 : 16,
             paddingVertical: 12,
             borderTopWidth: 1,
             borderTopColor: colors.grey,
             backgroundColor: colors.cardBackground,
+              alignItems: isWideLayout ? 'center' : 'stretch',
           }}
         >
-          <Text style={{ color: colors.text, fontFamily: 'Poppins-Medium', fontSize: 12, marginBottom: 8 }}>
+            <Text
+              style={{
+                color: colors.text,
+                fontFamily: 'Poppins-Medium',
+                fontSize: 12,
+                marginBottom: 8,
+                width: isWideLayout ? contentMaxWidth : '100%',
+                alignSelf: isWideLayout ? 'center' : 'stretch',
+              }}
+            >
             {t('video.courseProgress')}
           </Text>
           <View
             style={{
-              width: '100%',
+                width: isWideLayout ? contentMaxWidth : '100%',
               height: 8,
               backgroundColor: colors.grey,
               borderRadius: 4,
@@ -902,10 +959,16 @@ export default function VideoScreen() {
     
       }
     
-      return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground }}>
-          <View style={{ flex: 1 }}>{content}</View>
-        </SafeAreaView>
-      );
-    }
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: colors.screenBackground,
+        alignItems: isWideLayout ? 'center' : 'stretch',
+      }}
+    >
+      <View style={{ flex: 1, width: '100%' }}>{content}</View>
+    </SafeAreaView>
+  );
+}
   

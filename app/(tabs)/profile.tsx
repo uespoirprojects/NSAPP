@@ -6,7 +6,8 @@ import { useTheme } from '@/contexts/theme-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import { router, useFocusEffect } from 'expo-router';
 import React, { useCallback, useState } from 'react';
-import { ActivityIndicator, Modal, ScrollView, Switch, TouchableOpacity, View } from 'react-native';
+import type { ViewStyle } from 'react-native';
+import { ActivityIndicator, Modal, ScrollView, Switch, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileScreen() {
@@ -17,6 +18,13 @@ export default function ProfileScreen() {
   const [isLogoutPressed, setIsLogoutPressed] = useState(false);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const isWideLayout = windowWidth > windowHeight || windowWidth >= 900;
+  const contentMaxWidth = Math.min(windowWidth * 0.7, 720);
+  const responsiveContainerStyle: ViewStyle = {
+    width: isWideLayout ? contentMaxWidth : '100%',
+    alignSelf: isWideLayout ? 'center' : 'stretch',
+  };
 
   const isDarkMode = effectiveTheme === 'dark';
 
@@ -101,10 +109,25 @@ export default function ProfileScreen() {
   }, [user]);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground }} edges={['top', 'bottom', 'left', 'right']}>
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 20, paddingTop: 20 }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: colors.screenBackground,
+        alignItems: isWideLayout ? 'center' : 'stretch',
+      }}
+      edges={['top', 'bottom', 'left', 'right']}
+    >
+      <ScrollView
+        style={{ flex: 1, width: '100%' }}
+        contentContainerStyle={{
+          padding: 20,
+          paddingTop: 20,
+          alignItems: isWideLayout ? 'center' : 'stretch',
+          gap: 24,
+        }}
+      >
         {/* Avatar Section */}
-        <View style={{ alignItems: 'center', marginBottom: 24 }}>
+        <View style={[{ alignItems: 'center', marginBottom: 24 }, responsiveContainerStyle]}>
           {isLoading ? (
             <ActivityIndicator size="large" color={colors.blue} style={{ marginBottom: 16 }} />
           ) : (
@@ -161,18 +184,21 @@ export default function ProfileScreen() {
         </View>
 
         {/* Settings Cards */}
-        <View style={{ gap: 12, marginBottom: 24 }}>
+        <View style={[{ gap: 12, marginBottom: 24 }, responsiveContainerStyle]}>
           {/* Dark Mode Card */}
           <TouchableOpacity
-            style={{
-              backgroundColor: colors.cardBackground,
-              borderRadius: 12,
-              padding: 16,
-              flexDirection: 'row',
-              alignItems: 'center',
-              borderWidth: 1,
-              borderColor: colors.grey,
-            }}
+            style={[
+              {
+                backgroundColor: colors.cardBackground,
+                borderRadius: 12,
+                padding: 16,
+                flexDirection: 'row',
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: colors.grey,
+              },
+              responsiveContainerStyle,
+            ]}
             activeOpacity={0.7}
           >
             <IconSymbol 
@@ -195,15 +221,18 @@ export default function ProfileScreen() {
 
           {/* Language Selection Card */}
           <TouchableOpacity
-            style={{
-              backgroundColor: colors.cardBackground,
-              borderRadius: 12,
-              padding: 16,
-              flexDirection: 'row',
-              alignItems: 'center',
-              borderWidth: 1,
-              borderColor: colors.grey,
-            }}
+            style={[
+              {
+                backgroundColor: colors.cardBackground,
+                borderRadius: 12,
+                padding: 16,
+                flexDirection: 'row',
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: colors.grey,
+              },
+              responsiveContainerStyle,
+            ]}
             activeOpacity={0.7}
             onPress={() => setShowLanguageModal(true)}
           >
@@ -221,15 +250,18 @@ export default function ProfileScreen() {
 
           {/* Privacy Policy Card */}
           <TouchableOpacity
-            style={{
-              backgroundColor: colors.cardBackground,
-              borderRadius: 12,
-              padding: 16,
-              flexDirection: 'row',
-              alignItems: 'center',
-              borderWidth: 1,
-              borderColor: colors.grey,
-            }}
+            style={[
+              {
+                backgroundColor: colors.cardBackground,
+                borderRadius: 12,
+                padding: 16,
+                flexDirection: 'row',
+                alignItems: 'center',
+                borderWidth: 1,
+                borderColor: colors.grey,
+              },
+              responsiveContainerStyle,
+            ]}
             activeOpacity={0.7}
           >
             <IconSymbol name="shield-outline" size={24} color={colors.blue} />
@@ -244,16 +276,19 @@ export default function ProfileScreen() {
 
         {/* Logout Button */}
         <TouchableOpacity
-          style={{
-            backgroundColor: isLogoutPressed ? colors.red : colors.cardBackground,
-            borderRadius: 12,
-            padding: 16,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderWidth: 1,
-            borderColor: colors.red,
-          }}
+          style={[
+            {
+              backgroundColor: isLogoutPressed ? colors.red : colors.cardBackground,
+              borderRadius: 12,
+              padding: 16,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderWidth: 1,
+              borderColor: colors.red,
+            },
+            responsiveContainerStyle,
+          ]}
           activeOpacity={1}
           onPressIn={() => setIsLogoutPressed(true)}
           onPressOut={() => setIsLogoutPressed(false)}

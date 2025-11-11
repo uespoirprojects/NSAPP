@@ -7,13 +7,17 @@ import { useThemeColors } from '@/hooks/use-theme-colors';
 import { getPlaylistVideos } from '@/services/youtubeService';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function VideosListScreen() {
   const colors = useThemeColors();
   const { t, currentLanguage } = useI18n();
   const { categoryId } = useLocalSearchParams<{ categoryId: string }>();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const isWideLayout = windowWidth > windowHeight || windowWidth >= 900;
+  const constrainedWidth = Math.min(windowWidth * 0.7, 720);
+  const cardWidth = isWideLayout ? constrainedWidth : windowWidth - 40;
 
   const category = getCategoryById(categoryId || '');
   const subjects = useMemo(
@@ -96,7 +100,14 @@ export default function VideosListScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground }} edges={['top', 'bottom', 'left', 'right']}>
-      <View style={{ padding: 20, paddingTop: 20 }}>
+      <View
+        style={{
+          padding: 20,
+          paddingTop: 20,
+          width: isWideLayout ? constrainedWidth : '100%',
+          alignSelf: 'center',
+        }}
+      >
         <TouchableOpacity
           onPress={() => router.back()}
           style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}
@@ -121,7 +132,14 @@ export default function VideosListScreen() {
         </Typography>
       </View>
 
-      <ScrollView style={{ flex: 1, paddingHorizontal: 20 }}>
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{
+          paddingHorizontal: isWideLayout ? 0 : 20,
+          alignItems: isWideLayout ? 'center' : 'stretch',
+          paddingBottom: 20,
+        }}
+      >
         {subjects.length === 0 ? (
           <View style={{ padding: 20, alignItems: 'center' }}>
             <Typography variant="body" color={colors.text} style={{ opacity: 0.7, textAlign: 'center' }}>
@@ -147,6 +165,7 @@ export default function VideosListScreen() {
                   marginBottom: 16,
                   borderWidth: 1,
                   borderColor: colors.grey,
+                  width: cardWidth,
                 }}
               >
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
