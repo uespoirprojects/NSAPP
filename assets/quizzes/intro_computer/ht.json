@@ -1,0 +1,282 @@
+[
+  {
+    "title": "Informatik - Entwodiksyon",
+    "questions": [
+      {
+        "question": "Yon selil fiks pèmèt kenbe menm referans lan menm si yo kopye fòmil la pi ba.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "Pascaline se te yon kalkilatris ki te kapab fè miltiplikasyon ak divizyon.",
+        "options": ["Vre", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "question": "ENIAC konsidere kòm premye òdinatè ki konplètman elektwonik.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "Informatik aplikab sèlman nan domèn pwogramasyon.",
+        "options": ["Vre", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "question": "Mo Informatik la sòti de:",
+        "options": [
+          "Enfòmasyon + Otomatik",
+          "Machin + Tretman",
+          "Entènèt + Lojistik",
+          "Intel + Òganik"
+        ],
+        "answer": "Enfòmasyon + Otomatik"
+      }
+    ]
+  },
+  {
+    "title": "Konpozan ak Fonksyon Òdinatè a",
+    "questions": [
+      {
+        "question": "Òdinatè a ka jere enfòmasyon tèks, nimewo, odyo ak imaj.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "Òdinatè a sèvi ak sistèm binè ki gen 0 ak 1.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "Kadyè manman (Motherboard) se pati prensipal ki konekte epi pèmèt kominikasyon ant tout lòt eleman enpòtan òdinatè a.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "CPU rele sèvo òdinatè a.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "USB (Universal Serial Bus) se yon estanda pou konekte aparèy ak òdinatè a.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "Òdinatè a se:",
+        "options": [
+          "Yon machin pou ekri",
+          "Yon aparèy ki trete enfòmasyon",
+          "Yon telefòn pòtab",
+          "Yon kalkilatris manyèl"
+        ],
+        "answer": "Yon aparèy ki trete enfòmasyon"
+      },
+      {
+        "question": "Mo Hardware vle di:",
+        "options": ["Lojisyèl", "Materyèl fizik", "Donn", "Entènèt"],
+        "answer": "Materyèl fizik"
+      },
+      {
+        "question": "Disk di a sèvi pou:",
+        "options": ["Kalkile", "Estoke done yo", "Deplase sourit la", "Ranje ekran an"],
+        "answer": "Estoke done yo"
+      }
+    ]
+  },
+  {
+    "title": "Pèrifèrik ak Lojisyèl",
+    "questions": [
+      {
+        "question": "Yon eskane (scanner) se yon aparèy sòti.",
+        "options": ["Vre", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "question": "Yon lojisyèl kontablite tankou QuickBooks se yon kalite lojisyèl aplikasyon.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "Yon ekran tactile klase kòm yon aparèy:",
+        "options": ["Antre", "Sòti", "Melanje (antre-sòti)", "Depo"],
+        "answer": "Melanje (antre-sòti)"
+      },
+      {
+        "question": "Windows ak Linux se:",
+        "options": ["Jwèt videyo", "Sistèm operasyon", "Kle", "Pwosesè"],
+        "answer": "Sistèm operasyon"
+      }
+    ]
+  },
+  {
+    "title": "Klavye ak Sourit",
+    "questions": [
+      {
+        "question": "Klavye a sèvi pou antre karaktè.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "Kat grafik la responsab pou montre imaj sou ekran an.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "Ki sa woulo (scroll wheel) yon sourit pèmèt w fè prensipalman?",
+        "options": [
+          "Montre yon meni kontèks.",
+          "Aktive yon eleman sou ekran an.",
+          "Fè paj la deplase anlè oswa anba.",
+          "Etenn òdinatè a."
+        ],
+        "answer": "Fè paj la deplase anlè oswa anba."
+      }
+    ]
+  },
+  {
+    "title": "Memwa ak Depo",
+    "questions": [
+      {
+        "question": "RAM kenbe done yo menm lè òdinatè a etenn.",
+        "options": ["Vre", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "question": "Depo a se pwosesis pou anrejistre done tanporèman oswa pèmanan.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "BIOS se premye pwogram ki egzekite lè òdinatè a limen. Kisa BIOS vle di?",
+        "options": [
+          "Basic Internal Operating System",
+          "Binary Input Output System",
+          "Basic Input Output System",
+          "Basic Integrated Output Software"
+        ],
+        "answer": "Basic Input Output System"
+      },
+      {
+        "question": "Ki pati ki responsab pou bay tout eleman òdinatè a kouran?",
+        "options": [
+          "Kadyè manman",
+          "Pwosesè a",
+          "Blòk alimantasyon an (PSU)",
+          "Disk di a"
+        ],
+        "answer": "Blòk alimantasyon an (PSU)"
+      }
+    ]
+  },
+  {
+    "title": "Lojisyèl ak Aplikasyon",
+    "questions": [
+      {
+        "question": "Ki kalite lojisyèl Microsoft Excel ye?",
+        "options": [
+          "Lojisyèl pou trete tèks",
+          "Lojisyèl baz done",
+          "Lojisyèl kalkil (tableur)",
+          "Lojisyèl prezantasyon"
+        ],
+        "answer": "Lojisyèl kalkil (tableur)"
+      },
+      {
+        "question": "Gmail se yon lojisyèl pou:",
+        "options": ["Kontablite", "Mesaj elektwonik", "Estatistik", "Baz done"],
+        "answer": "Mesaj elektwonik"
+      },
+      {
+        "question": "Ki wòl yon navigatè entènèt?",
+        "options": [
+          "Pwoteje òdinatè a kont viris.",
+          "Konsilte dokiman ak navige atravè lyen ipèrtèks.",
+          "Jere resous materyèl yo.",
+          "Kreye baz done."
+        ],
+        "answer": "Konsilte dokiman ak navige atravè lyen ipèrtèks."
+      },
+      {
+        "question": "Lojisyèl WinRAR sèvi pou:",
+        "options": ["Jwe", "Konprese fichye", "Fè kalkil", "Desine"],
+        "answer": "Konprese fichye"
+      }
+    ]
+  },
+  {
+    "title": "Sistèm Operasyon",
+    "questions": [
+      {
+        "question": "Sistèm operasyon an jwe wòl entèmedyè ant:",
+        "options": [
+          "Ekran ak klavye a.",
+          "Lojisyèl aplikasyon yo ak materyèl òdinatè a.",
+          "Enprimant ak eskane a.",
+          "Itilizatè a ak yon dokiman Word."
+        ],
+        "answer": "Lojisyèl aplikasyon yo ak materyèl òdinatè a."
+      },
+      {
+        "question": "Kisa 'kòmand' vle di nan enfòmatik?",
+        "options": [
+          "Yon aparèy sòti tankou enprimant.",
+          "Yon lojisyèl tretman tèks.",
+          "Yon enstriksyon pou demare, sispann oswa kontwole yon mekanis.",
+          "Langaj pwogramasyon òdinatè a."
+        ],
+        "answer": "Yon enstriksyon pou demare, sispann oswa kontwole yon mekanis."
+      }
+    ]
+  },
+  {
+    "title": "Kòmand Debaz",
+    "questions": [
+      {
+        "question": "Kòmand cd vle di Change Directory.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "Kòmand dir pèmèt ou wè lis fichye nan dosye aktyèl la.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "Pou tounen nan katab anvan an, kòmand kòrèk la se:",
+        "options": ["go back", "return", "cd..", "open.."],
+        "answer": "cd.."
+      },
+      {
+        "question": "Nan lis sa yo, kilès ki genyen SELMAN kòmand?",
+        "options": [
+          "Klavye, Sourit, Ekran",
+          "cd, mkdir, dir, exit",
+          "Word, Excel, PowerPoint",
+          "CPU, RAM, Disk di"
+        ],
+        "answer": "cd, mkdir, dir, exit"
+      }
+    ]
+  },
+  {
+    "title": "Sekirite ak Entènèt",
+    "questions": [
+      {
+        "question": "Entènèt se yon rezo enfòmatik mondyal ki ouvè pou tout moun.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "Yon antivirus sèvi pou pwoteje kont viris enfòmatik.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "question": "Yon pwogram malveyan ki repwodui tèt li epi gaye sou yon rezo rele:",
+        "options": ["Chwal Twoyen", "Vè enfòmatik", "Lojisyèl espyonaj"],
+        "answer": "Vè enfòmatik"
+      }
+    ]
+  }
+]

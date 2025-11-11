@@ -2,11 +2,13 @@ import type { QuizLanguage, QuizModule, QuizQuestion } from '@/types/quiz';
 
 import frExcel from '@/assets/quizzes/excel/fr.json';
 import htExcel from '@/assets/quizzes/excel/ht.json';
+import frIntroComputer from '@/assets/quizzes/intro_computer/fr.json';
+import htIntroComputer from '@/assets/quizzes/intro_computer/ht.json';
 import frWord from '@/assets/quizzes/word/fr.json';
 import htWord from '@/assets/quizzes/word/ht.json';
 
 type SupportedLanguage = 'fr' | 'ht';
-type SupportedSubject = 'excel' | 'word';
+type SupportedSubject = 'excel' | 'word' | 'basic-computer';
 
 export interface QuizQuestionWithMeta extends QuizQuestion {
   moduleTitle: string;
@@ -71,6 +73,10 @@ const quizLibrary: Record<SupportedSubject, Record<SupportedLanguage, QuizModule
   word: {
     fr: normalizeQuizModules(frWord),
     ht: normalizeQuizModules(htWord),
+  },
+  'basic-computer': {
+    fr: normalizeQuizModules(frIntroComputer),
+    ht: normalizeQuizModules(htIntroComputer),
   },
 };
 

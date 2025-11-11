@@ -65,6 +65,39 @@
     ]
   },
   {
+    "title": "Kalkil salè nèt ak fòmil yo",
+    "questions": [
+      {
+        "id": "salaire-1-ht",
+        "question": "Yon selil fiks pèmèt ou kenbe menm referans lan menm si w ap kopi fòmil la pi ba.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": "salaire-2-ht",
+        "question": "Ki fòmil ki pèmèt kalkile salè nèt la?",
+        "options": [
+          "=SalèBrut + Taks",
+          "=SalèBrut - Taks",
+          "=Taks - SalèBrut",
+          "=SUM(SalèBrut; Taks)"
+        ],
+        "answer": "=SalèBrut - Taks"
+      },
+      {
+        "id": "salaire-3-ht",
+        "question": "Si pousantaj taks la nan selil C3 epi salè brut la nan selil C7, ki fòmil ki kalkile kantite taks la?",
+        "options": [
+          "=C3 / C7",
+          "=C7 * C3",
+          "=C3 - C7",
+          "=SUM(C3:C7)"
+        ],
+        "answer": "=C7 * C3"
+      }
+    ]
+  },
+  {
     "title": "Fizyonman selil nan Excel (nivo debitan)",
     "questions": [
       {

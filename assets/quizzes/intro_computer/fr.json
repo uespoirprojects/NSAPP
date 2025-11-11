@@ -1,0 +1,282 @@
+[
+  {
+    "title": "Informatique - Introduction",
+    "questions": [
+      {
+        "question": "Une cellule fixe permet de garder la même référence même si on copie la formule vers le bas.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "La Pascaline est un calculateur pouvant effectuer des multiplications et des divisions.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "question": "L'ENIAC est considéré comme le premier ordinateur entièrement électronique.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "L'informatique n'est applicable que dans le domaine de la programmation.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "question": "Le mot Informatique vient de :",
+        "options": [
+          "Information + Automatique",
+          "Machine + Traitement",
+          "Internet + Logistic",
+          "Intel + Organique"
+        ],
+        "answer": "Information + Automatique"
+      }
+    ]
+  },
+  {
+    "title": "Composants et Fonctions de l’Ordinateur",
+    "questions": [
+      {
+        "question": "L’ordinateur peut manipuler des informations textuelles, numériques, audio et images.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "L’ordinateur comprend le binaire composé de 0 et 1.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "La carte mère est le composant principal qui connecte et permet la communication entre tous les autres éléments essentiels d'un ordinateur.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "Le CPU est appelé cerveau de l’ordinateur.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "L'USB (Universal Serial Bus) est une norme permettant de connecter des périphériques à un ordinateur.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "L’ordinateur est :",
+        "options": [
+          "Une machine à écrire",
+          "Un appareil qui manipule l'information",
+          "Un téléphone portable",
+          "Un simple calculateur manuel"
+        ],
+        "answer": "Un appareil qui manipule l'information"
+      },
+      {
+        "question": "Hardware signifie :",
+        "options": ["Logiciels", "Matériels physiques", "Données", "Internet"],
+        "answer": "Matériels physiques"
+      },
+      {
+        "question": "Le Disque Dur sert à :",
+        "options": ["Calculer", "Stocker les données", "Déplacer la souris", "Régler l’écran"],
+        "answer": "Stocker les données"
+      }
+    ]
+  },
+  {
+    "title": "Périphériques et Logiciels",
+    "questions": [
+      {
+        "question": "Un scanner est un périphérique de sortie.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "question": "Un logiciel de comptabilité comme QuickBooks est un type de logiciel d'application.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "Un écran tactile est classé comme un périphérique :",
+        "options": ["d'entrée", "de sortie", "mixte (entrée-sortie)", "de stockage"],
+        "answer": "mixte (entrée-sortie)"
+      },
+      {
+        "question": "Windows et Linux sont des :",
+        "options": ["Jeux vidéos", "Systèmes d’exploitation", "Claviers", "Processeurs"],
+        "answer": "Systèmes d’exploitation"
+      }
+    ]
+  },
+  {
+    "title": "Clavier et Souris",
+    "questions": [
+      {
+        "question": "Le clavier est utilisé pour saisir des caractères.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "La carte graphique est responsable de l’affichage des images sur l’écran.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "Que permet principalement la molette d'une souris ?",
+        "options": [
+          "Afficher un menu contextuel.",
+          "Activer un élément à l'écran.",
+          "Faire défiler le contenu d'une page.",
+          "Éteindre l'ordinateur."
+        ],
+        "answer": "Faire défiler le contenu d'une page."
+      }
+    ]
+  },
+  {
+    "title": "Mémoire et Stockage",
+    "questions": [
+      {
+        "question": "La RAM garde les données même lorsque l’ordinateur s’éteint.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "question": "Le stockage consiste à enregistrer des données de manière permanente ou temporaire.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "Le BIOS est le premier programme qui s'exécute au démarrage de l'ordinateur. Que signifie BIOS?",
+        "options": [
+          "Basic Internal Operating System",
+          "Binary Input Output System",
+          "Basic Input Output System",
+          "Basic Integrated Output Software"
+        ],
+        "answer": "Basic Input Output System"
+      },
+      {
+        "question": "Quel composant est responsable de l'alimentation électrique de tous les éléments de l'unité centrale ?",
+        "options": [
+          "La carte mère",
+          "Le processeur",
+          "Le bloc d'alimentation (PSU)",
+          "Le disque dur"
+        ],
+        "answer": "Le bloc d'alimentation (PSU)"
+      }
+    ]
+  },
+  {
+    "title": "Logiciels et Applications",
+    "questions": [
+      {
+        "question": "Quel type de logiciel est Microsoft Excel ?",
+        "options": [
+          "Logiciel de traitement de texte",
+          "Logiciel de base de données",
+          "Logiciel de calcul (tableur)",
+          "Logiciel de présentation"
+        ],
+        "answer": "Logiciel de calcul (tableur)"
+      },
+      {
+        "question": "Gmail est un logiciel de :",
+        "options": ["Comptabilité", "Messagerie électronique", "Statistique", "Base de données"],
+        "answer": "Messagerie électronique"
+      },
+      {
+        "question": "Quel est le rôle d'un navigateur web ?",
+        "options": [
+          "Protéger l'ordinateur des virus.",
+          "Consulter des documents et naviguer via des liens hypertextes.",
+          "Gérer les ressources matérielles.",
+          "Créer des bases de données."
+        ],
+        "answer": "Consulter des documents et naviguer via des liens hypertextes."
+      },
+      {
+        "question": "Le logiciel WinRAR sert à :",
+        "options": ["Jouer", "Compresser des fichiers", "Faire des calculs", "Dessiner"],
+        "answer": "Compresser des fichiers"
+      }
+    ]
+  },
+  {
+    "title": "Système d’Exploitation",
+    "questions": [
+      {
+        "question": "Le système d'exploitation joue le rôle d'intermédiaire entre :",
+        "options": [
+          "L'écran et le clavier.",
+          "Les logiciels applicatifs et le matériel informatique.",
+          "L'imprimante et le scanner.",
+          "L'utilisateur et un document Word."
+        ],
+        "answer": "Les logiciels applicatifs et le matériel informatique."
+      },
+      {
+        "question": "Que signifie une 'commande' en informatique ?",
+        "options": [
+          "Un périphérique de sortie comme l'imprimante.",
+          "Un logiciel de traitement de texte.",
+          "Une instruction donnée pour mettre en marche, arrêter ou régler le fonctionnement d'un mécanisme.",
+          "Le langage de programmation d'un ordinateur."
+        ],
+        "answer": "Une instruction donnée pour mettre en marche, arrêter ou régler le fonctionnement d'un mécanisme."
+      }
+    ]
+  },
+  {
+    "title": "Commandes de Base",
+    "questions": [
+      {
+        "question": "La commande cd signifie Change Directory.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "La commande dir permet de voir la liste des fichiers du dossier courant.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "Pour revenir dans le répertoire précédent, la commande correcte est :",
+        "options": ["go back", "return", "cd..", "open.."],
+        "answer": "cd.."
+      },
+      {
+        "question": "Parmi ces listes, laquelle ne contient QUE des commandes ?",
+        "options": [
+          "Clavier, Souris, Écran",
+          "cd, mkdir, dir, exit",
+          "Word, Excel, PowerPoint",
+          "CPU, RAM, Disque Dur"
+        ],
+        "answer": "cd, mkdir, dir, exit"
+      }
+    ]
+  },
+  {
+    "title": "Sécurité et Internet",
+    "questions": [
+      {
+        "question": "Internet est un réseau informatique mondial accessible au public.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "Un antivirus sert à protéger contre les virus informatiques.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "question": "Un programme malveillant qui se reproduit et se propage à travers un réseau est un :",
+        "options": ["Cheval de Troie", "Ver informatique", "Logiciel espion"],
+        "answer": "Ver informatique"
+      }
+    ]
+  }
+]

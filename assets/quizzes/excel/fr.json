@@ -65,6 +65,39 @@
     ]
   },
   {
+    "title": "Calcul du salaire net et gestion des formules",
+    "questions": [
+      {
+        "id": "salaire-1",
+        "question": "Une cellule fixe permet de garder la même référence même si on copie la formule vers le bas.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": "salaire-2",
+        "question": "Quelle formule permet de calculer le salaire net ?",
+        "options": [
+          "=SalaireBrut + Taxe",
+          "=SalaireBrut - Taxe",
+          "=Taxe - SalaireBrut",
+          "=SUM(SalaireBrut; Taxe)"
+        ],
+        "answer": "=SalaireBrut - Taxe"
+      },
+      {
+        "id": "salaire-3",
+        "question": "Si le taux de taxe est dans la cellule C3 et le salaire brut dans la cellule C7, pour calculer la taxe on écrit :",
+        "options": [
+          "=C3 / C7",
+          "=C7 * C3",
+          "=C3 - C7",
+          "=SUM(C3:C7)"
+        ],
+        "answer": "=C7 * C3"
+      }
+    ]
+  },
+  {
     "title": "La fusion de cellules dans Excel (niveau débutant)",
     "questions": [
       {
