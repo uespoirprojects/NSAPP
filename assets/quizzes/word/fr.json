@@ -1,0 +1,149 @@
+{
+  "quiz": [
+    {
+      "section": "Onglet Insert / SmartArt",
+      "questions": [
+        {
+          "question": "SmartArt se trouve dans le menu Insert.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+        },
+        {
+          "question": "Dans Smart se trouve : Hierarchy, Pyramid, Text, Table",
+        "options": ["Hierarchy", "Pyramid", "Text", "Table"],
+        "answer": ["Hierarchy", "Pyramid"]
+        },
+        {
+          "question": "Peut-on promote ou demote une forme dans une hiérarchie ?",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+        },
+        {
+          "question": "Qu’est ce qu’on doit sélectionner dans le menu Design pour ajouter une forme ?",
+        "options": ["Move Down", "Layout", "Demote", "Add Shape"],
+        "answer": "Add Shape"
+        }
+      ]
+    },
+    {
+      "section": "Onglet Insert / Chart",
+      "questions": [
+        {
+          "question": "Chart est la représentation textuelle de mes données dans Microsoft Word.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+        },
+        {
+          "question": "Qui est ce qui se trouve pas dans Chart ?",
+        "options": ["Shape", "Surface", "Bar", "Pie"],
+        "answer": "Shape"
+        },
+        {
+          "question": "Peut-on changer le design d’un graphe dans Microsoft Word ?",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+        },
+        {
+          "question": "Peut-on ouvrir un fichier Excel à partir de chart dans Microsoft Word ?",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+        }
+      ]
+    },
+    {
+      "section": "Onglet Insert / Header & Footer",
+      "questions": [
+        {
+          "question": "Header & Footer est un groupe dans l’onglet Layout.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+        },
+        {
+          "question": "Dans le menu Insert se trouve les groupes comme, sélectionnez tout ce qui est vrai.",
+        "options": ["Illustrations", "Header & Footer", "Paragraph", "Language"],
+        "answer": ["Illustrations", "Header & Footer"]
+        },
+        {
+          "question": "Où placer le curseur dans la page pour modifier un header ?",
+        "options": ["En bas", "À gauche", "À droite", "En tête"],
+        "answer": "En tête"
+        },
+        {
+          "question": "Il existe un seul modèle de Header.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+        },
+        {
+          "question": "Dans quelle groupe de Insert trouve-t-on l’option pour numéroter les pages ?",
+        "options": ["Tables", "Header & Footer", "Symbols", "Comments"],
+        "answer": "Header & Footer"
+        }
+      ]
+    },
+    {
+      "section": "Onglet Insert / Text & Symbols",
+      "questions": [
+        {
+          "question": "WordArt est un texte artistique.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+        },
+        {
+          "question": "Sélectionner les options qui se trouvent dans le groupe Texte.",
+        "options": ["WordArt", "Object", "Text Box", "Symbols"],
+        "answer": ["WordArt", "Object", "Text Box"]
+        },
+        {
+          "question": "Le groupe Symbol permet d’ajouter une équation.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+        },
+        {
+          "question": "Symbole et Text font partie d’un seul groupe dans le menu Insert.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+        }
+      ]
+    },
+    {
+      "section": "Onglet Design",
+      "questions": [
+        {
+          "question": "Watermark est un texte/image qui ne dérange rien dans la page.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+        },
+        {
+          "question": "Le watermark se place au premier plan de la page.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+        },
+        {
+          "question": "Comment trouver le Watermark ?",
+        "options": ["Insert-text", "Layout-Page Setup", "Design-page Background", "Home-Styles"],
+        "answer": "Design-page Background"
+        },
+        {
+          "question": "On peut choisir seulement les modèles watermark proposés par Microsoft Word.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+        },
+        {
+          "question": "L’option Page color permet seulement d’ajouter des couleurs à la page pas d’image.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+        },
+        {
+          "question": "Il existe 6 types de Bordures.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+        },
+        {
+          "question": "Pour mettre bordure dans un texte, il faut :",
+        "options": ["Sélectionner le texte", "Placer le curseur sur le texte", "Placer le curseur avant le texte"],
+        "answer": "Sélectionner le texte"
+        }
+      ]
+    }
+  ]
+}

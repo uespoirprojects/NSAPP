@@ -97,6 +97,22 @@ export default function VideosListScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground }} edges={['top', 'bottom', 'left', 'right']}>
       <View style={{ padding: 20, paddingTop: 20 }}>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}
+        >
+          <IconSymbol name="arrow-back-outline" size={20} color={colors.text} />
+          <Text
+            style={{
+              marginLeft: 8,
+              color: colors.text,
+              fontFamily: 'Poppins-Medium',
+              fontSize: 14,
+            }}
+          >
+            {t('common.back')}
+          </Text>
+        </TouchableOpacity>
         <Typography variant="h2" color={colors.blue} style={{ marginBottom: 8 }}>
           {categoryName}
         </Typography>

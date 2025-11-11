@@ -1,0 +1,149 @@
+{
+  "quiz": [
+    {
+      "section": "Onglet Insert / SmartArt",
+      "questions": [
+        {
+          "question": "SmartArt jwenn nan meni Insert.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+        },
+        {
+          "question": "Nan SmartArt ou jwenn: Hierarchy, Pyramid, Text, Table",
+        "options": ["Hierarchy", "Pyramid", "Text", "Table"],
+        "answer": ["Hierarchy", "Pyramid"]
+        },
+        {
+          "question": "Èske nou ka monte oswa desann (promote/demote) yon fòm nan yon hierachi?",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+        },
+        {
+          "question": "Kisa nou dwe chwazi nan meni Design pou ajoute yon fòm?",
+        "options": ["Move Down", "Layout", "Demote", "Add Shape"],
+        "answer": "Add Shape"
+        }
+      ]
+    },
+    {
+      "section": "Onglet Insert / Chart",
+      "questions": [
+        {
+          "question": "Chart se reprezantan tèks done yo nan Microsoft Word.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+        },
+        {
+          "question": "Ki sa ki pa jwenn nan Chart?",
+        "options": ["Shape", "Surface", "Bar", "Pie"],
+        "answer": "Shape"
+        },
+        {
+          "question": "Èske nou ka chanje konsepsyon (design) yon graf nan Microsoft Word?",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+        },
+        {
+          "question": "Èske nou ka louvri yon fichye Excel atravè chart nan Microsoft Word?",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+        }
+      ]
+    },
+    {
+      "section": "Onglet Insert / Header & Footer",
+      "questions": [
+        {
+          "question": "Header & Footer se yon gwoup nan onglet Layout.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+        },
+        {
+          "question": "Nan meni Insert la, ki gwoup ki la? Chwazi tout sa ki vre.",
+        "options": ["Illustrations", "Header & Footer", "Paragraph", "Language"],
+        "answer": ["Illustrations", "Header & Footer"]
+        },
+        {
+          "question": "Ki kote pou mete kurse a sou paj la pou modifye yon header?",
+        "options": ["Anba", "Agòch", "Adwat", "An tèt"],
+        "answer": "An tèt"
+        },
+        {
+          "question": "Gen sèlman yon sèl modèl Header.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+        },
+        {
+          "question": "Nan ki gwoup nan Insert nou jwenn opsyon pou mete nimewo paj?",
+        "options": ["Tables", "Header & Footer", "Symbols", "Comments"],
+        "answer": "Header & Footer"
+        }
+      ]
+    },
+    {
+      "section": "Onglet Insert / Text & Symbols",
+      "questions": [
+        {
+          "question": "WordArt se yon tèks atistik.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+        },
+        {
+          "question": "Chwazi opsyon ki nan gwoup Tèks la.",
+        "options": ["WordArt", "Object", "Text Box", "Symbols"],
+        "answer": ["WordArt", "Object", "Text Box"]
+        },
+        {
+          "question": "Gwoup Symbol la pèmèt ou ajoute yon ekwasyon.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+        },
+        {
+          "question": "Symbole ak Text fè pati menm gwoup nan meni Insert la.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+        }
+      ]
+    },
+    {
+      "section": "Onglet Design",
+      "questions": [
+        {
+          "question": "Watermark se yon tèks/oswa imaj ki pa deranje anyen nan paj la.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+        },
+        {
+          "question": "Watermark la parèt sou premye plan paj la.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+        },
+        {
+          "question": "Ki kote nou jwenn Watermark la?",
+        "options": ["Insert-text", "Layout-Page Setup", "Design-page Background", "Home-Styles"],
+        "answer": "Design-page Background"
+        },
+        {
+          "question": "Nou kapab sèlman chwazi modèl watermark Microsoft Word pwopoze yo.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+        },
+        {
+          "question": "Opsyon Page Color la sèlman pèmèt ajoute koulè, pa imaj.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+        },
+        {
+          "question": "Gen 6 kalite bordi diferan.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+        },
+        {
+          "question": "Pou mete yon bordi nan tèks, kisa pou w fè?",
+        "options": ["Chwazi tèks la", "Mete kurse a sou tèks la", "Mete kurse a anvan tèks la"],
+        "answer": "Chwazi tèks la"
+        }
+      ]
+    }
+  ]
+}

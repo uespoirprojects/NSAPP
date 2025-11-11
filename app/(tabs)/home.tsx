@@ -83,9 +83,6 @@ export default function HomeScreen() {
                 >
                   {categoryName}
                 </Typography>
-                <Typography variant="caption" color={colors.text} style={{ textAlign: 'center' }}>
-                  {videoCount} {t('common.videos')}
-                </Typography>
               </TouchableOpacity>
             );
           })}

@@ -8,10 +8,10 @@ export const subjectModules: SubjectModule[] = [
     quizSlug: 'excel',
     order: 1,
     title: {
-      fr: 'Excel',
-      ht: 'Excel',
-      en: 'Excel',
-      es: 'Excel',
+      fr: 'Introduction à Microsoft Excel',
+      ht: 'Entwodiksyon nan Microsoft Excel',
+      en: 'Introduction to Microsoft Excel',
+      es: 'Introducción a Microsoft Excel',
     },
     description: {
       fr: 'Cours sur Excel pour maîtriser les bases et aller plus loin.',
@@ -23,20 +23,20 @@ export const subjectModules: SubjectModule[] = [
   {
     id: 'word',
     categoryId: 'computer',
-    playlistId: '',
+    playlistId: 'PLClySGDbKZTTSDanXKN4RhhHoB5bEUcJz',
     quizSlug: 'word',
     order: 2,
     title: {
-      fr: 'Word',
-      ht: 'Word',
-      en: 'Word',
-      es: 'Word',
+      fr: 'Introduction à Microsoft Word',
+      ht: 'Entwodiksyon nan Microsoft Word',
+      en: 'Introduction to Microsoft Word',
+      es: 'Introducción a Microsoft Word',
     },
   },
   {
     id: 'basic-computer',
     categoryId: 'computer',
-    playlistId: '',
+    playlistId: 'PLClySGDbKZTTGGcBR0ZzXmIxKbTQTTQhU',
     quizSlug: 'basic-computer',
     order: 3,
     title: {
@@ -49,14 +49,14 @@ export const subjectModules: SubjectModule[] = [
   {
     id: 'algorithm',
     categoryId: 'computer',
-    playlistId: '',
+    playlistId: 'PLClySGDbKZTRy-sYzq5HRfaUwllJ8HGEX',
     quizSlug: 'algorithm',
     order: 4,
     title: {
-      fr: 'Algorithmie',
-      ht: 'Algoritm',
-      en: 'Algorithms',
-      es: 'Algoritmos',
+      fr: 'introduction à l\'algorithmique',
+      ht: 'Entwodiksyon nan algoritmik',
+      en: 'Introduction to Algorithms',
+      es: 'Introducción a los Algoritmos',
     },
   },
 ];

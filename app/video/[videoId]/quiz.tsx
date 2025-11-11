@@ -49,11 +49,12 @@ export default function VideoQuizScreen() {
     const items = getRandomQuizQuestions(
       currentLanguage as QuizLanguage,
       TOTAL_QUESTIONS,
+      subject?.quizSlug,
     );
     setQuestions(items);
     setCurrentIndex(0);
     setAnswers({});
-  }, [currentLanguage, videoId, subjectId]);
+  }, [currentLanguage, videoId, subjectId, subject?.quizSlug]);
 
   const handleOptionPress = (option: string) => {
     if (!currentQuestion) {
@@ -65,12 +66,27 @@ export default function VideoQuizScreen() {
     }));
   };
 
+  const isCorrectResponse = React.useCallback(
+    (question: QuizQuestionWithMeta, userAnswer?: string): boolean => {
+      if (!question.answer) {
+        return false;
+      }
+
+      if (Array.isArray(question.answer)) {
+        return userAnswer ? question.answer.includes(userAnswer) : false;
+      }
+
+      return userAnswer === question.answer;
+    },
+    [],
+  );
+
   const calculateScore = React.useCallback(() => {
     return questions.reduce((acc, question) => {
       const userAnswer = answers[question.id];
-      return userAnswer === question.answer ? acc + 1 : acc;
+      return isCorrectResponse(question, userAnswer) ? acc + 1 : acc;
     }, 0);
-  }, [answers, questions]);
+  }, [answers, questions, isCorrectResponse]);
 
   const handleSubmit = React.useCallback(() => {
     if (!videoId) {
