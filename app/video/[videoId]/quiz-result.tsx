@@ -1,9 +1,12 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { getSubjectById } from '@/constants/subjects';
+import { useAuth } from '@/contexts/auth-context';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
+import { saveQuizResult } from '@/services/progressService';
 import { router, useLocalSearchParams } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -12,12 +15,15 @@ const PASSING_SCORE = 70;
 export default function QuizResultScreen() {
   const { t } = useI18n();
   const colors = useThemeColors();
+  const { isAuthenticated, firebaseUser } = useAuth();
   const { videoId, score, total, subjectId } = useLocalSearchParams<{
     videoId?: string;
     score?: string;
     total?: string;
     subjectId?: string;
   }>();
+
+  const subject = subjectId ? getSubjectById(subjectId) : undefined;
 
   const totalQuestions = React.useMemo(() => {
     const parsed = Number(total);
@@ -37,6 +43,30 @@ export default function QuizResultScreen() {
   }, [correctAnswers, totalQuestions]);
 
   const isPassing = percentage >= PASSING_SCORE;
+  
+  // Save quiz result to Firestore when component mounts
+  useEffect(() => {
+    const saveResult = async () => {
+      if (!isAuthenticated || !firebaseUser?.uid || !videoId) return;
+      
+      try {
+        await saveQuizResult(
+          firebaseUser.uid,
+          videoId,
+          correctAnswers,
+          totalQuestions,
+          subject?.id,
+          subject?.categoryId
+        );
+      } catch (error) {
+        console.error('Failed to save quiz result:', error);
+        // Don't show error to user, just log it
+      }
+    };
+
+    saveResult();
+  }, [isAuthenticated, firebaseUser?.uid, videoId, correctAnswers, totalQuestions, subject?.id, subject?.categoryId]);
+
   const statusColors = React.useMemo(
     () =>
       isPassing

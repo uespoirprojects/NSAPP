@@ -5,6 +5,7 @@ import { getCategoryById } from '@/constants/videos';
 import { useAuth } from '@/contexts/auth-context';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
+import { getCompletedVideos, markVideoAsComplete } from '@/services/progressService';
 import { getPlaylistVideos, PlaylistVideo } from '@/services/youtubeService';
 import { getYouTubeEmbedUrl } from '@/utils/video-helpers';
 import Constants from 'expo-constants';
@@ -12,19 +13,19 @@ import { router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import {
-    ActivityIndicator,
-    Alert,
-    Animated,
-    Dimensions,
-    InteractionManager,
-    Modal,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    useWindowDimensions,
-    View
+  ActivityIndicator,
+  Alert,
+  Animated,
+  Dimensions,
+  InteractionManager,
+  Modal,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useWindowDimensions,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -45,7 +46,7 @@ const SIDEBAR_WIDTH = width * 0.75;
 export default function VideoScreen() {
   const colors = useThemeColors();
   const { t, currentLanguage } = useI18n();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, firebaseUser } = useAuth();
   const { videoId, subjectId } = useLocalSearchParams<{ videoId: string; subjectId?: string }>();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const isWideLayout = windowWidth > windowHeight || windowWidth >= 900;
@@ -135,6 +136,53 @@ export default function VideoScreen() {
   const sidebarAnim = React.useRef(new Animated.Value(-SIDEBAR_WIDTH)).current;
   const [videoLoading, setVideoLoading] = useState(true);
   const [showSignupModal, setShowSignupModal] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(false);
+
+  // Load completed videos from Firestore when authenticated
+  React.useEffect(() => {
+    const loadCompletedVideos = async () => {
+      if (!isAuthenticated || !firebaseUser?.uid) {
+        setCompletedVideos(new Set());
+        return;
+      }
+
+      try {
+        setLoadingProgress(true);
+        const completed = await getCompletedVideos(firebaseUser.uid);
+        setCompletedVideos(new Set(completed));
+      } catch (error) {
+        console.error('Failed to load completed videos:', error);
+      } finally {
+        setLoadingProgress(false);
+      }
+    };
+
+    loadCompletedVideos();
+  }, [isAuthenticated, firebaseUser?.uid]);
+
+  // Reload completed videos when video changes to ensure consistency
+  // This ensures the button state and sidebar checkmarks are always accurate
+  React.useEffect(() => {
+    const reloadProgress = async () => {
+      if (!isAuthenticated || !firebaseUser?.uid || !selectedVideo) {
+        return;
+      }
+
+      try {
+        // Reload completed videos to ensure consistency when switching videos
+        // This ensures the "Mark as Complete" button and sidebar show correct state
+        const completed = await getCompletedVideos(firebaseUser.uid);
+        setCompletedVideos(new Set(completed));
+      } catch (error) {
+        console.error('Failed to reload progress:', error);
+      }
+    };
+
+    // Only reload if we have a valid video selection
+    if (selectedVideo?.videoId) {
+      reloadProgress();
+    }
+  }, [isAuthenticated, firebaseUser?.uid, selectedVideo?.videoId]);
 
   // Calculate progress
   const progressPercentage = useMemo(() => {
@@ -165,16 +213,32 @@ export default function VideoScreen() {
     router.push('/login');
   };
 
-  const handleMarkAsComplete = () => {
-    if (!selectedVideo || !isAuthenticated) return;
+  const handleMarkAsComplete = async () => {
+    if (!selectedVideo || !isAuthenticated || !firebaseUser?.uid) return;
 
     if (completedVideos.has(selectedVideo.videoId)) {
       Alert.alert(t('video.alreadyCompleted'), t('video.alreadyCompletedMessage'));
       return;
     }
 
-    setCompletedVideos(new Set([...completedVideos, selectedVideo.videoId]));
-    Alert.alert(t('common.success'), t('video.markedAsComplete'));
+    try {
+      // Save to Firestore
+      await markVideoAsComplete(
+        firebaseUser.uid,
+        selectedVideo.videoId,
+        subject?.id,
+        subject?.categoryId
+      );
+
+      // Reload completed videos from Firestore to ensure consistency
+      const updatedCompleted = await getCompletedVideos(firebaseUser.uid);
+      setCompletedVideos(new Set(updatedCompleted));
+      
+      Alert.alert(t('common.success'), t('video.markedAsComplete'));
+    } catch (error) {
+      console.error('Failed to mark video as complete:', error);
+      Alert.alert(t('common.error') || 'Error', t('video.markCompleteError') || 'Failed to save progress');
+    }
   };
 
   // Navigate back to the previous page (not previous video)
@@ -735,12 +799,14 @@ export default function VideoScreen() {
 
                 <TouchableOpacity
                   onPress={handleMarkAsComplete}
+                  disabled={completedVideos.has(selectedVideo?.videoId || '')}
                   style={{
                     backgroundColor: completedVideos.has(selectedVideo?.videoId || '') ? '#4CAF50' : colors.blue,
                     borderRadius: 12,
                     paddingVertical: 16,
                     alignItems: 'center',
                     marginBottom: 16,
+                    opacity: completedVideos.has(selectedVideo?.videoId || '') ? 0.7 : 1,
                   }}
                   activeOpacity={0.7}
                 >
