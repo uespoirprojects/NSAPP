@@ -8,16 +8,17 @@ import { signIn } from "@/services/authService";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    Alert, Image,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { signInWithGoogle } from "./services/googleAuthService";
 
 export default function LoginScreen() {
   const colors = useThemeColors();
@@ -71,6 +72,21 @@ export default function LoginScreen() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleGoogleLogin = async () => {
+    setIsSubmitting(true);
+    const result = await signInWithGoogle();
+
+    if (result.success) {
+      await setIsAuthenticated(true);
+      await setIsGuest(false);
+      router.push("/(tabs)/home");
+    } else {
+      Alert.alert("Erreur Google", result.error || "Connexion annulée");
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -276,11 +292,14 @@ export default function LoginScreen() {
               }}
             >
               <TouchableOpacity
+                onPress={handleGoogleLogin}
+                disabled={isSubmitting}
                 style={{
                   padding: 12,
                   borderWidth: 1,
                   borderColor: colors.grey,
                   borderRadius: 16,
+                  opacity: isSubmitting ? 0.7 : 1,
                 }}
               >
                 <Image
