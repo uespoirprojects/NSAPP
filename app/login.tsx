@@ -15,7 +15,8 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    View
+    View,
+    useWindowDimensions
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { signInWithGoogle } from "./services/googleAuthService";
@@ -26,6 +27,15 @@ export default function LoginScreen() {
   const { effectiveTheme } = useTheme();
   const { setIsGuest, setIsAuthenticated } = useAuth();
   const router = useRouter();
+  const { width, height } = useWindowDimensions();
+  
+  // Calculate responsive logo size
+  const logoSize = React.useMemo(() => {
+    // Base size on screen width, with min/max constraints
+    // Use 30% of screen width, but cap at 200px and minimum 120px
+    const baseSize = Math.min(width * 0.3, 200);
+    return Math.max(baseSize, 120); // Min 120px, Max 200px
+  }, [width]);
 
   // Use white border in dark mode, grey in light mode
   const borderColor = effectiveTheme === "dark" ? colors.white : colors.grey;
@@ -109,6 +119,27 @@ export default function LoginScreen() {
           showsVerticalScrollIndicator={false}
         >
           <View style={{ width: "100%", maxWidth: 420 }}>
+            {/* App Logo */}
+            <View style={{ 
+              alignItems: "center", 
+              marginBottom: 32,
+              width: "100%"
+            }}>
+              <Image
+                source={
+                  effectiveTheme === "dark"
+                    ? require("@/assets/images/Akademix_dark.png")
+                    : require("@/assets/images/Akademix_light.png")
+                }
+                style={{
+                  width: logoSize,
+                  maxWidth: "100%",
+                  height: logoSize * 0.25, // Maintain approximate aspect ratio
+                  resizeMode: "contain",
+                }}
+              />
+            </View>
+
             {/* Heading */}
             <View style={{ marginBottom: 40, alignItems: "center" }}>
               <Typography variant="h1" color={colors.blue}>
