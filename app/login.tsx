@@ -6,6 +6,8 @@ import { useTheme } from "@/contexts/theme-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 import { useRouter } from "expo-router";
 import { signIn } from "./services/authService";
+import { signInWithGoogle } from "./services/googleAuthService";
+import { Alert } from "react-native";
 import React from "react";
 import {
   Image,
@@ -71,6 +73,21 @@ export default function LoginScreen() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleGoogleLogin = async () => {
+    setIsSubmitting(true);
+    const result = await signInWithGoogle();
+
+    if (result.success) {
+      await setIsAuthenticated(true);
+      await setIsGuest(false);
+      router.push("/(tabs)/home");
+    } else {
+      Alert.alert("Erreur Google", result.error || "Connexion annulée");
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
