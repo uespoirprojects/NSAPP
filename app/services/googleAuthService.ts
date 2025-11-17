@@ -2,15 +2,15 @@
 import * as AuthSession from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
 import {
-    GoogleAuthProvider,
-    signInWithCredential,
-    UserCredential,
+  GoogleAuthProvider,
+  signInWithCredential,
+  UserCredential,
 } from 'firebase/auth';
 import {
-    doc,
-    getDoc,
-    setDoc,
-    Timestamp,
+  doc,
+  getDoc,
+  setDoc,
+  Timestamp,
 } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 
