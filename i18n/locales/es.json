@@ -66,7 +66,13 @@
     "filters": {
       "inProgress": "En Progreso",
       "completed": "Completado"
-    }
+    },
+    "completed": "Completado",
+    "noInProgress": "No hay videos en progreso",
+    "noCompleted": "Aún no hay videos completados",
+    "signInRequired": "Inicio de sesión requerido",
+    "signInMessage": "Inicia sesión para seguir tu progreso",
+    "complete": "completado"
   },
   "profile": {
     "darkMode": "Modo Oscuro",

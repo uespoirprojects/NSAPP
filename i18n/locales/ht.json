@@ -66,7 +66,13 @@
     "filters": {
       "inProgress": "An Pwogrè",
       "completed": "Fini"
-    }
+    },
+    "completed": "Fini",
+    "noInProgress": "Pa gen videyo an pwogrè",
+    "noCompleted": "Pa gen videyo fini pou kounye a",
+    "signInRequired": "Ou dwe konekte",
+    "signInMessage": "Tanpri konekte pou swiv pwogrè ou",
+    "complete": "fini"
   },
   "profile": {
     "darkMode": "Mòd Fè Nwa",

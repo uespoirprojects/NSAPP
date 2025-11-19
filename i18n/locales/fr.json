@@ -66,7 +66,13 @@
     "filters": {
       "inProgress": "En Cours",
       "completed": "Terminé"
-    }
+    },
+    "completed": "Terminé",
+    "noInProgress": "Aucune vidéo en cours",
+    "noCompleted": "Aucune vidéo terminée pour le moment",
+    "signInRequired": "Connexion requise",
+    "signInMessage": "Veuillez vous connecter pour suivre votre progression",
+    "complete": "terminé"
   },
   "profile": {
     "darkMode": "Mode Sombre",
