@@ -59,6 +59,25 @@ export const subjectModules: SubjectModule[] = [
       es: 'Introducción a los Algoritmos',
     },
   },
+  {
+    id: 'intro-html',
+    categoryId: 'computer',
+    playlistId: 'PLClySGDbKZTSYh57CgGG-G5jjmFITfv9h',
+    quizSlug: 'intro-html',
+    order: 5,
+    title: {
+      fr: 'Introduction HTML',
+      ht: 'Entwodiksyon HTML',
+      en: 'Intro HTML',
+      es: 'Introducción HTML',
+    },
+    description: {
+      fr: 'Apprenez les bases du HTML pour créer des pages web.',
+      ht: 'Aprann baz HTML yo pou kreye paj entènèt.',
+      en: 'Learn the basics of HTML to create web pages.',
+      es: 'Aprende los conceptos básicos de HTML para crear páginas web.',
+    },
+  },
 ];
 
 export const getSubjectById = (subjectId: string): SubjectModule | undefined =>
