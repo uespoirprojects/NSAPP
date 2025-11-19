@@ -1,4 +1,3 @@
-import { Typography } from "@/components/ui";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import { useAuth } from "@/contexts/auth-context";
 import { useI18n } from "@/contexts/i18n-context";
@@ -8,15 +7,15 @@ import { signIn } from "@/services/authService";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
-    Alert, Image,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-    useWindowDimensions
+  Alert, Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  useWindowDimensions
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { signInWithGoogle } from "./services/googleAuthService";
@@ -32,9 +31,9 @@ export default function LoginScreen() {
   // Calculate responsive logo size
   const logoSize = React.useMemo(() => {
     // Base size on screen width, with min/max constraints
-    // Use 30% of screen width, but cap at 200px and minimum 120px
-    const baseSize = Math.min(width * 0.3, 200);
-    return Math.max(baseSize, 120); // Min 120px, Max 200px
+    // Use 40% of screen width, but cap at 280px and minimum 160px
+    const baseSize = Math.min(width * 0.2, 280);
+    return Math.max(baseSize, 160); // Min 160px, Max 280px
   }, [width]);
 
   // Use white border in dark mode, grey in light mode
@@ -65,7 +64,7 @@ export default function LoginScreen() {
     try {
       setIsSubmitting(true);
 
-      // 🔥 Appel à Firebase au lieu de la simulation
+      // Appel à Firebase au lieu de la simulation
       const result = await signIn(email, password);
 
       if (result.success) {
@@ -122,7 +121,7 @@ export default function LoginScreen() {
             {/* App Logo */}
             <View style={{ 
               alignItems: "center", 
-              marginBottom: 32,
+              marginBottom: 10,
               width: "100%"
             }}>
               <Image
@@ -134,17 +133,17 @@ export default function LoginScreen() {
                 style={{
                   width: logoSize,
                   maxWidth: "100%",
-                  height: logoSize * 0.25, // Maintain approximate aspect ratio
-                  resizeMode: "contain",
+                  height: logoSize * 0.30, // Maintain approximate aspect ratio
+                  resizeMode: "cover",
                 }}
               />
             </View>
 
             {/* Heading */}
             <View style={{ marginBottom: 40, alignItems: "center" }}>
-              <Typography variant="h1" color={colors.blue}>
+              {/* <Typography variant="h1" color={colors.blue}>
                 {t("login.title")}
-              </Typography>
+              </Typography> */}
               <Text
                 style={{
                   color: colors.text,
