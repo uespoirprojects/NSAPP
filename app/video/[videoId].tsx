@@ -13,19 +13,19 @@ import { router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import {
-  ActivityIndicator,
-  Alert,
-  Animated,
-  Dimensions,
-  InteractionManager,
-  Modal,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useWindowDimensions,
-  View
+    ActivityIndicator,
+    Alert,
+    Animated,
+    Dimensions,
+    InteractionManager,
+    Modal,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    useWindowDimensions,
+    View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -138,6 +138,8 @@ export default function VideoScreen() {
   const [videoLoading, setVideoLoading] = useState(true);
   const [showSignupModal, setShowSignupModal] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(false);
+  const webViewRef = React.useRef<any>(null);
+  const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
 
   // Load completed videos from Firestore when authenticated
   React.useEffect(() => {
@@ -225,6 +227,53 @@ export default function VideoScreen() {
     return (completedCount / allVideos.length) * 100;
   }, [category, allVideos, completedVideos, isAuthenticated]);
 
+  // Function to pause video
+  const pauseVideo = () => {
+    if (Platform.OS === 'web') {
+      // For web: Use YouTube IFrame API to pause
+      if (iframeRef.current && iframeRef.current.contentWindow) {
+        try {
+          // Send pause command to YouTube iframe using IFrame API
+          iframeRef.current.contentWindow.postMessage(
+            JSON.stringify({
+              event: 'command',
+              func: 'pauseVideo',
+              args: '',
+            }),
+            'https://www.youtube.com'
+          );
+        } catch (error) {
+          console.warn('Failed to pause video on web:', error);
+        }
+      }
+    } else {
+      // For mobile: Use WebView injected JavaScript to pause
+      if (webViewRef.current) {
+        const pauseScript = `
+          (function() {
+            try {
+              var iframe = document.getElementById('ytplayer');
+              if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage(
+                  JSON.stringify({
+                    event: 'command',
+                    func: 'pauseVideo',
+                    args: '',
+                  }),
+                  'https://www.youtube.com'
+                );
+              }
+            } catch (e) {
+              console.error('Error pausing video:', e);
+            }
+          })();
+          true; // Required for injected JavaScript
+        `;
+        webViewRef.current.injectJavaScript(pauseScript);
+      }
+    }
+  };
+
   const handleTakeQuiz = () => {
     if (!selectedVideo || !subject) {
       return;
@@ -234,6 +283,9 @@ export default function VideoScreen() {
       setShowSignupModal(true);
       return;
     }
+
+    // Pause video before navigating
+    pauseVideo();
 
     router.push({
       pathname: '/video/[videoId]/quiz',
@@ -649,6 +701,7 @@ export default function VideoScreen() {
                   )}
                   {/* @ts-ignore - iframe is valid for web */}
                   <iframe
+                    ref={iframeRef}
                     key={ensuredVideo.videoId}
                     src={embedUrl}
                     style={{
@@ -665,6 +718,7 @@ export default function VideoScreen() {
                 </View>
               ) : videoHtml && WebView ? (
                 <WebView
+                  ref={webViewRef}
                   key={ensuredVideo.videoId}
                   source={{
                     html: videoHtml,
