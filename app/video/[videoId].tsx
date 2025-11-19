@@ -5,7 +5,7 @@ import { getCategoryById } from '@/constants/videos';
 import { useAuth } from '@/contexts/auth-context';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
-import { getCompletedVideos, markVideoAsComplete } from '@/services/progressService';
+import { getCompletedVideos, markVideoAsComplete, updateVideoWatchTime } from '@/services/progressService';
 import { getPlaylistVideos, PlaylistVideo } from '@/services/youtubeService';
 import { getYouTubeEmbedUrl } from '@/utils/video-helpers';
 import Constants from 'expo-constants';
@@ -132,6 +132,7 @@ export default function VideoScreen() {
     return allVideos[currentVideoIndex + 1];
   }, [currentVideoIndex, allVideos]);
   const [completedVideos, setCompletedVideos] = useState<Set<string>>(new Set());
+  const trackedVideosRef = React.useRef<Set<string>>(new Set());
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarAnim = React.useRef(new Animated.Value(-SIDEBAR_WIDTH)).current;
   const [videoLoading, setVideoLoading] = useState(true);
@@ -183,6 +184,38 @@ export default function VideoScreen() {
       reloadProgress();
     }
   }, [isAuthenticated, firebaseUser?.uid, selectedVideo?.videoId]);
+
+  // Mark video as in-progress the first time it's watched
+  React.useEffect(() => {
+    const markInProgress = async () => {
+      if (!isAuthenticated || !firebaseUser?.uid || !selectedVideo || !subject) {
+        return;
+      }
+
+      if (completedVideos.has(selectedVideo.videoId)) {
+        return;
+      }
+
+      if (trackedVideosRef.current.has(selectedVideo.videoId)) {
+        return;
+      }
+
+      try {
+        await updateVideoWatchTime(
+          firebaseUser.uid,
+          selectedVideo.videoId,
+          0,
+          subject.id,
+          subject.categoryId
+        );
+        trackedVideosRef.current.add(selectedVideo.videoId);
+      } catch (error) {
+        console.error('Failed to record in-progress video state:', error);
+      }
+    };
+
+    markInProgress();
+  }, [isAuthenticated, firebaseUser?.uid, selectedVideo?.videoId, subject?.id, completedVideos]);
 
   // Calculate progress
   const progressPercentage = useMemo(() => {

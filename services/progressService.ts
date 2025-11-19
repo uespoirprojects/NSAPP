@@ -150,15 +150,20 @@ export const updateVideoWatchTime = async (
     
     // Update or create video progress
     const existingProgress = progress.videos[videoId];
-    progress.videos[videoId] = {
+    const updatedProgress: VideoProgress = {
       videoId,
       subjectId,
       categoryId,
       completed: existingProgress?.completed || false,
-      completedAt: existingProgress?.completedAt,
       lastWatchedAt: Timestamp.now(),
       watchTime: (existingProgress?.watchTime || 0) + watchTime,
     };
+
+    if (existingProgress?.completedAt) {
+      updatedProgress.completedAt = existingProgress.completedAt;
+    }
+
+    progress.videos[videoId] = updatedProgress;
     
     progress.lastUpdated = Timestamp.now();
     
