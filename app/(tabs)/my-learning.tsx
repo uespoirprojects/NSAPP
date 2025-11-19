@@ -6,22 +6,24 @@ import { useAuth } from '@/contexts/auth-context';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import {
-  getBestQuizScore,
-  getCompletedVideosWithDetails,
-  getInProgressVideos,
-  getSubjectProgress,
-  VideoProgress,
+    getBestQuizScore,
+    getCompletedVideosWithDetails,
+    getInProgressVideos,
+    getSubjectProgress,
+    VideoProgress,
 } from '@/services/progressService';
 import { getPlaylistVideos } from '@/services/youtubeService';
 import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
+import type { ViewStyle } from 'react-native';
 import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  SectionList,
-  TouchableOpacity,
-  View
+    ActivityIndicator,
+    FlatList,
+    Image,
+    SectionList,
+    TouchableOpacity,
+    useWindowDimensions,
+    View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -49,6 +51,13 @@ export default function MyLearningScreen() {
   const colors = useThemeColors();
   const { t, currentLanguage } = useI18n();
   const { isAuthenticated, firebaseUser, isLoading: authLoading } = useAuth();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const isWideLayout = windowWidth > windowHeight || windowWidth >= 900;
+  const contentMaxWidth = Math.min(windowWidth * 0.7, 720);
+  const responsiveContainerStyle: ViewStyle = {
+    width: isWideLayout ? contentMaxWidth : '100%',
+    alignSelf: isWideLayout ? 'center' : 'stretch',
+  };
   const [selectedFilter, setSelectedFilter] = useState<'inProgress' | 'completed'>('inProgress');
   const [loading, setLoading] = useState(true);
   const [inProgressVideos, setInProgressVideos] = useState<VideoProgressWithDetails[]>([]);
@@ -263,14 +272,17 @@ export default function MyLearningScreen() {
     return (
       <TouchableOpacity
         onPress={() => handleVideoPress(item)}
-        style={{
-          backgroundColor: colors.cardBackground,
-          borderRadius: 12,
-          marginBottom: 12,
-          overflow: 'hidden',
-          borderWidth: 1,
-          borderColor: colors.grey,
-        }}
+        style={[
+          {
+            backgroundColor: colors.cardBackground,
+            borderRadius: 12,
+            marginBottom: 12,
+            overflow: 'hidden',
+            borderWidth: 1,
+            borderColor: colors.grey,
+          },
+          responsiveContainerStyle,
+        ]}
         activeOpacity={0.7}
       >
         <View style={{ flexDirection: 'row' }}>
@@ -473,11 +485,15 @@ export default function MyLearningScreen() {
 
   return (
     <SafeAreaView
-      style={{ flex: 1, backgroundColor: colors.screenBackground }}
+      style={{
+        flex: 1,
+        backgroundColor: colors.screenBackground,
+        alignItems: isWideLayout ? 'center' : 'stretch',
+      }}
       edges={['top', 'bottom', 'left', 'right']}
     >
       {/* Header Section */}
-      <View style={{ padding: 20, paddingTop: 20 }}>
+      <View style={[{ padding: 20, paddingTop: 20 }, responsiveContainerStyle]}>
         <Typography variant="h2" color={colors.blue} style={{ marginBottom: 8 }}>
           {t('myLearning.title')}
         </Typography>
@@ -488,15 +504,17 @@ export default function MyLearningScreen() {
 
       {/* Filter Buttons */}
       <View
-        style={{
-          marginHorizontal: 20,
-          marginBottom: 20,
-          backgroundColor: colors.grey,
-          borderRadius: 50,
-          padding: 4,
-          flexDirection: 'row',
-          gap: 6,
-        }}
+        style={[
+          {
+            marginBottom: 20,
+            backgroundColor: colors.grey,
+            borderRadius: 50,
+            padding: 4,
+            flexDirection: 'row',
+            gap: 6,
+          },
+          responsiveContainerStyle,
+        ]}
       >
         <TouchableOpacity
           style={{
@@ -556,14 +574,17 @@ export default function MyLearningScreen() {
           renderItem={renderVideoItem}
           renderSectionHeader={({ section }) => (
             <View
-              style={{
-                paddingHorizontal: 20,
-                paddingVertical: 12,
-                backgroundColor: colors.screenBackground,
-                borderBottomWidth: 1,
-                borderBottomColor: colors.grey,
-                marginTop: 16,
-              }}
+              style={[
+                {
+                  paddingHorizontal: 20,
+                  paddingVertical: 12,
+                  backgroundColor: colors.screenBackground,
+                  borderBottomWidth: 1,
+                  borderBottomColor: colors.grey,
+                  marginTop: 16,
+                },
+                responsiveContainerStyle,
+              ]}
             >
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <View style={{ flex: 1 }}>
@@ -617,6 +638,7 @@ export default function MyLearningScreen() {
           keyExtractor={(item) => item.videoId}
           contentContainerStyle={{
             paddingBottom: 20,
+            alignItems: isWideLayout ? 'center' : 'stretch',
           }}
           ListEmptyComponent={renderEmptyState}
           showsVerticalScrollIndicator={false}
@@ -628,8 +650,8 @@ export default function MyLearningScreen() {
           renderItem={renderVideoItem}
           keyExtractor={(item) => item.videoId}
           contentContainerStyle={{
-            paddingHorizontal: 20,
             paddingBottom: 20,
+            alignItems: isWideLayout ? 'center' : 'stretch',
           }}
           ListEmptyComponent={renderEmptyState}
           showsVerticalScrollIndicator={false}

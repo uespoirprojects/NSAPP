@@ -4,7 +4,8 @@ import { videoCategories } from '@/constants/videos';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import { router } from 'expo-router';
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import type { ViewStyle } from 'react-native';
+import { ScrollView, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const categoryIcons = {
@@ -24,6 +25,13 @@ const categoryColors = {
 export default function HomeScreen() {
   const colors = useThemeColors();
   const { t, currentLanguage } = useI18n();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const isWideLayout = windowWidth > windowHeight || windowWidth >= 900;
+  const contentMaxWidth = Math.min(windowWidth * 0.7, 720);
+  const responsiveContainerStyle: ViewStyle = {
+    width: isWideLayout ? contentMaxWidth : '100%',
+    alignSelf: isWideLayout ? 'center' : 'stretch',
+  };
 
   const handleCategoryPress = (categoryId: string) => {
     router.push({
@@ -33,9 +41,16 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground }} edges={['top', 'bottom', 'left', 'right']}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: colors.screenBackground,
+        alignItems: isWideLayout ? 'center' : 'stretch',
+      }}
+      edges={['top', 'bottom', 'left', 'right']}
+    >
       {/* Header Section */}
-      <View style={{ padding: 20, paddingTop: 20 }}>
+      <View style={[{ padding: 20, paddingTop: 20 }, responsiveContainerStyle]}>
         <Typography variant="h2" color={colors.blue} style={{ marginBottom: 8 }}>
           {t('home.title')}
         </Typography>
@@ -45,13 +60,22 @@ export default function HomeScreen() {
       </View>
 
       {/* Categories Cards - Grid Layout */}
-      <ScrollView style={{ flex: 1, paddingHorizontal: 20 }}>
+      <ScrollView
+        style={{ flex: 1 }}
+        contentContainerStyle={{
+          paddingHorizontal: isWideLayout ? 0 : 20,
+          alignItems: isWideLayout ? 'center' : 'stretch',
+        }}
+      >
         <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-          }}
+          style={[
+            {
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+            },
+            responsiveContainerStyle,
+          ]}
         >
           {videoCategories.map((category) => {
             const videoCount = category.videos.length;
