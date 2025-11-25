@@ -23,7 +23,24 @@ export default function QuizResultScreen() {
     subjectId?: string;
   }>();
 
-  const subject = subjectId ? getSubjectById(subjectId) : undefined;
+  const [subject, setSubject] = React.useState<any>(undefined);
+
+  React.useEffect(() => {
+    const loadSubject = async () => {
+      if (!subjectId) {
+        setSubject(undefined);
+        return;
+      }
+      try {
+        const subjectData = await getSubjectById(subjectId);
+        setSubject(subjectData);
+      } catch (error) {
+        console.error('Error loading subject:', error);
+        setSubject(undefined);
+      }
+    };
+    loadSubject();
+  }, [subjectId]);
 
   const totalQuestions = React.useMemo(() => {
     const parsed = Number(total);

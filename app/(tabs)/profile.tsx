@@ -263,6 +263,7 @@ export default function ProfileScreen() {
               responsiveContainerStyle,
             ]}
             activeOpacity={0.7}
+            onPress={() => router.push('/privacy-policy' as any)}
           >
             <IconSymbol name="shield-outline" size={24} color={colors.blue} />
             <View style={{ flex: 1, marginLeft: 12 }}>

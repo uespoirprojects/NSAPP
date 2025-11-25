@@ -5,9 +5,11 @@ import { getCategoryById } from '@/constants/videos';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import { getPlaylistVideos } from '@/services/youtubeService';
+import type { SubjectModule } from '@/types/subject';
+import type { VideoCategory } from '@/types/video';
 import { router, useLocalSearchParams } from 'expo-router';
-import React, { useEffect, useMemo, useState } from 'react';
-import { ActivityIndicator, ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function VideosListScreen() {
@@ -19,15 +21,32 @@ export default function VideosListScreen() {
   const constrainedWidth = Math.min(windowWidth * 0.7, 720);
   const cardWidth = isWideLayout ? constrainedWidth : windowWidth - 40;
 
-  const category = getCategoryById(categoryId || '');
-  const subjects = useMemo(
-    () =>
-      getSubjectsByCategory(categoryId || '').filter((subject) => Boolean(subject.playlistId)),
-    [categoryId],
-  );
+  const [category, setCategory] = useState<VideoCategory | undefined>(undefined);
+  const [subjects, setSubjects] = useState<SubjectModule[]>([]);
+  const [loading, setLoading] = useState(true);
   const [subjectVideoCounts, setSubjectVideoCounts] = useState<Record<string, number>>({});
   const [loadingSubjectId, setLoadingSubjectId] = useState<string | null>(null);
   const [isRefreshingCounts, setIsRefreshingCounts] = useState(false);
+
+  useEffect(() => {
+    loadData();
+  }, [categoryId]);
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      const [categoryData, subjectsData] = await Promise.all([
+        getCategoryById(categoryId || ''),
+        getSubjectsByCategory(categoryId || ''),
+      ]);
+      setCategory(categoryData);
+      setSubjects(subjectsData.filter((subject) => Boolean(subject.playlistId)));
+    } catch (error) {
+      console.error('Error loading category/subjects:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -64,6 +83,20 @@ export default function VideosListScreen() {
     };
   }, [subjects]);
 
+  if (loading) {
+    return (
+      <SafeAreaView
+        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.screenBackground }}
+        edges={['top', 'bottom', 'left', 'right']}
+      >
+        <ActivityIndicator size="large" color={colors.blue} />
+        <Typography variant="body" color={colors.text} style={{ marginTop: 16, opacity: 0.7 }}>
+          Loading...
+        </Typography>
+      </SafeAreaView>
+    );
+  }
+
   if (!category) {
     return (
       <SafeAreaView
@@ -80,19 +113,37 @@ export default function VideosListScreen() {
   const categoryName = category.name[currentLanguage] || category.name.fr;
 
   const handleSubjectPress = async (subjectId: string, playlistId: string) => {
-    if (!playlistId) return;
+    if (!playlistId) {
+      console.error('[VideosListScreen] No playlistId provided for subject:', subjectId);
+      Alert.alert(t('videos.error'), t('videos.noPlaylistId') || 'No playlist ID found for this subject');
+      return;
+    }
+    
     setLoadingSubjectId(subjectId);
     try {
+      console.log('[VideosListScreen] Fetching playlist:', playlistId, 'for subject:', subjectId);
       const videos = await getPlaylistVideos(playlistId);
+      console.log('[VideosListScreen] Fetched videos:', videos.length);
+      
       if (!videos.length) {
+        console.error('[VideosListScreen] No videos found in playlist:', playlistId);
+        Alert.alert(
+          t('videos.error') || 'Error',
+          t('videos.noVideosInPlaylist') || 'No videos found in this playlist. Please check the playlist ID.'
+        );
         return;
       }
+      
       router.push({
         pathname: '/video/[videoId]',
         params: { videoId: videos[0].videoId, subjectId },
       });
-    } catch (error) {
-      console.error('Failed to open subject playlist:', error);
+    } catch (error: any) {
+      console.error('[VideosListScreen] Failed to open subject playlist:', error);
+      Alert.alert(
+        t('videos.error') || 'Error',
+        error.message || t('videos.playlistLoadError') || 'Failed to load playlist videos'
+      );
     } finally {
       setLoadingSubjectId(null);
     }
@@ -154,6 +205,13 @@ export default function VideosListScreen() {
               : '';
             const videoCount = subjectVideoCounts[subject.id];
             const isLoading = loadingSubjectId === subject.id;
+            
+            // Debug logging
+            console.log('[VideosListScreen] Subject data:', {
+              id: subject.id,
+              playlistId: subject.playlistId,
+              hasPlaylistId: !!subject.playlistId,
+            });
 
             return (
               <View

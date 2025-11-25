@@ -30,10 +30,24 @@ export default function VideoQuizScreen() {
   const [answers, setAnswers] = React.useState<Record<string | number, string>>(
     {},
   );
-  const subject = React.useMemo(
-    () => (subjectId ? getSubjectById(subjectId) : undefined),
-    [subjectId],
-  );
+  const [subject, setSubject] = React.useState<any>(undefined);
+
+  React.useEffect(() => {
+    const loadSubject = async () => {
+      if (!subjectId) {
+        setSubject(undefined);
+        return;
+      }
+      try {
+        const subjectData = await getSubjectById(subjectId);
+        setSubject(subjectData);
+      } catch (error) {
+        console.error('Error loading subject:', error);
+        setSubject(undefined);
+      }
+    };
+    loadSubject();
+  }, [subjectId]);
 
   const totalQuestions = questions.length;
   const currentQuestion =
@@ -46,14 +60,23 @@ export default function VideoQuizScreen() {
     totalQuestions > 0 ? ((currentIndex + 1) / totalQuestions) * 100 : 0;
 
   React.useEffect(() => {
-    const items = getRandomQuizQuestions(
-      currentLanguage as QuizLanguage,
-      TOTAL_QUESTIONS,
-      subject?.quizSlug,
-    );
-    setQuestions(items);
-    setCurrentIndex(0);
-    setAnswers({});
+    const loadQuestions = async () => {
+      try {
+        const items = await getRandomQuizQuestions(
+          currentLanguage as QuizLanguage,
+          TOTAL_QUESTIONS,
+          subject?.quizSlug,
+        );
+        setQuestions(items);
+        setCurrentIndex(0);
+        setAnswers({});
+      } catch (error) {
+        console.error('Error loading quiz questions:', error);
+        setQuestions([]);
+      }
+    };
+    
+    loadQuestions();
   }, [currentLanguage, videoId, subjectId, subject?.quizSlug]);
 
   const handleOptionPress = (option: string) => {

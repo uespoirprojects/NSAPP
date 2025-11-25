@@ -1,11 +1,13 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { videoCategories } from '@/constants/videos';
+import { getVideoCategories, videoCategories } from '@/constants/videos';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
+import type { VideoCategory } from '@/types/video';
 import { router } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import type { ViewStyle } from 'react-native';
-import { ScrollView, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, RefreshControl, ScrollView, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const categoryIcons = {
@@ -31,6 +33,44 @@ export default function HomeScreen() {
   const responsiveContainerStyle: ViewStyle = {
     width: isWideLayout ? contentMaxWidth : '100%',
     alignSelf: isWideLayout ? 'center' : 'stretch',
+  };
+
+  const [categories, setCategories] = useState<VideoCategory[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const loadCategories = async (forceRefresh = false) => {
+    try {
+      if (forceRefresh) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+      }
+      
+      // Clear cache if force refreshing
+      if (forceRefresh) {
+        const { clearCache } = await import('@/services/subjectSyncService');
+        await clearCache();
+      }
+      
+      const fetchedCategories = await getVideoCategories();
+      setCategories(fetchedCategories);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+      // Fallback to hardcoded
+      setCategories(videoCategories);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  const onRefresh = () => {
+    loadCategories(true);
   };
 
   const handleCategoryPress = (categoryId: string) => {
@@ -60,24 +100,40 @@ export default function HomeScreen() {
       </View>
 
       {/* Categories Cards - Grid Layout */}
-      <ScrollView
-        style={{ flex: 1 }}
-        contentContainerStyle={{
-          paddingHorizontal: isWideLayout ? 0 : 20,
-          alignItems: isWideLayout ? 'center' : 'stretch',
-        }}
-      >
-        <View
-          style={[
-            {
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-            },
-            responsiveContainerStyle,
-          ]}
+      {loading ? (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="large" color={colors.blue} />
+          <Typography variant="body" color={colors.text} style={{ marginTop: 16, opacity: 0.7 }}>
+            Loading categories...
+          </Typography>
+        </View>
+      ) : (
+        <ScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={{
+            paddingHorizontal: isWideLayout ? 0 : 20,
+            alignItems: isWideLayout ? 'center' : 'stretch',
+          }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={colors.blue}
+              colors={[colors.blue]}
+            />
+          }
         >
-          {videoCategories.map((category) => {
+          <View
+            style={[
+              {
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                justifyContent: 'space-between',
+              },
+              responsiveContainerStyle,
+            ]}
+          >
+            {categories.map((category) => {
             const videoCount = category.videos.length;
             const icon = categoryIcons[category.id as keyof typeof categoryIcons] || 'folder-outline';
             const categoryName = category.name[currentLanguage] || category.name.fr;
@@ -110,8 +166,9 @@ export default function HomeScreen() {
               </TouchableOpacity>
             );
           })}
-        </View>
-      </ScrollView>
+          </View>
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }

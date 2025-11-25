@@ -13,8 +13,8 @@ import {
     VideoProgress,
 } from '@/services/progressService';
 import { getPlaylistVideos } from '@/services/youtubeService';
-import { router } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
+import { router, useFocusEffect } from 'expo-router';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import {
     ActivityIndicator,
@@ -64,60 +64,8 @@ export default function MyLearningScreen() {
   const [completedVideos, setCompletedVideos] = useState<VideoProgressWithDetails[]>([]);
   const [subjectGroups, setSubjectGroups] = useState<SubjectGroup[]>([]);
 
-  // Load user progress
-  useEffect(() => {
-    const loadProgress = async () => {
-      if (!isAuthenticated || !firebaseUser?.uid || authLoading) {
-        setLoading(false);
-        return;
-      }
-
-      try {
-        setLoading(true);
-
-        // Get progress data
-        const [inProgress, completed] = await Promise.all([
-          getInProgressVideos(firebaseUser.uid),
-          getCompletedVideosWithDetails(firebaseUser.uid),
-        ]);
-
-        // Enrich with video details from playlists
-        const enrichedInProgress = await enrichVideoProgress(inProgress);
-        const enrichedCompleted = await enrichVideoProgress(completed);
-
-        setInProgressVideos(enrichedInProgress);
-        setCompletedVideos(enrichedCompleted);
-
-        // Group videos by subject
-        const grouped = await groupVideosBySubject(
-          selectedFilter === 'inProgress' ? enrichedInProgress : enrichedCompleted
-        );
-        setSubjectGroups(grouped);
-      } catch (error) {
-        console.error('Failed to load progress:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadProgress();
-  }, [isAuthenticated, firebaseUser?.uid, authLoading]);
-
-  // Update subject groups when filter changes
-  useEffect(() => {
-    const updateGroups = async () => {
-      const videos = selectedFilter === 'inProgress' ? inProgressVideos : completedVideos;
-      const grouped = await groupVideosBySubject(videos);
-      setSubjectGroups(grouped);
-    };
-
-    if (inProgressVideos.length > 0 || completedVideos.length > 0) {
-      updateGroups();
-    }
-  }, [selectedFilter, inProgressVideos, completedVideos]);
-
   // Enrich video progress with details from playlists
-  const enrichVideoProgress = async (
+  const enrichVideoProgress = useCallback(async (
     videos: VideoProgress[]
   ): Promise<VideoProgressWithDetails[]> => {
     const enriched: VideoProgressWithDetails[] = [];
@@ -134,12 +82,12 @@ export default function MyLearningScreen() {
 
     // Load playlists and match videos
     for (const [subjectId, subjectVideos] of videosBySubject.entries()) {
-      const subject = getSubjectById(subjectId);
+      const subject = await getSubjectById(subjectId);
       if (!subject || !subject.playlistId) continue;
 
       try {
         const playlistVideos = await getPlaylistVideos(subject.playlistId);
-        const category = getCategoryById(subject.categoryId);
+        const category = await getCategoryById(subject.categoryId);
 
         for (const videoProgress of subjectVideos) {
           const playlistVideo = playlistVideos.find((v) => v.videoId === videoProgress.videoId);
@@ -180,10 +128,10 @@ export default function MyLearningScreen() {
     }
 
     return enriched;
-  };
+  }, [firebaseUser?.uid, currentLanguage]);
 
   // Group videos by subject with progress information
-  const groupVideosBySubject = async (
+  const groupVideosBySubject = useCallback(async (
     videos: VideoProgressWithDetails[]
   ): Promise<SubjectGroup[]> => {
     if (!firebaseUser?.uid) return [];
@@ -203,7 +151,7 @@ export default function MyLearningScreen() {
     const subjectGroups: SubjectGroup[] = [];
 
     for (const [subjectId, subjectVideos] of groups.entries()) {
-      const subject = getSubjectById(subjectId);
+      const subject = await getSubjectById(subjectId);
       if (!subject) continue;
 
       // Get total videos in playlist
@@ -220,7 +168,7 @@ export default function MyLearningScreen() {
       // Get progress from Firestore
       const progressData = await getSubjectProgress(firebaseUser.uid, subjectId);
 
-      const category = getCategoryById(subject.categoryId);
+      const category = await getCategoryById(subject.categoryId);
       const subjectTitle =
         subject.title[currentLanguage as keyof typeof subject.title] || subject.title.fr;
       const categoryTitle =
@@ -240,12 +188,74 @@ export default function MyLearningScreen() {
     }
 
     // Sort by subject order
-    return subjectGroups.sort((a, b) => {
-      const subjectA = getSubjectById(a.subjectId);
-      const subjectB = getSubjectById(b.subjectId);
-      return (subjectA?.order || 0) - (subjectB?.order || 0);
-    });
-  };
+    const sortedGroups = await Promise.all(
+      subjectGroups.map(async (group) => {
+        const subject = await getSubjectById(group.subjectId);
+        return { group, order: subject?.order || 0 };
+      })
+    );
+    return sortedGroups.sort((a, b) => a.order - b.order).map((item) => item.group);
+  }, [firebaseUser?.uid, currentLanguage]);
+
+  // Load user progress function
+  const loadProgress = useCallback(async () => {
+      if (!isAuthenticated || !firebaseUser?.uid || authLoading) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+
+        // Get progress data
+        const [inProgress, completed] = await Promise.all([
+          getInProgressVideos(firebaseUser.uid),
+          getCompletedVideosWithDetails(firebaseUser.uid),
+        ]);
+
+        // Enrich with video details from playlists
+        const enrichedInProgress = await enrichVideoProgress(inProgress);
+        const enrichedCompleted = await enrichVideoProgress(completed);
+
+        setInProgressVideos(enrichedInProgress);
+        setCompletedVideos(enrichedCompleted);
+
+        // Group videos by subject
+        const grouped = await groupVideosBySubject(
+          selectedFilter === 'inProgress' ? enrichedInProgress : enrichedCompleted
+        );
+        setSubjectGroups(grouped);
+      } catch (error) {
+        console.error('Failed to load progress:', error);
+      } finally {
+        setLoading(false);
+      }
+  }, [isAuthenticated, firebaseUser?.uid, authLoading, selectedFilter, enrichVideoProgress, groupVideosBySubject]);
+
+  // Load user progress on mount and when dependencies change
+  useEffect(() => {
+    loadProgress();
+  }, [isAuthenticated, firebaseUser?.uid, authLoading]);
+
+  // Reload data every time the screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      loadProgress();
+    }, [loadProgress])
+  );
+
+  // Update subject groups when filter changes
+  useEffect(() => {
+    const updateGroups = async () => {
+      const videos = selectedFilter === 'inProgress' ? inProgressVideos : completedVideos;
+      const grouped = await groupVideosBySubject(videos);
+      setSubjectGroups(grouped);
+    };
+
+    if (inProgressVideos.length > 0 || completedVideos.length > 0) {
+      updateGroups();
+    }
+  }, [selectedFilter, inProgressVideos, completedVideos, groupVideosBySubject]);
 
   const currentVideos = useMemo(() => {
     return selectedFilter === 'inProgress' ? inProgressVideos : completedVideos;

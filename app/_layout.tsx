@@ -65,6 +65,7 @@ function RootLayoutContent() {
                 <Stack.Screen name="signup" />
                 <Stack.Screen name="(tabs)" />
                 <Stack.Screen name="video" options={{ headerShown: false }} />
+                <Stack.Screen name="admin" options={{ headerShown: false }} />
               </Stack>
               <StatusBar style={effectiveTheme === 'dark' ? 'light' : 'dark'} />
             </NavigationThemeProvider>

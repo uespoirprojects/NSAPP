@@ -55,18 +55,68 @@ export default function VideoScreen() {
     width: isWideLayout ? contentMaxWidth : '100%',
     alignSelf: isWideLayout ? 'center' : 'stretch',
   };
-  const subject = subjectId ? getSubjectById(subjectId) : undefined;
-  const category = subject ? getCategoryById(subject.categoryId) : null;
+  const [subject, setSubject] = useState<any>(undefined);
+  const [category, setCategory] = useState<any>(null);
   const [playlistVideos, setPlaylistVideos] = useState<PlaylistVideo[]>([]);
   const [playlistError, setPlaylistError] = useState<string | null>(null);
   const [playlistLoading, setPlaylistLoading] = useState<boolean>(true);
   const [selectedVideo, setSelectedVideo] = useState<PlaylistVideo | null>(null);
 
+  // Load subject and category
+  React.useEffect(() => {
+    let isMounted = true;
+
+    const loadSubjectAndCategory = async () => {
+      if (!subjectId) {
+        setSubject(undefined);
+        setCategory(null);
+        return;
+      }
+
+      try {
+        const subjectData = await getSubjectById(subjectId);
+        if (!isMounted) return;
+        
+        setSubject(subjectData);
+        
+        if (subjectData) {
+          const categoryData = await getCategoryById(subjectData.categoryId);
+          if (isMounted) {
+            setCategory(categoryData || null);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load subject/category:', error);
+        if (isMounted) {
+          setSubject(undefined);
+          setCategory(null);
+        }
+      }
+    };
+
+    loadSubjectAndCategory();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [subjectId]);
+
   React.useEffect(() => {
     let isMounted = true;
 
     const loadPlaylist = async () => {
-      if (!subject || !subject.playlistId) {
+      if (!subject) {
+        console.error('[VideoScreen] No subject found for subjectId:', subjectId);
+        if (!isMounted) return;
+        setPlaylistVideos([]);
+        setSelectedVideo(null);
+        setPlaylistLoading(false);
+        setPlaylistError(t('video.playlistMissing'));
+        return;
+      }
+      
+      if (!subject.playlistId) {
+        console.error('[VideoScreen] Subject missing playlistId:', subject.id, subject);
         if (!isMounted) return;
         setPlaylistVideos([]);
         setSelectedVideo(null);
@@ -78,19 +128,30 @@ export default function VideoScreen() {
       try {
         setPlaylistLoading(true);
         setPlaylistError(null);
+        console.log('[VideoScreen] Fetching playlist:', subject.playlistId, 'for subject:', subject.id);
         const videos = await getPlaylistVideos(subject.playlistId);
+        console.log('[VideoScreen] Fetched videos:', videos.length);
+        
         if (!isMounted) return;
+
+        if (!videos.length) {
+          console.error('[VideoScreen] No videos found in playlist:', subject.playlistId);
+          setPlaylistVideos([]);
+          setSelectedVideo(null);
+          setPlaylistError(t('video.noVideosInPlaylist') || 'No videos found in this playlist');
+          return;
+        }
 
         setPlaylistVideos(videos);
         const initialVideo =
           videos.find((item) => item.videoId === videoId) || videos[0] || null;
         setSelectedVideo(initialVideo);
-      } catch (error) {
-        console.error('Failed to load playlist videos:', error);
+      } catch (error: any) {
+        console.error('[VideoScreen] Failed to load playlist videos:', error);
         if (isMounted) {
           setPlaylistVideos([]);
           setSelectedVideo(null);
-          setPlaylistError(t('video.playlistLoadError'));
+          setPlaylistError(error.message || t('video.playlistLoadError'));
         }
       } finally {
         if (isMounted) {
@@ -328,11 +389,7 @@ export default function VideoScreen() {
 
   // Navigate back to the previous page (not previous video)
   const handleBackPress = () => {
-    if (subject?.categoryId) {
-      router.replace(`/videos/${subject.categoryId}`);
-    } else {
-      router.back();
-    }
+    router.back();
   };
 
   const openSidebar = () => {

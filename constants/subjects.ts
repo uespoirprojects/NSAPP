@@ -1,5 +1,7 @@
+import { getSubjectsByCategorySync, getSubjectsSync } from '@/services/subjectSyncService';
 import { SubjectModule } from '@/types/subject';
 
+// Fallback hardcoded subjects (used if Firestore fails)
 export const subjectModules: SubjectModule[] = [
   {
     id: 'excel',
@@ -80,11 +82,30 @@ export const subjectModules: SubjectModule[] = [
   },
 ];
 
-export const getSubjectById = (subjectId: string): SubjectModule | undefined =>
-  subjectModules.find((subject) => subject.id === subjectId);
+/**
+ * Get subject by ID (from Firestore with fallback)
+ */
+export const getSubjectById = async (subjectId: string): Promise<SubjectModule | undefined> => {
+  try {
+    const subjects = await getSubjectsSync();
+    return subjects.find((subject) => subject.id === subjectId);
+  } catch (error) {
+    console.error('Error fetching subject, using fallback:', error);
+    return subjectModules.find((subject) => subject.id === subjectId);
+  }
+};
 
-export const getSubjectsByCategory = (categoryId: string): SubjectModule[] =>
-  subjectModules
-    .filter((subject) => subject.categoryId === categoryId)
-    .sort((a, b) => a.order - b.order);
+/**
+ * Get subjects by category (from Firestore with fallback)
+ */
+export const getSubjectsByCategory = async (categoryId: string): Promise<SubjectModule[]> => {
+  try {
+    return await getSubjectsByCategorySync(categoryId);
+  } catch (error) {
+    console.error('Error fetching subjects by category, using fallback:', error);
+    return subjectModules
+      .filter((subject) => subject.categoryId === categoryId)
+      .sort((a, b) => a.order - b.order);
+  }
+};
 

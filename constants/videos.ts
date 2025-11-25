@@ -103,6 +103,9 @@ const mathematicsVideos: Video[] = [];
 const physicsVideos: Video[] = [];
 const languagesVideos: Video[] = [];
 
+import { getCategoriesSync, getCategoryByIdSync } from '@/services/subjectSyncService';
+
+// Fallback hardcoded categories (used if Firestore fails)
 export const videoCategories: VideoCategory[] = [
   {
     id: 'computer',
@@ -166,8 +169,25 @@ export function getVideoById(videoId: string): Video | undefined {
 }
 
 /**
- * Get category by ID
+ * Get all categories (from Firestore with fallback)
  */
-export function getCategoryById(categoryId: string): VideoCategory | undefined {
-  return videoCategories.find((cat) => cat.id === categoryId);
+export async function getVideoCategories(): Promise<VideoCategory[]> {
+  try {
+    return await getCategoriesSync();
+  } catch (error) {
+    console.error('Error fetching categories, using fallback:', error);
+    return videoCategories;
+  }
+}
+
+/**
+ * Get category by ID (from Firestore with fallback)
+ */
+export async function getCategoryById(categoryId: string): Promise<VideoCategory | undefined> {
+  try {
+    return await getCategoryByIdSync(categoryId);
+  } catch (error) {
+    console.error('Error fetching category, using fallback:', error);
+    return videoCategories.find((cat) => cat.id === categoryId);
+  }
 }
