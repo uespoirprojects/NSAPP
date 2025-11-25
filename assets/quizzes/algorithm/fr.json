@@ -1,0 +1,196 @@
+[
+  {
+    "title": "Introduction Algorithme",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Un test permet d’exécuter des instructions différentes selon qu’une condition est vraie ou fausse.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 2,
+        "question": "Un booléen peut prendre trois valeurs possibles : VRAI, FAUX ou INCONNU.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 3,
+        "question": "Quelle est la forme simple d’un test ?",
+        "options": ["Si… Alors… Sinon", "Si… Alors… Finsi", "Si… Finsi… Alors"],
+        "answer": "Si… Alors… Finsi"
+      },
+      {
+        "id": 4,
+        "question": "Dans un test, “Sinon” signifie :",
+        "options": [
+          "Recommencer le programme",
+          "Terminer le programme",
+          "Exécuter autre chose si la condition est fausse"
+        ],
+        "answer": "Exécuter autre chose si la condition est fausse"
+      },
+      {
+        "id": 5,
+        "question": "Une condition est toujours une comparaison entre deux valeurs.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 6,
+        "question": "L’opérateur >= signifie “plus grand ou égal à”.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 7,
+        "question": "Quelle comparaison est VRAIE ?",
+        "options": [
+          "\"Pomme\" < \"Poire\"",
+          "\"chien\" = \"Chien\"",
+          "\"Vendredi\" < \"Mardi\""
+        ],
+        "answer": "\"Pomme\" < \"Poire\""
+      },
+      {
+        "id": 8,
+        "question": "Dans un test imbriqué, on trouve :",
+        "options": [
+          "Un test dans un autre test",
+          "Un test sans condition",
+          "Un test sans fin"
+        ],
+        "answer": "Un test dans un autre test"
+      },
+      {
+        "id": 9,
+        "question": "L’opérateur OU donne FAUX seulement si :",
+        "options": [
+          "Toutes les deux conditions sont FAUSSES",
+          "Une seule condition est vraie",
+          "Les deux conditions sont vraies"
+        ],
+        "answer": "Toutes les deux conditions sont FAUSSES"
+      },
+      {
+        "id": 10,
+        "question": "Un test vérifie si un nombre est > 100. Si l’utilisateur entre 45, la condition sera vraie.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 11,
+        "question": "L’algorithme lit deux nombres et calcule leur produit. S’il est > 0, il affiche : « Produit positif ». Si l’utilisateur entre 4 et –2, le programme affichera « positif ».",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 12,
+        "question": "Quel algorithme affiche le nom qui vient en premier dans l’ordre alphabétique ?",
+        "options": [
+          "Algorithme A",
+          "Algorithme B",
+          "Algorithme C"
+        ],
+        "answer": "Algorithme B"
+      },
+      {
+        "id": 13,
+        "question": "Dans une condition composée utilisant uniquement des opérateurs ET, ajouter des parenthèses autour des variables peut changer le résultat.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 14,
+        "question": "La condition suivante est équivalente à Si A ET B Alors X Sinon Y Finsi : Si NON A OU NON B Alors Y Sinon X Finsi.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 15,
+        "question": "Quelle condition ouvre la fenêtre uniquement s'il fait chaud et qu’il ne pleut pas ?",
+        "options": [
+          "Si il fait chaud OU il ne pleut pas Alors Ouvrir Sinon Fermer Finsi",
+          "Si il fait chaud ET il ne pleut pas Alors Ouvrir Sinon Fermer Finsi",
+          "Si il fait chaud Alors Ouvrir Finsi",
+          "Si il pleut Alors Ouvrir Finsi"
+        ],
+        "answer": "Si il fait chaud ET il ne pleut pas Alors Ouvrir Sinon Fermer Finsi"
+      },
+      {
+        "id": 16,
+        "question": "Quelle condition permet d’inverser : Si Tutu > Toto + 3 OU Tata = \"OK\" Alors … ?",
+        "options": [
+          "Si Tutu ≤ Toto + 3 ET Tata <> \"OK\" Alors …",
+          "Si Tutu ≤ Toto + 3 OU Tata <> \"OK\" Alors …",
+          "Si Tutu > Toto + 3 ET Tata = \"OK\" Alors …",
+          "Si Tutu > Toto + 3 OU Tata <> \"OK\" Alors …"
+        ],
+        "answer": "Si Tutu ≤ Toto + 3 ET Tata <> \"OK\" Alors …"
+      },
+      {
+        "id": 17,
+        "question": "Quel sera le résultat si heure = 10 et minute = 59 lorsqu’on ajoute 1 minute ?",
+        "options": [
+          "Dans une minute, il sera 10 heures 60",
+          "Dans une minute, il sera 11 heures 00",
+          "Dans une minute, il sera 11 heures 01",
+          "Dans une minute, il sera 12 heures 00"
+        ],
+        "answer": "Dans une minute, il sera 11 heures 00"
+      },
+      {
+        "id": 18,
+        "question": "Une boucle TantQue s’exécute toujours au moins une fois, même si la condition initiale est fausse.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 19,
+        "question": "La structure Pour est utilisée lorsque le programmeur connaît à l’avance le nombre d’itérations à effectuer.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 20,
+        "question": "Une boucle Pour ne peut jamais contenir d’autres boucles à l’intérieur.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 21,
+        "question": "Que fait la boucle : Pour numero ← 1 à 5 / Ecrire numero / numero Suivant",
+        "options": [
+          "Affiche 0 à 5",
+          "Affiche 1 à 5",
+          "Affiche 1 à 4",
+          "Affiche 5 fois \"numero\" sans valeur"
+        ],
+        "answer": "Affiche 1 à 5"
+      },
+      {
+        "id": 22,
+        "question": "Un algorithme utilisant la boucle TantQue n <> 1 OU n <> 2 OU n <> 3 fonctionnera correctement.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 23,
+        "question": "Quelle instruction permet de demander à l’utilisateur de saisir une valeur ?",
+        "options": ["Ecrire", "Lire", "Pour", "Si"],
+        "answer": "Lire"
+      },
+      {
+        "id": 24,
+        "question": "Pour vérifier qu’un nombre est compris entre 10 et 20, quelle condition est correcte ?",
+        "options": [
+          "nombre > 20 OU nombre < 10",
+          "nombre < 20 ET nombre > 10",
+          "nombre = 10 OU nombre = 20",
+          "nombre <> 10 ET nombre <> 20"
+        ],
+        "answer": "nombre < 20 ET nombre > 10"
+      }
+    ]
+  }
+]

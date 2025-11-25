@@ -1,0 +1,196 @@
+[
+  {
+    "title": "Entwodiksyon Algoritm",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Yon tès pèmèt egzekite enstriksyon diferan selon si yon kondisyon se vre oswa fo.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "id": 2,
+        "question": "Yon bolyen ka pran twa valè posib : VRE, FO oswa ENKONI.",
+        "options": ["Vre", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 3,
+        "question": "Ki fòm senp yon tès genyen ?",
+        "options": ["Si… Lè sa a… Sinon", "Si… Lè sa a… Finsi", "Si… Finsi… Lè sa a"],
+        "answer": "Si… Lè sa a… Finsi"
+      },
+      {
+        "id": 4,
+        "question": "Nan yon tès, \"Sinon\" vle di :",
+        "options": [
+          "Rekòmanse pwogram nan",
+          "Fèmen pwogram nan",
+          "Egzekite yon lòt bagay si kondisyon an fo"
+        ],
+        "answer": "Egzekite yon lòt bagay si kondisyon an fo"
+      },
+      {
+        "id": 5,
+        "question": "Yon kondisyon toujou se yon konparezon ant de valè.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "id": 6,
+        "question": "Operatè >= vle di \"pi gran oswa egal a\".",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "id": 7,
+        "question": "Ki konparezon ki VRE ?",
+        "options": [
+          "\"Pomme\" < \"Poire\"",
+          "\"chien\" = \"Chien\"",
+          "\"Vendredi\" < \"Mardi\""
+        ],
+        "answer": "\"Pomme\" < \"Poire\""
+      },
+      {
+        "id": 8,
+        "question": "Nan yon tès anbrike, nou jwenn :",
+        "options": [
+          "Yon tès nan yon lòt tès",
+          "Yon tès san kondisyon",
+          "Yon tès ki pa janm fini"
+        ],
+        "answer": "Yon tès nan yon lòt tès"
+      },
+      {
+        "id": 9,
+        "question": "Operatè OU bay FO sèlman si :",
+        "options": [
+          "Tou de kondisyon yo FO",
+          "Youn nan kondisyon yo vre",
+          "Tou de kondisyon yo vre"
+        ],
+        "answer": "Tou de kondisyon yo FO"
+      },
+      {
+        "id": 10,
+        "question": "Yon tès verifye si yon nimewo > 100. Si itilizatè a antre 45, kondisyon an ap vre.",
+        "options": ["Vre", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 11,
+        "question": "Algoritm nan li de nimewo epi kalkile pwodwi yo. Si li > 0, li afiche : « Pwodwi pozitif ». Si itilizatè a antre 4 ak –2, pwogram nan ap afiche « pozitif ».",
+        "options": ["Vre", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 12,
+        "question": "Ki algoritm ki afiche non ki vini an premye nan lòd alfabè a ?",
+        "options": [
+          "Algoritm A",
+          "Algoritm B",
+          "Algoritm C"
+        ],
+        "answer": "Algoritm B"
+      },
+      {
+        "id": 13,
+        "question": "Nan yon kondisyon konpoze ki itilize sèlman operatè ET, mete parantèz alantou varyab yo ka chanje rezilta a.",
+        "options": ["Vre", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 14,
+        "question": "Kondisyon sa a ekivalan ak Si A ET B Lè sa a X Sinon Y Finsi : Si NON A OU NON B Lè sa a Y Sinon X Finsi.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "id": 15,
+        "question": "Ki kondisyon ki ouvri fenèt la sèlman si li fè cho epi li pa lapli ?",
+        "options": [
+          "Si li fè cho OU li pa lapli Lè sa a Louvri Sinon Fèmen Finsi",
+          "Si li fè cho ET li pa lapli Lè sa a Louvri Sinon Fèmen Finsi",
+          "Si li fè cho Lè sa a Louvri Finsi",
+          "Si lapli Lè sa a Louvri Finsi"
+        ],
+        "answer": "Si li fè cho ET li pa lapli Lè sa a Louvri Sinon Fèmen Finsi"
+      },
+      {
+        "id": 16,
+        "question": "Ki kondisyon ki pèmèt envèse : Si Tutu > Toto + 3 OU Tata = \"OK\" Lè sa a … ?",
+        "options": [
+          "Si Tutu ≤ Toto + 3 ET Tata <> \"OK\" Lè sa a …",
+          "Si Tutu ≤ Toto + 3 OU Tata <> \"OK\" Lè sa a …",
+          "Si Tutu > Toto + 3 ET Tata = \"OK\" Lè sa a …",
+          "Si Tutu > Toto + 3 OU Tata <> \"OK\" Lè sa a …"
+        ],
+        "answer": "Si Tutu ≤ Toto + 3 ET Tata <> \"OK\" Lè sa a …"
+      },
+      {
+        "id": 17,
+        "question": "Kisa rezilta a ap ye si heure = 10 ak minute = 59 lè nou ajoute 1 minit ?",
+        "options": [
+          "Nan yon minit, li pral 10 è 60",
+          "Nan yon minit, li pral 11 è 00",
+          "Nan yon minit, li pral 11 è 01",
+          "Nan yon minit, li pral 12 è 00"
+        ],
+        "answer": "Nan yon minit, li pral 11 è 00"
+      },
+      {
+        "id": 18,
+        "question": "Yon bouk TantQue toujou egzekite omwen yon fwa, menm si kondisyon inisyal la fo.",
+        "options": ["Vre", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 19,
+        "question": "Estrikti Pour itilize lè pwogramè a konnen davans kantite iterasyon pou fè.",
+        "options": ["Vre", "Fo"],
+        "answer": "Vre"
+      },
+      {
+        "id": 20,
+        "question": "Yon bouk Pour pa janm ka genyen lòt bouk andedan l.",
+        "options": ["Vre", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 21,
+        "question": "Kisa bouk sa a fè : Pour numero ← 1 à 5 / Ekri numero / numero Suivant",
+        "options": [
+          "Afiche 0 a 5",
+          "Afiche 1 a 5",
+          "Afiche 1 a 4",
+          "Afiche 5 fwa \"numero\" san valè"
+        ],
+        "answer": "Afiche 1 a 5"
+      },
+      {
+        "id": 22,
+        "question": "Yon algoritm ki itilize bouk TantQue n <> 1 OU n <> 2 OU n <> 3 ap mache byen.",
+        "options": ["Vre", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 23,
+        "question": "Ki enstriksyon ki pèmèt mande itilizatè a antre yon valè ?",
+        "options": ["Ekri", "Li", "Pou", "Si"],
+        "answer": "Li"
+      },
+      {
+        "id": 24,
+        "question": "Pou verifye si yon nimewo ant 10 ak 20, ki kondisyon ki kòrèk ?",
+        "options": [
+          "nimewo > 20 OU nimewo < 10",
+          "nimewo < 20 ET nimewo > 10",
+          "nimewo = 10 OU nimewo = 20",
+          "nimewo <> 10 ET nimewo <> 20"
+        ],
+        "answer": "nimewo < 20 ET nimewo > 10"
+      }
+    ]
+  }
+]

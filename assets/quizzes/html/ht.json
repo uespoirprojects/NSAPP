@@ -1,0 +1,439 @@
+[
+  {
+    "title": "Introduction HTML",
+    "questions": [
+      {
+        "id": 1,
+        "question": "HTML vle di Hyper Text Markup Language.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 2,
+        "question": "Langaj HTML te envante pa Dave Raggett nan ane 1990 yo.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 3,
+        "question": "HTML se yon langaj pwogramasyon pou kreye lojisyèl ki enstalab.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 4,
+        "question": "HTML konstwi sitou ak:",
+        "options": [
+          "Fonksyon matematik",
+          "Eleman balizaj",
+          "Rekèt SQL",
+          "Script sèvè"
+        ],
+        "answer": "Eleman balizaj"
+      },
+      {
+        "id": 5,
+        "question": "Nan ki ane WHATWG pibliye premye vèsyon piblik HTML5?",
+        "options": ["2000", "2008", "2012", "2014"],
+        "answer": "2008"
+      },
+      {
+        "id": 6,
+        "question": "Ki wòl prensipal HTML?",
+        "options": [
+          "Bay style paj la",
+          "Estriktire kontni paj la",
+          "Pwograme entèraksyon dinamik",
+          "Jere bazdone a"
+        ],
+        "answer": "Estriktire kontni paj la"
+      },
+      {
+        "id": 7,
+        "question": "Baliz orfelen toujou gen yon baliz fèmti.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 8,
+        "question": "Baliz <p> pou paragraf se yon baliz pè.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 9,
+        "question": "Ki eleman ki gen enfòmasyon vizib pou itilizatè a?",
+        "options": ["<head>", "<footer>", "<meta>", "<body>"],
+        "answer": "<body>"
+      },
+      {
+        "id": 10,
+        "question": "Ki estrikti HTML ki kòrèk?",
+        "options": [
+          "<p>Mon texte",
+          "<p/>Mon texte</p>",
+          "<p>Mon texte</p>",
+          "<p> Mon texte <p>"
+        ],
+        "answer": "<p>Mon texte</p>"
+      },
+      {
+        "id": 11,
+        "question": "Pou aprann HTML, li rekòmande pou itilize yon editè tèks senp tankou Notepad oswa Brackets.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 12,
+        "question": "Yon navigatè afiche tout baliz HTML yo sou ekran an pou itilizatè a wè yo.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 13,
+        "question": "Estrikti jeneral yon paj HTML kòmanse ak <html> epi fini ak </body>.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 14,
+        "question": "Kisa seksyon <head> lan genyen an jeneral?",
+        "options": [
+          "Kontni prensipal paj la",
+          "Enfòmasyon pou navigatè a tankou meta ak tit",
+          "Script JavaScript ki anime paj la",
+          "Style CSS pou aparans paj la"
+        ],
+        "answer": "Enfòmasyon pou navigatè a tankou meta ak tit"
+      },
+      {
+        "id": 15,
+        "question": "Ki wòl baliz <html> yo?",
+        "options": [
+          "Yo defini tèt prensipal vizib paj la",
+          "Yo sèvi kòm kontenè prensipal pou tout kontni paj la",
+          "Yo endike vèsyon HTML la",
+          "Yo kreye yon lyen"
+        ],
+        "answer": "Yo sèvi kòm kontenè prensipal pou tout kontni paj la"
+      },
+      {
+        "id": 16,
+        "question": "Yon eleman inline toujou kòmanse sou yon nouvo liy.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 17,
+        "question": "Baliz <br> se yon eleman nivo blòk.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 18,
+        "question": "Kisa yon eleman nivo blòk ye?",
+        "options": [
+          "Li kòmanse sou yon nouvo liy epi pran tout lajè a",
+          "Li rete sou menm liy lan epi pran sèlman espas li bezwen",
+          "Li pa ka gen lòt eleman",
+          "Li envizib"
+        ],
+        "answer": "Li kòmanse sou yon nouvo liy epi pran tout lajè a"
+      },
+      {
+        "id": 19,
+        "question": "Gen sis nivo tit: <h1> rive <h6>.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 20,
+        "question": "Eleman <div> souvan sèvi kòm kontenè pou lòt eleman.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 21,
+        "question": "Kisa yon <div> ka genyen?",
+        "options": [
+          "Paragraf, imaj, tit",
+          "Sèlman tèks",
+          "Sèlman imaj",
+          "Sèlman fòmilè"
+        ],
+        "answer": "Paragraf, imaj, tit"
+      },
+      {
+        "id": 22,
+        "question": "Baliz <p> defini yon paragraf.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 23,
+        "question": "Baliz <hr> sèvi pou mete yon sòt de liy nan yon paragraf.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 24,
+        "question": "Kisa navigatè a fè si ou mete plizyè espas nan yon paragraf <p>?",
+        "options": [
+          "Li montre tout espas yo",
+          "Li efase espas an plis yo",
+          "Li tounen espas yo an sòt de liy",
+          "Li bay yon erè"
+        ],
+        "answer": "Li efase espas an plis yo"
+      },
+      {
+        "id": 25,
+        "question": "Ki baliz ki konsève espas ak chanjman liy yo?",
+        "options": ["<p>", "<pre>", "<br>", "<hr>"],
+        "answer": "<pre>"
+      },
+      {
+        "id": 26,
+        "question": "Baliz <b> defini yon tèks an grès san enpòtans patikilye.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 27,
+        "question": "Baliz <i> itilize pou soulije tèks.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 28,
+        "question": "Ki baliz ki montre yon tèks pi piti?",
+        "options": ["<small>", "<mark>", "<em>", "<b>"],
+        "answer": "<small>"
+      },
+      {
+        "id": 29,
+        "question": "Ki baliz ki endike yon tèks trè enpòtan?",
+        "options": ["<b>", "<strong>", "<small>", "<mark>"],
+        "answer": "<strong>"
+      },
+      {
+        "id": 30,
+        "question": "Si imaj la pa jwenn, navigatè a montre yon ikon lyen kase.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 31,
+        "question": "Atribi alt la opsyonèl epi li pa sèvi anyen.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 32,
+        "question": "Baliz <img> toujou gen yon baliz fèmti.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 33,
+        "question": "Ki fason kòrèk pou mete yon imaj kòm background?",
+        "options": [
+          "<div background=\"image.jpg\">",
+          "<div style=\"background-image: url('image.jpg');\">",
+          "<div style=\"img: url('image.jpg');\">",
+          "<div bg=\"image.jpg\">"
+        ],
+        "answer": "<div style=\"background-image: url('image.jpg');\">"
+      },
+      {
+        "id": 34,
+        "question": "Ki sentaks ki kòrèk pou mete yon lajè imaj?",
+        "options": [
+          "<img width=\"300\">",
+          "<img style=\"size:300px;\">",
+          "<img style=\"width:300px;\">",
+          "<img height=\"300px\">"
+        ],
+        "answer": "<img style=\"width:300px;\">"
+      },
+      {
+        "id": 35,
+        "question": "Hyperliens yo fèt ak baliz <a>.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 36,
+        "question": "Atribi href sèvi pou chanje koulè lyen an.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 37,
+        "question": "Lyen HTML yo ka sèlman voye sou paj web.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 38,
+        "question": "Ki lyen ki mennen sou paj \"image.html\" nan menm sit la?",
+        "options": [
+          "<a href=\"https://www.site.com/image.html\">",
+          "<a href=\"image.html\">",
+          "<a src=\"image.html\">"
+        ],
+        "answer": "<a href=\"image.html\">"
+      },
+      {
+        "id": 39,
+        "question": "Ki atribi ki endike adrès destinasyon lyen an?",
+        "options": ["src", "href", "url"],
+        "answer": "href"
+      },
+      {
+        "id": 40,
+        "question": "Baliz <address> itilize pou enfòmasyon kontak.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 41,
+        "question": "Baliz <blockquote> itilize pou sitasyon long.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 42,
+        "question": "Ki wòl baliz <abbr>?",
+        "options": [
+          "Afich yon lis",
+          "Defini yon abrevyasyon",
+          "Ajoute yon lyen"
+        ],
+        "answer": "Defini yon abrevyasyon"
+      },
+      {
+        "id": 43,
+        "question": "Ki baliz itilize pou sitasyon kout?",
+        "options": ["<q>", "<blockquote>", "<abbr>"],
+        "answer": "<q>"
+      },
+      {
+        "id": 44,
+        "question": "Ki baliz ki defini yon lis deskripsyon?",
+        "options": ["<dl>", "<dd>", "<dt>"],
+        "answer": "<dl>"
+      },
+      {
+        "id": 45,
+        "question": "Ki baliz ki kreye yon lis ki pa òdone?",
+        "options": ["<ul>", "<ol>", "<dl>"],
+        "answer": "<ul>"
+      },
+      {
+        "id": 46,
+        "question": "Baliz <td> kapab gen lòt eleman HTML.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 47,
+        "question": "Yon tablo ka fonksyone san okenn baliz <tr>.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 48,
+        "question": "Ki liy ki kòrèk pou yon tablo HTML?",
+        "options": [
+          "<table><td></td></table>",
+          "<table><th></th></table>",
+          "<table><tr><td></td></tr></table>"
+        ],
+        "answer": "<table><tr><td></td></tr></table>"
+      },
+      {
+        "id": 49,
+        "question": "Kisa <th> vle di?",
+        "options": ["Table Header", "Table Height", "Table Highlight"],
+        "answer": "Table Header"
+      },
+      {
+        "id": 50,
+        "question": "Baliz <caption> ka mete yon tit nan yon tablo.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 51,
+        "question": "Colspan ak rowspan sèvi pou fusionnen selil.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 52,
+        "question": "Atribi colspan=\"2\" sèvi pou:",
+        "options": [
+          "Fizyonnen 2 liy",
+          "Fizyonnen 2 kolòn",
+          "Agrandir polis la"
+        ],
+        "answer": "Fizyonnen 2 kolòn"
+      },
+      {
+        "id": 53,
+        "question": "Poukisa yo mete yon lejann nan tablo?",
+        "options": [
+          "Pou dekri kontni tablo a",
+          "Pou agrandi tablo a",
+          "Pou ajoute koulè"
+        ],
+        "answer": "Pou dekri kontni tablo a"
+      },
+      {
+        "id": 54,
+        "question": "Yon fòmilè HTML sèvi pou kolekte done itilizatè a.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 55,
+        "question": "Sentaks jeneral yon fòmilè se <form> … </form>.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 56,
+        "question": "Yon fòmilè ka sèlman gen yon sèl input.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 57,
+        "question": "Ki kote eleman fòmilè yo dwe ye?",
+        "options": [
+          "Andedan baliz <form>",
+          "Andedan baliz <body>",
+          "Andedan baliz <title>"
+        ],
+        "answer": "Andedan baliz <form>"
+      },
+      {
+        "id": 58,
+        "question": "Ki tip input ki pèmèt tcheke youn oswa plizyè opsyon?",
+        "options": ["radio", "checkbox", "submit"],
+        "answer": "checkbox"
+      },
+      {
+        "id": 59,
+        "question": "Kisa baliz <label> la fè?",
+        "options": [
+          "Voye done yo",
+          "Kreye yon checkbox",
+          "Dekri yon chan antre"
+        ],
+        "answer": "Dekri yon chan antre"
+      }
+    ]
+  }
+]
