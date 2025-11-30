@@ -1,98 +1,88 @@
 [
   {
-    "category": "Introduction HTML",
+    "title": "Introduction HTML",
     "questions": [
-
       {
-        "name": "Vidéos 1 - QVF1",
-        "questiontext": "HTML signifie Hyper Text Markup Language.",
-        "type": "truefalse",
-        "answer": true
+        "id": 1,
+        "question": "HTML signifie Hyper Text Markup Language.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
       },
       {
-        "name": "Vidéos 1 - QVF2",
-        "questiontext": "Le langage HTML a été inventé par Dave Raggett dans les années 1990.",
-        "type": "truefalse",
-        "answer": false
+        "id": 2,
+        "question": "Le langage HTML a été inventé par Dave Raggett dans les années 1990.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
       },
       {
-        "name": "Vidéos 1 - QVF3",
-        "questiontext": "HTML est un langage de programmation utilisé pour créer des logiciels installables.",
-        "type": "truefalse",
-        "answer": false
-      },
-
-      {
-        "name": "Vidéos 1 - QCM A",
-        "questiontext": "HTML se compose principalement :",
-        "type": "multichoice",
-        "options": ["De fonctions mathématiques", "D’éléments de balisage", "De requêtes SQL", "De scripts serveur"],
-        "answer": "D’éléments de balisage"
+        "id": 3,
+        "question": "HTML est un langage de programmation utilisé pour créer des logiciels installables.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
       },
       {
-        "name": "Vidéos 1 - QCM B",
-        "questiontext": "En quelle année la première version publique de HTML5 est publiée par WHATWG ?",
-        "type": "multichoice",
+        "id": 4,
+        "question": "HTML se compose principalement :",
+        "options": ["De fonctions mathématiques", "D'éléments de balisage", "De requêtes SQL", "De scripts serveur"],
+        "answer": "D'éléments de balisage"
+      },
+      {
+        "id": 5,
+        "question": "En quelle année la première version publique de HTML5 est publiée par WHATWG ?",
         "options": ["2000", "2008", "2012", "2014"],
         "answer": "2008"
       },
       {
-        "name": "Vidéos 1 - QCM C",
-        "questiontext": "Quel est le rôle principal du HTML ?",
-        "type": "multichoice",
+        "id": 6,
+        "question": "Quel est le rôle principal du HTML ?",
         "options": ["Donner du style à la page", "Structurer le contenu de la page", "Programmer les interactions dynamiques", "Gérer la base de données"],
         "answer": "Structurer le contenu de la page"
       },
-
       {
-        "name": "Vidéos 2 - V/F 1",
-        "questiontext": "Les balises orphelines possèdent toujours une balise de fermeture.",
-        "type": "truefalse",
-        "answer": false
+        "id": 7,
+        "question": "Les balises orphelines possèdent toujours une balise de fermeture.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
       },
       {
-        "name": "Vidéos 2 - V/F 2",
-        "questiontext": "La balise <p> est une balise paire.",
-        "type": "truefalse",
-        "answer": true
+        "id": 8,
+        "question": "La balise <p> est une balise paire.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
       },
       {
-        "name": "Vidéos 2 - QCM A",
-        "questiontext": "Quel élément contient les informations visibles par l’utilisateur ?",
-        "type": "multichoice",
+        "id": 9,
+        "question": "Quel élément contient les informations visibles par l'utilisateur ?",
         "options": ["<head>", "<footer>", "<meta>", "<body>"],
         "answer": "<body>"
       },
       {
-        "name": "Vidéos 2 - QCM B",
-        "questiontext": "Laquelle est une structure d’élément HTML correcte ?",
-        "type": "multichoice",
+        "id": 10,
+        "question": "Laquelle est une structure d'élément HTML correcte ?",
         "options": ["<p>Mon texte", "<p/>Mon texte</p>", "<p>Mon texte</p>", "<p> Mon texte <p>"],
         "answer": "<p>Mon texte</p>"
       },
-
       {
-        "name": "Vidéos 3 - VF1",
-        "questiontext": "Pour apprendre le HTML, il est recommandé d'utiliser un éditeur comme Notepad ou Brackets.",
-        "type": "truefalse",
-        "answer": true
+        "id": 11,
+        "question": "Pour apprendre le HTML, il est recommandé d'utiliser un éditeur comme Notepad ou Brackets.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
       },
       {
-        "name": "Vidéos 3 - VF2",
-        "questiontext": "Un navigateur Web affiche les balises HTML à l’écran.",
-        "type": "truefalse",
-        "answer": false
+        "id": 12,
+        "question": "Un navigateur Web affiche les balises HTML à l'écran.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
       },
       {
-        "name": "Vidéos 3 - VF3",
-        "questiontext": "La structure générale d'une page HTML commence par <html> et termine par </body>.",
-        "type": "truefalse",
-        "answer": false
+        "id": 13,
+        "question": "La structure générale d'une page HTML commence par <html> et termine par </body>.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
       },
       {
-        "name": "Vidéos 3 - QCM A",
-        "questiontext": "Que contient généralement la section <head> ?",
-        "type": "multichoice",
+        "id": 14,
+        "question": "Que contient généralement la section <head> ?",
         "options": [
           "Le contenu principal visible de la page",
           "Les informations destinées au navigateur",
@@ -102,34 +92,31 @@
         "answer": "Les informations destinées au navigateur"
       },
       {
-        "name": "Vidéos 3 - QCM B",
-        "questiontext": "Que signifient les balises <html> ?",
-        "type": "multichoice",
+        "id": 15,
+        "question": "Que signifient les balises <html> ?",
         "options": [
-          "Elles définissent l’en-tête visible",
+          "Elles définissent l'en-tête visible",
           "Elles servent de conteneur principal",
           "Elles indiquent la version de HTML",
           "Elles créent un lien hypertexte"
         ],
         "answer": "Elles servent de conteneur principal"
       },
-
       {
-        "name": "Vidéos 4 - VF1",
-        "questiontext": "Un élément inline commence toujours sur une nouvelle ligne.",
-        "type": "truefalse",
-        "answer": false
+        "id": 16,
+        "question": "Un élément inline commence toujours sur une nouvelle ligne.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
       },
       {
-        "name": "Vidéos 4 - VF2",
-        "questiontext": "La balise <br> est un élément de niveau bloc.",
-        "type": "truefalse",
-        "answer": false
+        "id": 17,
+        "question": "La balise <br> est un élément de niveau bloc.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
       },
       {
-        "name": "Vidéos 4 - QCM A",
-        "questiontext": "Qu’est-ce qu’un élément de niveau bloc ?",
-        "type": "multichoice",
+        "id": 18,
+        "question": "Qu'est-ce qu'un élément de niveau bloc ?",
         "options": [
           "Commence sur une nouvelle ligne et prend toute la largeur",
           "Reste sur la même ligne",
@@ -138,23 +125,21 @@
         ],
         "answer": "Commence sur une nouvelle ligne et prend toute la largeur"
       },
-
       {
-        "name": "Vidéos 5 - VF1",
-        "questiontext": "Il y a six niveaux d’en-têtes : <h1> à <h6>.",
-        "type": "truefalse",
-        "answer": true
+        "id": 19,
+        "question": "Il y a six niveaux d'en-têtes : <h1> à <h6>.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
       },
       {
-        "name": "Vidéos 5 - VF2",
-        "questiontext": "<div> est souvent utilisé comme conteneur.",
-        "type": "truefalse",
-        "answer": true
+        "id": 20,
+        "question": "<div> est souvent utilisé comme conteneur.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
       },
       {
-        "name": "Vidéos 5 - QCM A",
-        "questiontext": "Le <div> peut contenir :",
-        "type": "multichoice",
+        "id": 21,
+        "question": "Le <div> peut contenir :",
         "options": [
           "Des paragraphes, images, et titres",
           "Seulement du texte",
@@ -163,23 +148,21 @@
         ],
         "answer": "Des paragraphes, images, et titres"
       },
-
       {
-        "name": "Vidéos 6 - VF1",
-        "questiontext": "La balise <p> définit un paragraphe.",
-        "type": "truefalse",
-        "answer": true
+        "id": 22,
+        "question": "La balise <p> définit un paragraphe.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
       },
       {
-        "name": "Vidéos 6 - VF2",
-        "questiontext": "La balise <hr> sert à définir un saut de ligne.",
-        "type": "truefalse",
-        "answer": false
+        "id": 23,
+        "question": "La balise <hr> sert à définir un saut de ligne.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
       },
       {
-        "name": "Vidéos 6 - QCM A",
-        "questiontext": "Si vous tapez plusieurs espaces dans un <p>, le navigateur :",
-        "type": "multichoice",
+        "id": 24,
+        "question": "Si vous tapez plusieurs espaces dans un <p>, le navigateur :",
         "options": [
           "Affiche tous les espaces",
           "Supprime les espaces supplémentaires",
@@ -189,62 +172,56 @@
         "answer": "Supprime les espaces supplémentaires"
       },
       {
-        "name": "Vidéos 6 - QCM B",
-        "questiontext": "Quelle balise préserve les espaces ?",
-        "type": "multichoice",
+        "id": 25,
+        "question": "Quelle balise préserve les espaces ?",
         "options": ["<p>", "<pre>", "<br>", "<hr>"],
         "answer": "<pre>"
       },
-
       {
-        "name": "Vidéos 7 - VF1",
-        "questiontext": "<b> définit du texte en gras sans importance particulière.",
-        "type": "truefalse",
-        "answer": true
+        "id": 26,
+        "question": "<b> définit du texte en gras sans importance particulière.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
       },
       {
-        "name": "Vidéos 7 - VF2",
-        "questiontext": "<i> sert à souligner le texte.",
-        "type": "truefalse",
-        "answer": false
+        "id": 27,
+        "question": "<i> sert à souligner le texte.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
       },
       {
-        "name": "Vidéos 7 - QCM A",
-        "questiontext": "Quelle balise affiche un texte plus petit ?",
-        "type": "multichoice",
+        "id": 28,
+        "question": "Quelle balise affiche un texte plus petit ?",
         "options": ["<small>", "<mark>", "<em>", "<b>"],
         "answer": "<small>"
       },
       {
-        "name": "Vidéos 7 - QCM B",
-        "questiontext": "Quelle balise indique un texte très important ?",
-        "type": "multichoice",
+        "id": 29,
+        "question": "Quelle balise indique un texte très important ?",
         "options": ["<b>", "<strong>", "<small>", "<mark>"],
         "answer": "<strong>"
       },
-
       {
-        "name": "Vidéos 8 - VF1",
-        "questiontext": "Si l’image n’est pas trouvée, le navigateur affiche une icône cassée.",
-        "type": "truefalse",
-        "answer": true
+        "id": 30,
+        "question": "Si l'image n'est pas trouvée, le navigateur affiche une icône cassée.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
       },
       {
-        "name": "Vidéos 8 - VF2",
-        "questiontext": "L’attribut alt est optionnel.",
-        "type": "truefalse",
-        "answer": false
+        "id": 31,
+        "question": "L'attribut alt est optionnel.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
       },
       {
-        "name": "Vidéos 8 - VF3",
-        "questiontext": "<img> contient toujours une balise fermante.",
-        "type": "truefalse",
-        "answer": false
+        "id": 32,
+        "question": "<img> contient toujours une balise fermante.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
       },
       {
-        "name": "Vidéos 8 - QCM A",
-        "questiontext": "Comment définir une image d’arrière-plan ?",
-        "type": "multichoice",
+        "id": 33,
+        "question": "Comment définir une image d'arrière-plan ?",
         "options": [
           "<div background='image.jpg'>",
           "<div style='background-image: url(\"image.jpg\");'>",
@@ -254,9 +231,8 @@
         "answer": "<div style='background-image: url(\"image.jpg\");'>"
       },
       {
-        "name": "Vidéos 8 - QCM B",
-        "questiontext": "Syntaxe correcte pour définir une largeur d’image :",
-        "type": "multichoice",
+        "id": 34,
+        "question": "Syntaxe correcte pour définir une largeur d'image :",
         "options": [
           "<img width='300'>",
           "<img style='size:300px;'>",

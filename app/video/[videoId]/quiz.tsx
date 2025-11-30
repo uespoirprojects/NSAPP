@@ -1,16 +1,17 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { getSubjectById } from '@/constants/subjects';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import {
     getRandomQuizQuestions,
     QuizQuestionWithMeta,
 } from '@/services/quizService';
+import { getSubjectByIdDirect } from '@/services/subjectSyncService';
 import type { QuizLanguage } from '@/types/quiz';
 import { router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import {
+    ActivityIndicator,
     ScrollView,
     StyleSheet,
     Text,
@@ -31,6 +32,7 @@ export default function VideoQuizScreen() {
     {},
   );
   const [subject, setSubject] = React.useState<any>(undefined);
+  const [isLoadingQuestions, setIsLoadingQuestions] = React.useState(false);
 
   React.useEffect(() => {
     const loadSubject = async () => {
@@ -39,7 +41,9 @@ export default function VideoQuizScreen() {
         return;
       }
       try {
-        const subjectData = await getSubjectById(subjectId);
+        // Fetch directly from Firestore to get the latest quizSlug (bypasses cache)
+        const subjectData = await getSubjectByIdDirect(subjectId);
+        console.log('[quiz] Loaded subject:', subjectData?.id, 'quizSlug:', subjectData?.quizSlug);
         setSubject(subjectData);
       } catch (error) {
         console.error('Error loading subject:', error);
@@ -60,12 +64,21 @@ export default function VideoQuizScreen() {
     totalQuestions > 0 ? ((currentIndex + 1) / totalQuestions) * 100 : 0;
 
   React.useEffect(() => {
+    // Only load quiz questions after subject is loaded from database
+    if (!subject || !subject.quizSlug) {
+      setQuestions([]);
+      setIsLoadingQuestions(false);
+      return;
+    }
+
     const loadQuestions = async () => {
+      setIsLoadingQuestions(true);
       try {
+        console.log('[quiz] Loading quiz for subject:', subject.id, 'quizSlug:', subject.quizSlug);
         const items = await getRandomQuizQuestions(
           currentLanguage as QuizLanguage,
           TOTAL_QUESTIONS,
-          subject?.quizSlug,
+          subject.quizSlug,
         );
         setQuestions(items);
         setCurrentIndex(0);
@@ -73,6 +86,8 @@ export default function VideoQuizScreen() {
       } catch (error) {
         console.error('Error loading quiz questions:', error);
         setQuestions([]);
+      } finally {
+        setIsLoadingQuestions(false);
       }
     };
     
@@ -129,7 +144,8 @@ export default function VideoQuizScreen() {
   }, [calculateScore, router, totalQuestions, videoId, subjectId]);
 
   const handleNext = () => {
-    if (!currentQuestion || !selectedOption) {
+    // Prevent navigation if no answer is selected
+    if (!currentQuestion || !selectedOption || !hasSelectedAnswer) {
       return;
     }
     if (isLastQuestion) {
@@ -209,7 +225,14 @@ export default function VideoQuizScreen() {
         </View>
       </View>
 
-      {totalQuestions === 0 ? (
+      {isLoadingQuestions ? (
+        <View style={styles.emptyState}>
+          <ActivityIndicator size="large" color={colors.blue} />
+          <Typography variant="body" color={colors.text} style={{ marginTop: 16, opacity: 0.7 }}>
+            {t('quiz.loading') || 'Loading quiz questions...'}
+          </Typography>
+        </View>
+      ) : totalQuestions === 0 ? (
         <View style={styles.emptyState}>
           <Typography variant="body" color={colors.text}>
             {t('quiz.empty')}
@@ -271,27 +294,33 @@ export default function VideoQuizScreen() {
                 {currentQuestion?.question}
               </Text>
 
-              {currentQuestion?.options.map((option) => (
-                <TouchableOpacity
-                  key={option}
-                  activeOpacity={0.8}
-                  onPress={() => handleOptionPress(option)}
-                  style={[
-                    styles.optionButton,
-                    getOptionStyle(option),
-                  ]}
-                >
-                  <Text
-                    style={{
-                      color: colors.text,
-                      fontFamily: 'Poppins-Medium',
-                      fontSize: 14,
-                    }}
+              {currentQuestion?.options && Array.isArray(currentQuestion.options) && currentQuestion.options.length > 0 ? (
+                currentQuestion.options.map((option) => (
+                  <TouchableOpacity
+                    key={option}
+                    activeOpacity={0.8}
+                    onPress={() => handleOptionPress(option)}
+                    style={[
+                      styles.optionButton,
+                      getOptionStyle(option),
+                    ]}
                   >
-                    {option}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+                    <Text
+                      style={{
+                        color: colors.text,
+                        fontFamily: 'Poppins-Medium',
+                        fontSize: 14,
+                      }}
+                    >
+                      {option}
+                    </Text>
+                  </TouchableOpacity>
+                ))
+              ) : (
+                <Text style={{ color: colors.text, opacity: 0.7, fontStyle: 'italic', padding: 16 }}>
+                  {t('quiz.noOptions') || 'No options available for this question'}
+                </Text>
+              )}
             </View>
           </ScrollView>
 
@@ -321,13 +350,14 @@ export default function VideoQuizScreen() {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                activeOpacity={0.8}
+                activeOpacity={isNextDisabled ? 1 : 0.8}
                 onPress={handleNext}
                 disabled={isNextDisabled}
                 style={[
                   styles.primaryButton,
                   {
                     backgroundColor: isNextDisabled ? colors.grey : colors.blue,
+                    opacity: isNextDisabled ? 0.6 : 1,
                   },
                 ]}
               >

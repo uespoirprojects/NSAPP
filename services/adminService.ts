@@ -1,16 +1,16 @@
 import { db } from '@/lib/firebase';
 import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  orderBy,
-  query,
-  Timestamp,
-  updateDoc,
-  where
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDoc,
+    getDocs,
+    orderBy,
+    query,
+    Timestamp,
+    updateDoc,
+    where
 } from 'firebase/firestore';
 
 // Category interfaces
@@ -22,6 +22,7 @@ export interface Category {
     en: string;
     es: string;
   };
+  icon: string; // Icon name from predefined list
   order: number;
   createdAt: Timestamp;
   updatedAt: Timestamp;
@@ -34,6 +35,7 @@ export interface CategoryInput {
     en: string;
     es: string;
   };
+  icon: string; // Icon name from predefined list
   order: number;
 }
 
@@ -298,10 +300,22 @@ export const updateSubject = async (
  */
 export const deleteSubject = async (subjectId: string): Promise<void> => {
   try {
+    console.log('[adminService] Attempting to delete subject:', subjectId);
     const subjectRef = doc(db, 'subjects', subjectId);
+    
+    // Check if document exists first
+    const subjectSnap = await getDoc(subjectRef);
+    if (!subjectSnap.exists()) {
+      throw new Error(`Subject with ID ${subjectId} does not exist`);
+    }
+    
+    console.log('[adminService] Subject exists, deleting...');
     await deleteDoc(subjectRef);
-  } catch (error) {
-    console.error('Error deleting subject:', error);
+    console.log('[adminService] Subject deleted successfully');
+  } catch (error: any) {
+    console.error('[adminService] Error deleting subject:', error);
+    console.error('[adminService] Error code:', error?.code);
+    console.error('[adminService] Error message:', error?.message);
     throw error;
   }
 };
@@ -348,6 +362,7 @@ export const testFirestoreConnection = async (): Promise<boolean> => {
         en: 'Test',
         es: 'Test',
       },
+      icon: 'folder-outline',
       order: 999,
     };
     
@@ -387,8 +402,17 @@ export const migrateHardcodedData = async (): Promise<{
         const existingCategory = await getCategoryById(category.id);
         
         if (!existingCategory) {
+          // Map hardcoded category IDs to icons
+          const iconMap: Record<string, string> = {
+            'computer': 'laptop-outline',
+            'mathematics': 'calculator-outline',
+            'physics': 'flask-outline',
+            'languages': 'globe-outline',
+          };
+          
           await createCategory({
             name: category.name,
+            icon: iconMap[category.id] || 'folder-outline',
             order: videoCategories.indexOf(category) + 1,
           });
           categoriesMigrated++;

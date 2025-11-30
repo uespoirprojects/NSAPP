@@ -111,6 +111,7 @@ const convertCategoriesToVideoCategories = (categories: Category[]): VideoCatego
   return categories.map((cat) => ({
     id: cat.id,
     name: cat.name,
+    icon: cat.icon, // Include icon from Firestore
     videos: [], // Categories don't have videos in Firestore, they're in separate collection
   }));
 };
@@ -143,6 +144,29 @@ const convertSubjectsToSubjectModules = (subjects: Subject[]): SubjectModule[] =
     
     return converted;
   });
+};
+
+/**
+ * Get a single subject by ID directly from Firestore (bypasses cache)
+ * Useful when you need the latest data (e.g., after updating quizSlug)
+ */
+export const getSubjectByIdDirect = async (subjectId: string): Promise<SubjectModule | undefined> => {
+  try {
+    const { getSubjectById } = await import('@/services/adminService');
+    const subject = await getSubjectById(subjectId);
+    
+    if (!subject) {
+      return undefined;
+    }
+    
+    // Convert to SubjectModule format
+    return convertSubjectsToSubjectModules([subject])[0];
+  } catch (error) {
+    console.error('Error fetching subject directly from Firestore:', error);
+    // Fallback to cached version
+    const subjects = await getSubjectsSync();
+    return subjects.find((s) => s.id === subjectId);
+  }
 };
 
 /**

@@ -34,7 +34,10 @@ export default function SubjectsScreen() {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deletingSubjectId, setDeletingSubjectId] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [subjectToDelete, setSubjectToDelete] = useState<Subject | null>(null);
   const [editingSubject, setEditingSubject] = useState<Subject | null>(null);
   const [formData, setFormData] = useState<SubjectInput>({
     categoryId: '',
@@ -135,28 +138,54 @@ export default function SubjectsScreen() {
   };
 
   const handleDelete = (subject: Subject) => {
-    Alert.alert(
-      'Delete Subject',
-      `Are you sure you want to delete "${subject.title.fr}"?`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await deleteSubject(subject.id);
-              // Clear cache so the app fetches fresh data
-              await clearCache();
-              Alert.alert('Success', 'Subject deleted successfully');
-              loadData();
-            } catch (error: any) {
-              Alert.alert('Error', error.message || 'Failed to delete subject');
-            }
-          },
-        },
-      ]
-    );
+    if (deletingSubjectId) {
+      // Prevent multiple delete operations
+      console.log('[admin/subjects] Delete already in progress');
+      return;
+    }
+
+    console.log('[admin/subjects] Delete button clicked for subject:', subject.id);
+    setSubjectToDelete(subject);
+    setDeleteModalVisible(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!subjectToDelete) {
+      return;
+    }
+
+    try {
+      setDeletingSubjectId(subjectToDelete.id);
+      setDeleteModalVisible(false);
+      console.log('[admin/subjects] Starting deletion for subject:', subjectToDelete.id);
+      
+      await deleteSubject(subjectToDelete.id);
+      console.log('[admin/subjects] Subject deleted from Firestore');
+      
+      // Clear cache so the app fetches fresh data
+      await clearCache();
+      console.log('[admin/subjects] Cache cleared');
+      
+      Alert.alert('Success', 'Subject deleted successfully');
+      console.log('[admin/subjects] Reloading data...');
+      await loadData();
+      console.log('[admin/subjects] Data reloaded');
+      setSubjectToDelete(null);
+    } catch (error: any) {
+      console.error('[admin/subjects] Delete error:', error);
+      console.error('[admin/subjects] Error details:', JSON.stringify(error, null, 2));
+      Alert.alert('Error', error.message || 'Failed to delete subject');
+      setSubjectToDelete(null);
+    } finally {
+      setDeletingSubjectId(null);
+      console.log('[admin/subjects] Delete operation completed');
+    }
+  };
+
+  const cancelDelete = () => {
+    console.log('[admin/subjects] Delete cancelled by user');
+    setDeleteModalVisible(false);
+    setSubjectToDelete(null);
   };
 
   const getCategoryName = (categoryId: string) => {
@@ -323,14 +352,24 @@ export default function SubjectsScreen() {
                             <IconSymbol name="pencil" size={20} color={colors.blue} />
                           </TouchableOpacity>
                           <TouchableOpacity
-                            onPress={() => handleDelete(subject)}
+                            onPress={() => {
+                              console.log('[admin/subjects] Delete button pressed for:', subject.id);
+                              handleDelete(subject);
+                            }}
+                            disabled={deletingSubjectId === subject.id || loading}
+                            activeOpacity={0.7}
                             style={{
                               padding: 8,
                               borderRadius: 6,
                               backgroundColor: `${colors.red}15`,
+                              opacity: (deletingSubjectId === subject.id || loading) ? 0.5 : 1,
                             }}
                           >
-                            <IconSymbol name="trash-outline" size={20} color={colors.red} />
+                            {deletingSubjectId === subject.id ? (
+                              <ActivityIndicator size="small" color={colors.red} />
+                            ) : (
+                              <IconSymbol name="trash-outline" size={20} color={colors.red} />
+                            )}
                           </TouchableOpacity>
                         </View>
                       </View>
@@ -634,6 +673,60 @@ export default function SubjectsScreen() {
                 </Typography>
               </TouchableOpacity>
             </ScrollView>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        visible={deleteModalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={cancelDelete}
+      >
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+          <View style={{ backgroundColor: colors.cardBackground, borderRadius: 20, padding: 24, width: '100%', maxWidth: 400 }}>
+            <Typography variant="h2" color={colors.text} style={{ marginBottom: 12, textAlign: 'center' }}>
+              Delete Subject
+            </Typography>
+            <Typography variant="body" color={colors.text} style={{ marginBottom: 24, textAlign: 'center', opacity: 0.8 }}>
+              Are you sure you want to delete "{subjectToDelete?.title.fr}"? This action cannot be undone.
+            </Typography>
+            <View style={{ flexDirection: 'row', gap: 12 }}>
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.grey,
+                  borderRadius: 12,
+                  padding: 16,
+                  alignItems: 'center',
+                }}
+                onPress={cancelDelete}
+              >
+                <Typography variant="body" color={colors.text} style={{ fontFamily: 'Poppins-SemiBold' }}>
+                  Cancel
+                </Typography>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.red,
+                  borderRadius: 12,
+                  padding: 16,
+                  alignItems: 'center',
+                }}
+                onPress={confirmDelete}
+                disabled={deletingSubjectId !== null}
+              >
+                {deletingSubjectId ? (
+                  <ActivityIndicator size="small" color={colors.white} />
+                ) : (
+                  <Typography variant="body" color={colors.white} style={{ fontFamily: 'Poppins-SemiBold' }}>
+                    Delete
+                  </Typography>
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>

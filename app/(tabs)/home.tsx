@@ -135,7 +135,8 @@ export default function HomeScreen() {
           >
             {categories.map((category) => {
             const videoCount = category.videos.length;
-            const icon = categoryIcons[category.id as keyof typeof categoryIcons] || 'folder-outline';
+            // Use icon from category data, fallback to hardcoded mapping, then default
+            const icon = category.icon || categoryIcons[category.id as keyof typeof categoryIcons] || 'folder-outline';
             const categoryName = category.name[currentLanguage] || category.name.fr;
             const iconColor = categoryColors[category.id as keyof typeof categoryColors] || colors.blue;
 

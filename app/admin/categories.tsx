@@ -1,5 +1,6 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { DEFAULT_CATEGORY_ICON, EDUCATION_ICONS } from '@/constants/categoryIcons';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import {
     createCategory,
@@ -35,8 +36,10 @@ export default function CategoriesScreen() {
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [formData, setFormData] = useState<CategoryInput>({
     name: { fr: '', ht: '', en: '', es: '' },
+    icon: DEFAULT_CATEGORY_ICON,
     order: 0,
   });
+  const [iconPickerVisible, setIconPickerVisible] = useState(false);
 
   useEffect(() => {
     loadCategories();
@@ -59,6 +62,7 @@ export default function CategoriesScreen() {
     setEditingCategory(null);
     setFormData({
       name: { fr: '', ht: '', en: '', es: '' },
+      icon: DEFAULT_CATEGORY_ICON,
       order: categories.length > 0 ? Math.max(...categories.map((c) => c.order)) + 1 : 1,
     });
     setModalVisible(true);
@@ -68,6 +72,7 @@ export default function CategoriesScreen() {
     setEditingCategory(category);
     setFormData({
       name: category.name,
+      icon: category.icon || DEFAULT_CATEGORY_ICON,
       order: category.order,
     });
     setModalVisible(true);
@@ -214,10 +219,17 @@ export default function CategoriesScreen() {
                 }}
               >
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <View style={{ flex: 1 }}>
-                    <Typography variant="h3" color={colors.text} style={{ marginBottom: 8 }}>
-                      {category.name.fr}
-                    </Typography>
+                  <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                    <IconSymbol 
+                      name={category.icon || DEFAULT_CATEGORY_ICON} 
+                      size={24} 
+                      color={colors.blue} 
+                      style={{ marginRight: 12 }} 
+                    />
+                    <View style={{ flex: 1 }}>
+                      <Typography variant="h3" color={colors.text} style={{ marginBottom: 8 }}>
+                        {category.name.fr}
+                      </Typography>
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
                       <Typography variant="body" color={colors.text} style={{ opacity: 0.7, fontSize: 12 }}>
                         FR: {category.name.fr}
@@ -232,9 +244,10 @@ export default function CategoriesScreen() {
                         ES: {category.name.es}
                       </Typography>
                     </View>
-                    <Typography variant="body" color={colors.text} style={{ opacity: 0.7, fontSize: 12 }}>
-                      Order: {category.order}
-                    </Typography>
+                      <Typography variant="body" color={colors.text} style={{ opacity: 0.7, fontSize: 12 }}>
+                        Order: {category.order}
+                      </Typography>
+                    </View>
                   </View>
                   <View style={{ flexDirection: 'row', gap: 8 }}>
                     <TouchableOpacity
@@ -389,6 +402,38 @@ export default function CategoriesScreen() {
                 />
               </View>
 
+              <View style={{ marginBottom: 16 }}>
+                <Typography variant="body" color={colors.text} style={{ marginBottom: 8, fontFamily: 'Poppins-SemiBold' }}>
+                  Icon *
+                </Typography>
+                <TouchableOpacity
+                  onPress={() => setIconPickerVisible(true)}
+                  style={{
+                    backgroundColor: colors.screenBackground,
+                    borderRadius: 8,
+                    padding: 12,
+                    borderWidth: 1,
+                    borderColor: colors.grey,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <IconSymbol 
+                      name={formData.icon || DEFAULT_CATEGORY_ICON} 
+                      size={24} 
+                      color={colors.blue} 
+                      style={{ marginRight: 12 }} 
+                    />
+                    <Typography variant="body" color={colors.text}>
+                      {EDUCATION_ICONS.find(icon => icon.name === formData.icon)?.label || 'Select an icon'}
+                    </Typography>
+                  </View>
+                  <IconSymbol name="chevron-forward" size={20} color={colors.grey} />
+                </TouchableOpacity>
+              </View>
+
               <View style={{ marginBottom: 24 }}>
                 <Typography variant="body" color={colors.text} style={{ marginBottom: 8, fontFamily: 'Poppins-SemiBold' }}>
                   Order
@@ -430,6 +475,102 @@ export default function CategoriesScreen() {
                   {editingCategory ? 'Update Category' : 'Create Category'}
                 </Typography>
               </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Icon Picker Modal */}
+      <Modal
+        visible={iconPickerVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setIconPickerVisible(false)}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: colors.cardBackground,
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+              padding: 20,
+              maxHeight: '80%',
+            }}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: 24,
+              }}
+            >
+              <Typography variant="h2" color={colors.text} style={{ fontFamily: 'Poppins-SemiBold' }}>
+                Select Icon
+              </Typography>
+              <TouchableOpacity onPress={() => setIconPickerVisible(false)}>
+                <IconSymbol name="close" size={24} color={colors.text} />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  justifyContent: 'space-between',
+                }}
+              >
+                {EDUCATION_ICONS.map((icon) => {
+                  const isSelected = formData.icon === icon.name;
+                  return (
+                    <TouchableOpacity
+                      key={icon.name}
+                      onPress={() => {
+                        setFormData({ ...formData, icon: icon.name });
+                        setIconPickerVisible(false);
+                      }}
+                      style={{
+                        width: '30%',
+                        aspectRatio: 1,
+                        backgroundColor: isSelected ? `${colors.blue}15` : colors.screenBackground,
+                        borderRadius: 12,
+                        borderWidth: 2,
+                        borderColor: isSelected ? colors.blue : colors.grey,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: 12,
+                        padding: 12,
+                      }}
+                    >
+                      <IconSymbol 
+                        name={icon.name} 
+                        size={32} 
+                        color={isSelected ? colors.blue : colors.text} 
+                      />
+                      <Typography
+                        variant="body"
+                        color={isSelected ? colors.blue : colors.text}
+                        style={{
+                          fontSize: 10,
+                          textAlign: 'center',
+                          marginTop: 8,
+                          fontFamily: 'Poppins-Regular',
+                        }}
+                        numberOfLines={2}
+                      >
+                        {icon.label}
+                      </Typography>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
             </ScrollView>
           </View>
         </View>

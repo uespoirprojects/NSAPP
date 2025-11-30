@@ -29,5 +29,6 @@ export interface VideoCategory {
     en: string;
     es: string;
   };
+  icon?: string; // Icon name from predefined list
   videos: Video[];
 }

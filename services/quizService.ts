@@ -2,8 +2,12 @@ import type { QuizLanguage, QuizModule, QuizQuestion } from '@/types/quiz';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Fallback imports (used if cPanel fetch fails)
+import frAlgorithm from '@/assets/quizzes/algorithm/fr.json';
+import htAlgorithm from '@/assets/quizzes/algorithm/ht.json';
 import frExcel from '@/assets/quizzes/excel/fr.json';
 import htExcel from '@/assets/quizzes/excel/ht.json';
+import frHtml from '@/assets/quizzes/html/fr.json';
+import htHtml from '@/assets/quizzes/html/ht.json';
 import frIntroComputer from '@/assets/quizzes/intro_computer/fr.json';
 import htIntroComputer from '@/assets/quizzes/intro_computer/ht.json';
 import frWord from '@/assets/quizzes/word/fr.json';
@@ -78,6 +82,7 @@ const normalizeQuizModules = (raw: unknown): QuizModule[] => {
 };
 
 // Fallback quiz library (used if cPanel fetch fails)
+// Note: Keys should match the folder names in assets/quizzes (with underscores) or database quizSlug values
 const fallbackQuizLibrary: Record<string, Record<SupportedLanguage, QuizModule[]>> = {
   excel: {
     fr: normalizeQuizModules(frExcel),
@@ -87,13 +92,18 @@ const fallbackQuizLibrary: Record<string, Record<SupportedLanguage, QuizModule[]
     fr: normalizeQuizModules(frWord),
     ht: normalizeQuizModules(htWord),
   },
-  'basic-computer': {
+  // Add underscore version to match database quizSlug
+  'intro_computer': {
     fr: normalizeQuizModules(frIntroComputer),
     ht: normalizeQuizModules(htIntroComputer),
   },
-  'intro-computer': {
-    fr: normalizeQuizModules(frIntroComputer),
-    ht: normalizeQuizModules(htIntroComputer),
+  algorithm: {
+    fr: normalizeQuizModules(frAlgorithm),
+    ht: normalizeQuizModules(htAlgorithm),
+  },
+  html: {
+    fr: normalizeQuizModules(frHtml),
+    ht: normalizeQuizModules(htHtml),
   },
 };
 
@@ -187,8 +197,18 @@ const fetchQuizFromUrl = async (
     await saveQuizToCache(quizSlug, language, modules);
     
     return modules;
-  } catch (error) {
-    console.error(`[quizService] Error fetching quiz from ${url}:`, error);
+  } catch (error: any) {
+    // Check if it's a CORS error (common in web development)
+    const isCorsError = error?.message?.includes('CORS') || 
+                        error?.message?.includes('Failed to fetch') ||
+                        error?.name === 'TypeError';
+    
+    if (isCorsError) {
+      // CORS errors are expected in web development - fallback will be used
+      console.log(`[quizService] CORS error fetching from ${url} (expected in web dev), using fallback`);
+    } else {
+      console.error(`[quizService] Error fetching quiz from ${url}:`, error);
+    }
     throw error;
   }
 };
@@ -225,40 +245,43 @@ export const getQuizModules = async (
     }
 
     return modules;
-  } catch (error) {
-    console.error('[quizService] Error fetching quiz, using fallback:', error);
-    // Fallback to local assets
+  } catch (error: any) {
+    // Check if it's a CORS error (common in web development)
+    const isCorsError = error?.message?.includes('CORS') || 
+                        error?.message?.includes('Failed to fetch') ||
+                        error?.name === 'TypeError';
+    
+    if (!isCorsError) {
+      // Only log non-CORS errors verbosely
+      console.error('[quizService] Error fetching quiz, using fallback:', error);
+    }
+    // Fallback to local assets (works for both CORS and other errors)
     return getFallbackQuizModules(language, normalizedSlug);
   }
 };
 
 /**
  * Get fallback quiz modules from local assets
+ * Only uses exact matches from the fallbackQuizLibrary based on quizSlug
  */
 const getFallbackQuizModules = (
   language: QuizLanguage,
   quizSlug: string,
 ): QuizModule[] => {
   const normalizedLanguage = normalizeLanguage(language);
-  const fallback = fallbackQuizLibrary[quizSlug];
+  const normalizedSlug = quizSlug.toLowerCase().trim();
+  
+  // Only use exact match from fallbackQuizLibrary
+  const fallback = fallbackQuizLibrary[normalizedSlug];
   
   if (fallback) {
     return fallback[normalizedLanguage] || fallback[DEFAULT_LANGUAGE] || [];
   }
   
-  // If quizSlug doesn't match, try to find a similar one
-  const similarSlug = Object.keys(fallbackQuizLibrary).find(
-    (key) => key.includes(quizSlug) || quizSlug.includes(key)
-  );
-  
-  if (similarSlug) {
-    const similarFallback = fallbackQuizLibrary[similarSlug];
-    return similarFallback[normalizedLanguage] || similarFallback[DEFAULT_LANGUAGE] || [];
-  }
-  
-  // Default to excel if nothing matches
-  const defaultFallback = fallbackQuizLibrary['excel'];
-  return defaultFallback[normalizedLanguage] || defaultFallback[DEFAULT_LANGUAGE] || [];
+  // If no exact match found, return empty array
+  // This ensures we only use quizzes that match the exact quizSlug structure
+  console.warn(`[quizService] No local fallback found for quizSlug: "${normalizedSlug}"`);
+  return [];
 };
 
 /**

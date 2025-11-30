@@ -119,6 +119,7 @@
   "quiz": {
     "defaultTitle": "Quiz",
     "subtitle": "Répondez aux questions pour tester vos connaissances",
+    "loading": "Chargement des questions du quiz...",
     "empty": "Aucun quiz disponible pour le moment.",
     "question": "Question",
     "of": "sur",
