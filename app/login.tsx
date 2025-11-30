@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { useI18n } from "@/contexts/i18n-context";
 import { useTheme } from "@/contexts/theme-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
-import { signIn } from "@/services/authService";
+import { getUserData, signIn } from "@/services/authService";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
@@ -67,18 +67,32 @@ export default function LoginScreen() {
       // Appel à Firebase au lieu de la simulation
       const result = await signIn(email, password);
 
-      if (result.success) {
+      if (result.success && result.userId) {
         await setIsAuthenticated(true);
         await setIsGuest(false);
-        router.push("/(tabs)/home");
+        
+        // Fetch user data to check role and redirect
+        try {
+          const userData = await getUserData(result.userId);
+          if (userData?.role === 'admin') {
+            router.push("/admin");
+          } else {
+            router.push("/(tabs)/home");
+          }
+        } catch (error) {
+          console.error("Error checking user role:", error);
+          // Default to home if we can't check role
+          router.push("/(tabs)/home");
+        }
+        setIsSubmitting(false);
       } else {
         // Afficher l'erreur dans le champ email
         setErrors({ email: result.error || t("login.genericError") });
+        setIsSubmitting(false);
       }
     } catch (error) {
       console.error("Login error:", error);
       setErrors({ email: t("login.genericError") });
-    } finally {
       setIsSubmitting(false);
     }
   };
@@ -87,15 +101,28 @@ export default function LoginScreen() {
     setIsSubmitting(true);
     const result = await signInWithGoogle();
 
-    if (result.success) {
+    if (result.success && result.userId) {
       await setIsAuthenticated(true);
       await setIsGuest(false);
-      router.push("/(tabs)/home");
+      
+      // Fetch user data to check role and redirect
+      try {
+        const userData = await getUserData(result.userId);
+        if (userData?.role === 'admin') {
+          router.push("/admin");
+        } else {
+          router.push("/(tabs)/home");
+        }
+      } catch (error) {
+        console.error("Error checking user role:", error);
+        // Default to home if we can't check role
+        router.push("/(tabs)/home");
+      }
+      setIsSubmitting(false);
     } else {
       Alert.alert("Erreur Google", result.error || "Connexion annulée");
+      setIsSubmitting(false);
     }
-
-    setIsSubmitting(false);
   };
 
   return (
