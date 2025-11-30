@@ -4,6 +4,7 @@ import { useI18n } from "@/contexts/i18n-context";
 import { useTheme } from "@/contexts/theme-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 import { getUserData, signIn } from "@/services/authService";
+import { signInWithGoogle } from "@/services/googleAuthService";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
@@ -18,7 +19,6 @@ import {
   useWindowDimensions
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { signInWithGoogle } from "./services/googleAuthService";
 
 export default function LoginScreen() {
   const colors = useThemeColors();

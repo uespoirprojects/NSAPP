@@ -5,6 +5,7 @@ import { useI18n } from "@/contexts/i18n-context";
 import { useTheme } from "@/contexts/theme-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 import { signUp } from "@/services/authService";
+import { signInWithGoogle } from "@/services/googleAuthService";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -20,7 +21,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { signInWithGoogle } from "./services/googleAuthService";
 
 export default function SignupScreen() {
   const colors = useThemeColors();

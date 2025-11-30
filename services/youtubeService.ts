@@ -81,6 +81,13 @@ const mapPlaylistItems = (items: any[]): PlaylistVideo[] =>
     .sort((a, b) => a.position - b.position);
 
 const fetchPlaylistFromApi = async (playlistId: string): Promise<PlaylistVideo[]> => {
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    throw new Error(
+      '[youtubeService] YouTube API key is missing. Please set EXPO_PUBLIC_YOUTUBE_API_KEY in your environment variables.',
+    );
+  }
+
   let nextPageToken: string | undefined;
   const collected: any[] = [];
 
@@ -89,9 +96,18 @@ const fetchPlaylistFromApi = async (playlistId: string): Promise<PlaylistVideo[]
     const response = await fetch(url);
 
     if (!response.ok) {
-      const message = await response.text();
+      const errorData = await response.json().catch(() => ({ error: { message: response.statusText } }));
+      const errorMessage = errorData?.error?.message || response.statusText;
+      
+      // Provide helpful error message for invalid API key
+      if (response.status === 400 && errorMessage.includes('API key')) {
+        throw new Error(
+          `[youtubeService] Invalid YouTube API key. Please check your EXPO_PUBLIC_YOUTUBE_API_KEY environment variable. Error: ${errorMessage}`,
+        );
+      }
+      
       throw new Error(
-        `[youtubeService] Failed to fetch playlist ${playlistId}: ${response.status} ${response.statusText} - ${message}`,
+        `[youtubeService] Failed to fetch playlist ${playlistId}: ${response.status} ${response.statusText} - ${errorMessage}`,
       );
     }
 
