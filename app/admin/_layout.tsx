@@ -93,6 +93,12 @@ export default function AdminLayout() {
             title: 'Subjects',
           }}
         />
+        <Stack.Screen
+          name="users"
+          options={{
+            title: 'Users',
+          }}
+        />
       </Stack>
     </SafeAreaView>
   );

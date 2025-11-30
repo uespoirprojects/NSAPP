@@ -279,6 +279,7 @@ export default function AdminDashboard() {
                 title="Users"
                 value={stats.usersCount}
                 color="#FF9800"
+                onPress={() => router.push({ pathname: '/admin/users' } as any)}
               />
             </View>
           ) : null}
@@ -317,6 +318,13 @@ export default function AdminDashboard() {
                 description="Add a new subject to a category"
                 color="#4CAF50"
                 onPress={() => router.push({ pathname: '/admin/subjects' } as any)}
+              />
+              <ActionCard
+                icon="people-outline"
+                title="Manage Users"
+                description="View and manage all users, assign admin roles"
+                color="#FF9800"
+                onPress={() => router.push({ pathname: '/admin/users' } as any)}
               />
             </View>
           </View>

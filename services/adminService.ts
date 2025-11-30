@@ -1,16 +1,17 @@
 import { db } from '@/lib/firebase';
+import type { UserData, UserRole } from '@/services/authService';
 import {
-    addDoc,
-    collection,
-    deleteDoc,
-    doc,
-    getDoc,
-    getDocs,
-    orderBy,
-    query,
-    Timestamp,
-    updateDoc,
-    where
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  Timestamp,
+  updateDoc,
+  where
 } from 'firebase/firestore';
 
 // Category interfaces
@@ -476,6 +477,50 @@ export const migrateHardcodedData = async (): Promise<{
     console.error(errorMsg, error);
     errors.push(errorMsg);
     throw new Error(errorMsg);
+  }
+};
+
+// ==================== USER MANAGEMENT ====================
+
+/**
+ * Admin user type (extends UserData with id)
+ */
+export interface AdminUser extends UserData {
+  id: string;
+}
+
+/**
+ * Get all users
+ */
+export const getUsers = async (): Promise<AdminUser[]> => {
+  try {
+    const usersRef = collection(db, 'users');
+    const q = query(usersRef, orderBy('createdAt', 'desc'));
+    const querySnapshot = await getDocs(q);
+    
+    return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as AdminUser[];
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    throw error;
+  }
+};
+
+/**
+ * Update a user's role
+ */
+export const updateUserRole = async (userId: string, role: UserRole): Promise<void> => {
+  try {
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, {
+      role,
+      updatedAt: Timestamp.now(),
+    });
+  } catch (error) {
+    console.error('Error updating user role:', error);
+    throw error;
   }
 };
 
