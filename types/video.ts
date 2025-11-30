@@ -30,5 +30,6 @@ export interface VideoCategory {
     es: string;
   };
   icon?: string; // Icon name from predefined list
+  color?: string; // Icon color (hex code)
   videos: Video[];
 }

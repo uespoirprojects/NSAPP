@@ -138,7 +138,8 @@ export default function HomeScreen() {
             // Use icon from category data, fallback to hardcoded mapping, then default
             const icon = category.icon || categoryIcons[category.id as keyof typeof categoryIcons] || 'folder-outline';
             const categoryName = category.name[currentLanguage] || category.name.fr;
-            const iconColor = categoryColors[category.id as keyof typeof categoryColors] || colors.blue;
+            // Use color from category data, fallback to hardcoded mapping, then default
+            const iconColor = category.color || categoryColors[category.id as keyof typeof categoryColors] || colors.blue;
 
             return (
               <TouchableOpacity

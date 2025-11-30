@@ -23,6 +23,7 @@ export interface Category {
     es: string;
   };
   icon: string; // Icon name from predefined list
+  color: string; // Icon color (hex code)
   order: number;
   createdAt: Timestamp;
   updatedAt: Timestamp;
@@ -36,6 +37,7 @@ export interface CategoryInput {
     es: string;
   };
   icon: string; // Icon name from predefined list
+  color: string; // Icon color (hex code)
   order: number;
 }
 
@@ -363,6 +365,7 @@ export const testFirestoreConnection = async (): Promise<boolean> => {
         es: 'Test',
       },
       icon: 'folder-outline',
+      color: '#155DFC',
       order: 999,
     };
     
@@ -402,17 +405,24 @@ export const migrateHardcodedData = async (): Promise<{
         const existingCategory = await getCategoryById(category.id);
         
         if (!existingCategory) {
-          // Map hardcoded category IDs to icons
+          // Map hardcoded category IDs to icons and colors
           const iconMap: Record<string, string> = {
             'computer': 'laptop-outline',
             'mathematics': 'calculator-outline',
             'physics': 'flask-outline',
             'languages': 'globe-outline',
           };
+          const colorMap: Record<string, string> = {
+            'computer': '#155DFC', // Blue
+            'mathematics': '#4CAF50', // Green
+            'physics': '#FF9800', // Orange
+            'languages': '#9C27B0', // Purple
+          };
           
           await createCategory({
             name: category.name,
             icon: iconMap[category.id] || 'folder-outline',
+            color: colorMap[category.id] || '#155DFC',
             order: videoCategories.indexOf(category) + 1,
           });
           categoriesMigrated++;

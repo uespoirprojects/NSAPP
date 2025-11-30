@@ -1,26 +1,27 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { CATEGORY_COLORS, DEFAULT_CATEGORY_COLOR } from '@/constants/categoryColors';
 import { DEFAULT_CATEGORY_ICON, EDUCATION_ICONS } from '@/constants/categoryIcons';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import {
-    createCategory,
-    deleteCategory,
-    getCategories,
-    updateCategory,
-    type Category,
-    type CategoryInput,
+  createCategory,
+  deleteCategory,
+  getCategories,
+  updateCategory,
+  type Category,
+  type CategoryInput,
 } from '@/services/adminService';
 import { clearCache } from '@/services/subjectSyncService';
 import React, { useEffect, useState } from 'react';
 import {
-    ActivityIndicator,
-    Alert,
-    Modal,
-    ScrollView,
-    TextInput,
-    TouchableOpacity,
-    View,
-    useWindowDimensions,
+  ActivityIndicator,
+  Alert,
+  Modal,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  View,
+  useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -37,9 +38,11 @@ export default function CategoriesScreen() {
   const [formData, setFormData] = useState<CategoryInput>({
     name: { fr: '', ht: '', en: '', es: '' },
     icon: DEFAULT_CATEGORY_ICON,
+    color: DEFAULT_CATEGORY_COLOR,
     order: 0,
   });
   const [iconPickerVisible, setIconPickerVisible] = useState(false);
+  const [colorPickerVisible, setColorPickerVisible] = useState(false);
 
   useEffect(() => {
     loadCategories();
@@ -63,6 +66,7 @@ export default function CategoriesScreen() {
     setFormData({
       name: { fr: '', ht: '', en: '', es: '' },
       icon: DEFAULT_CATEGORY_ICON,
+      color: DEFAULT_CATEGORY_COLOR,
       order: categories.length > 0 ? Math.max(...categories.map((c) => c.order)) + 1 : 1,
     });
     setModalVisible(true);
@@ -73,6 +77,7 @@ export default function CategoriesScreen() {
     setFormData({
       name: category.name,
       icon: category.icon || DEFAULT_CATEGORY_ICON,
+      color: category.color || DEFAULT_CATEGORY_COLOR,
       order: category.order,
     });
     setModalVisible(true);
@@ -223,7 +228,7 @@ export default function CategoriesScreen() {
                     <IconSymbol 
                       name={category.icon || DEFAULT_CATEGORY_ICON} 
                       size={24} 
-                      color={colors.blue} 
+                      color={category.color || DEFAULT_CATEGORY_COLOR} 
                       style={{ marginRight: 12 }} 
                     />
                     <View style={{ flex: 1 }}>
@@ -434,6 +439,43 @@ export default function CategoriesScreen() {
                 </TouchableOpacity>
               </View>
 
+              <View style={{ marginBottom: 16 }}>
+                <Typography variant="body" color={colors.text} style={{ marginBottom: 8, fontFamily: 'Poppins-SemiBold' }}>
+                  Icon Color *
+                </Typography>
+                <TouchableOpacity
+                  onPress={() => setColorPickerVisible(true)}
+                  style={{
+                    backgroundColor: colors.screenBackground,
+                    borderRadius: 8,
+                    padding: 12,
+                    borderWidth: 1,
+                    borderColor: colors.grey,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View
+                      style={{
+                        width: 32,
+                        height: 32,
+                        borderRadius: 16,
+                        backgroundColor: formData.color || DEFAULT_CATEGORY_COLOR,
+                        borderWidth: 2,
+                        borderColor: colors.grey,
+                        marginRight: 12,
+                      }}
+                    />
+                    <Typography variant="body" color={colors.text}>
+                      {CATEGORY_COLORS.find(color => color.value === formData.color)?.label || 'Select a color'}
+                    </Typography>
+                  </View>
+                  <IconSymbol name="chevron-forward" size={20} color={colors.grey} />
+                </TouchableOpacity>
+              </View>
+
               <View style={{ marginBottom: 24 }}>
                 <Typography variant="body" color={colors.text} style={{ marginBottom: 8, fontFamily: 'Poppins-SemiBold' }}>
                   Order
@@ -566,6 +608,105 @@ export default function CategoriesScreen() {
                         numberOfLines={2}
                       >
                         {icon.label}
+                      </Typography>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Color Picker Modal */}
+      <Modal
+        visible={colorPickerVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setColorPickerVisible(false)}
+      >
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: colors.cardBackground,
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+              padding: 20,
+              maxHeight: '80%',
+            }}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: 24,
+              }}
+            >
+              <Typography variant="h2" color={colors.text} style={{ fontFamily: 'Poppins-SemiBold' }}>
+                Select Color
+              </Typography>
+              <TouchableOpacity onPress={() => setColorPickerVisible(false)}>
+                <IconSymbol name="close" size={24} color={colors.text} />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  justifyContent: 'space-between',
+                }}
+              >
+                {CATEGORY_COLORS.map((color) => {
+                  const isSelected = formData.color === color.value;
+                  return (
+                    <TouchableOpacity
+                      key={color.value}
+                      onPress={() => {
+                        setFormData({ ...formData, color: color.value });
+                        setColorPickerVisible(false);
+                      }}
+                      style={{
+                        width: '30%',
+                        aspectRatio: 1,
+                        backgroundColor: colors.screenBackground,
+                        borderRadius: 12,
+                        borderWidth: 3,
+                        borderColor: isSelected ? color.value : colors.grey,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: 12,
+                        padding: 12,
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: '100%',
+                          height: '60%',
+                          borderRadius: 8,
+                          backgroundColor: color.value,
+                          marginBottom: 8,
+                        }}
+                      />
+                      <Typography
+                        variant="body"
+                        color={isSelected ? color.value : colors.text}
+                        style={{
+                          fontSize: 10,
+                          textAlign: 'center',
+                          fontFamily: 'Poppins-Regular',
+                        }}
+                        numberOfLines={2}
+                      >
+                        {color.label}
                       </Typography>
                     </TouchableOpacity>
                   );

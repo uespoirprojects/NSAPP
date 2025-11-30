@@ -112,6 +112,7 @@ const convertCategoriesToVideoCategories = (categories: Category[]): VideoCatego
     id: cat.id,
     name: cat.name,
     icon: cat.icon, // Include icon from Firestore
+    color: cat.color, // Include color from Firestore
     videos: [], // Categories don't have videos in Firestore, they're in separate collection
   }));
 };
