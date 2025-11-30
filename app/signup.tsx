@@ -90,12 +90,13 @@ export default function SignupScreen() {
         await setIsGuest(false);
         router.push("/(tabs)/home");
       } else {
-        // Afficher l'erreur dans le champ email (ou global)
-        setErrors({ email: result.error || t("signup.genericError") });
+        // Display translated error message
+        const errorMessage = result.error ? t(result.error) : t("auth.genericError");
+        setErrors({ email: errorMessage });
       }
     } catch (error) {
       console.error("Signup error:", error);
-      setErrors({ email: t("signup.genericError") });
+      setErrors({ email: t("auth.genericError") });
     } finally {
       setIsSubmitting(false);
     }
@@ -110,7 +111,8 @@ export default function SignupScreen() {
       await setIsGuest(false);
       router.push("/(tabs)/home");
     } else {
-      Alert.alert("Erreur Google", result.error || "Connexion annulée");
+      const errorMessage = result.error ? t(result.error) : t("auth.cancelled");
+      Alert.alert(t("signup.signUp"), errorMessage);
     }
 
     setIsSubmitting(false);

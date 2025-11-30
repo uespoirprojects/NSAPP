@@ -20,7 +20,8 @@
     "signUp": "Regístrate",
     "browseVideos": "Explorar videos",
     "invalidEmail": "Ingresa un correo electrónico válido",
-    "passwordMinLength": "La contraseña debe tener al menos 6 caracteres"
+    "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
+    "genericError": "Ocurrió un error. Por favor, inténtalo de nuevo."
   },
   "signup": {
     "title": "Crear Cuenta",
@@ -48,7 +49,27 @@
     "hasAccount": "¿Ya tienes una cuenta?",
     "signIn": "Iniciar sesión",
     "invalidEmail": "Ingresa un correo electrónico válido",
-    "passwordMinLength": "La contraseña debe tener al menos 6 caracteres"
+    "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
+    "genericError": "Ocurrió un error. Por favor, inténtalo de nuevo."
+  },
+  "auth": {
+    "emailAlreadyInUse": "Este correo electrónico ya está registrado. Por favor, inicia sesión en su lugar.",
+    "invalidEmail": "Por favor, ingresa un correo electrónico válido.",
+    "weakPassword": "La contraseña debe tener al menos 6 caracteres.",
+    "userNotFound": "No se encontró ninguna cuenta con este correo electrónico.",
+    "wrongPassword": "Contraseña incorrecta. Por favor, inténtalo de nuevo.",
+    "invalidCredential": "Correo electrónico o contraseña incorrectos.",
+    "userDisabled": "Esta cuenta ha sido deshabilitada. Por favor, contacta con soporte.",
+    "tooManyRequests": "Demasiados intentos fallidos. Por favor, inténtalo más tarde.",
+    "operationNotAllowed": "Este método de inicio de sesión no está habilitado.",
+    "requiresRecentLogin": "Por seguridad, por favor inicia sesión nuevamente.",
+    "networkError": "Error de red. Por favor, verifica tu conexión e inténtalo de nuevo.",
+    "internalError": "Ocurrió un error interno. Por favor, inténtalo más tarde.",
+    "popupClosed": "El inicio de sesión fue cancelado.",
+    "cancelled": "El inicio de sesión fue cancelado.",
+    "popupBlocked": "La ventana emergente fue bloqueada. Por favor, permite las ventanas emergentes e inténtalo de nuevo.",
+    "accountExistsWithDifferentCredential": "Ya existe una cuenta con este correo electrónico usando un método de inicio de sesión diferente.",
+    "genericError": "Ocurrió un error durante la autenticación. Por favor, inténtalo de nuevo."
   },
   "home": {
     "title": "Explorar Categorías",

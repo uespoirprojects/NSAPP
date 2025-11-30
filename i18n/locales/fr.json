@@ -20,7 +20,8 @@
     "signUp": "S'inscrire",
     "browseVideos": "Parcourir les vidéos",
     "invalidEmail": "Entrez une adresse email valide",
-    "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères"
+    "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères",
+    "genericError": "Une erreur s'est produite. Veuillez réessayer."
   },
   "signup": {
     "title": "Créer un compte",
@@ -48,7 +49,27 @@
     "hasAccount": "Vous avez déjà un compte ?",
     "signIn": "Se connecter",
     "invalidEmail": "Entrez une adresse email valide",
-    "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères"
+    "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères",
+    "genericError": "Une erreur s'est produite. Veuillez réessayer."
+  },
+  "auth": {
+    "emailAlreadyInUse": "Cet email est déjà enregistré. Veuillez vous connecter à la place.",
+    "invalidEmail": "Veuillez entrer une adresse email valide.",
+    "weakPassword": "Le mot de passe doit contenir au moins 6 caractères.",
+    "userNotFound": "Aucun compte trouvé avec cette adresse email.",
+    "wrongPassword": "Mot de passe incorrect. Veuillez réessayer.",
+    "invalidCredential": "Email ou mot de passe incorrect.",
+    "userDisabled": "Ce compte a été désactivé. Veuillez contacter le support.",
+    "tooManyRequests": "Trop de tentatives échouées. Veuillez réessayer plus tard.",
+    "operationNotAllowed": "Cette méthode de connexion n'est pas activée.",
+    "requiresRecentLogin": "Pour des raisons de sécurité, veuillez vous reconnecter.",
+    "networkError": "Erreur réseau. Veuillez vérifier votre connexion et réessayer.",
+    "internalError": "Une erreur interne s'est produite. Veuillez réessayer plus tard.",
+    "popupClosed": "La connexion a été annulée.",
+    "cancelled": "La connexion a été annulée.",
+    "popupBlocked": "La fenêtre pop-up a été bloquée. Veuillez autoriser les pop-ups et réessayer.",
+    "accountExistsWithDifferentCredential": "Un compte existe déjà avec cet email en utilisant une autre méthode de connexion.",
+    "genericError": "Une erreur s'est produite lors de l'authentification. Veuillez réessayer."
   },
   "home": {
     "title": "Explorer les Catégories",

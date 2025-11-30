@@ -13,6 +13,7 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
+import { getFirebaseErrorMessage } from '../utils/firebaseErrorHandler';
 
 
 WebBrowser.maybeCompleteAuthSession();
@@ -41,14 +42,14 @@ export const signInWithGoogle = async () => {
     const result = await WebBrowser.openAuthSessionAsync(authUrl, redirectUri);
 
     if (result.type !== 'success') {
-      return { success: false, error: "Google sign-in cancelled or failed" };
+      return { success: false, error: 'auth.cancelled' };
     }
 
     const url = new URL(result.url);
     const code = url.searchParams.get('code');
 
     if (!code) {
-      return { success: false, error: "No authorization code received" };
+      return { success: false, error: 'auth.genericError' };
     }
 
     // 🔑 Échanger le code contre une credential Firebase
@@ -87,9 +88,10 @@ export const signInWithGoogle = async () => {
     };
   } catch (error: any) {
     console.error("Google sign-in error:", error);
+    const errorKey = getFirebaseErrorMessage(error);
     return {
       success: false,
-      error: error.message || "An unknown error occurred during Google sign-in",
+      error: errorKey,
     };
   }
 };

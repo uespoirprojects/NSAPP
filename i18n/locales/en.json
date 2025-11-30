@@ -48,7 +48,27 @@
     "hasAccount": "Already have an account?",
     "signIn": "Sign in",
     "invalidEmail": "Enter a valid email address",
-    "passwordMinLength": "Password must be at least 6 characters"
+    "passwordMinLength": "Password must be at least 6 characters",
+    "genericError": "An error occurred. Please try again."
+  },
+  "auth": {
+    "emailAlreadyInUse": "This email is already registered. Please sign in instead.",
+    "invalidEmail": "Please enter a valid email address.",
+    "weakPassword": "Password must be at least 6 characters long.",
+    "userNotFound": "No account found with this email address.",
+    "wrongPassword": "Incorrect password. Please try again.",
+    "invalidCredential": "Email or password is incorrect.",
+    "userDisabled": "This account has been disabled. Please contact support.",
+    "tooManyRequests": "Too many failed attempts. Please try again later.",
+    "operationNotAllowed": "This sign-in method is not enabled.",
+    "requiresRecentLogin": "For security, please sign in again.",
+    "networkError": "Network error. Please check your connection and try again.",
+    "internalError": "An internal error occurred. Please try again later.",
+    "popupClosed": "Sign-in was cancelled.",
+    "cancelled": "Sign-in was cancelled.",
+    "popupBlocked": "Pop-up was blocked. Please allow pop-ups and try again.",
+    "accountExistsWithDifferentCredential": "An account already exists with this email using a different sign-in method.",
+    "genericError": "An error occurred during authentication. Please try again."
   },
   "home": {
     "title": "Explore Categories",

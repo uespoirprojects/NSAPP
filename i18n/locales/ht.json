@@ -20,7 +20,8 @@
     "signUp": "Enskri",
     "browseVideos": "Browse Videyo yo",
     "invalidEmail": "Antre yon adrès imèl ki valab",
-    "passwordMinLength": "Modpas la dwe gen omwen 6 karaktè"
+    "passwordMinLength": "Modpas la dwe gen omwen 6 karaktè",
+    "genericError": "Yon erè te rive. Tanpri eseye ankò."
   },
   "signup": {
     "title": "Kreye Kont",
@@ -48,7 +49,27 @@
     "hasAccount": "Ou gen yon kont deja?",
     "signIn": "Konekte",
     "invalidEmail": "Antre yon adrès imèl ki valab",
-    "passwordMinLength": "Modpas la dwe gen omwen 6 karaktè"
+    "passwordMinLength": "Modpas la dwe gen omwen 6 karaktè",
+    "genericError": "Yon erè te rive. Tanpri eseye ankò."
+  },
+  "auth": {
+    "emailAlreadyInUse": "Imèl sa a deja anrejistre. Tanpri konekte olye.",
+    "invalidEmail": "Tanpri antre yon adrès imèl ki valab.",
+    "weakPassword": "Modpas la dwe gen omwen 6 karaktè.",
+    "userNotFound": "Pa gen kont ki jwenn ak adrès imèl sa a.",
+    "wrongPassword": "Modpas ki pa kòrèk. Tanpri eseye ankò.",
+    "invalidCredential": "Imèl oswa modpas ki pa kòrèk.",
+    "userDisabled": "Kont sa a te dezakti. Tanpri kontakte sipò.",
+    "tooManyRequests": "Twòp tantativ echwe. Tanpri eseye ankò pita.",
+    "operationNotAllowed": "Metòd koneksyon sa a pa aktive.",
+    "requiresRecentLogin": "Pou sekirite, tanpri konekte ankò.",
+    "networkError": "Erè rezo. Tanpri tcheke koneksyon ou epi eseye ankò.",
+    "internalError": "Yon erè entèn te rive. Tanpri eseye ankò pita.",
+    "popupClosed": "Koneksyon an te anile.",
+    "cancelled": "Koneksyon an te anile.",
+    "popupBlocked": "Fenèt pop-up la te bloke. Tanpri pèmèt pop-ups yo epi eseye ankò.",
+    "accountExistsWithDifferentCredential": "Yon kont egziste deja ak imèl sa a lè l sèvi avèk yon lòt metòd koneksyon.",
+    "genericError": "Yon erè te rive pandan otantifikasyon an. Tanpri eseye ankò."
   },
   "home": {
     "title": "Eksplore Kategori yo",

@@ -1,16 +1,17 @@
 // services/authService.ts
 import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut
 } from "firebase/auth";
 import {
-    doc,
-    getDoc,
-    setDoc,
-    Timestamp,
+  doc,
+  getDoc,
+  setDoc,
+  Timestamp,
 } from "firebase/firestore";
 import { auth, db } from "../lib/firebase";
+import { getFirebaseErrorMessage } from "../utils/firebaseErrorHandler";
 
 export type FriendlyErrorType = 'offline' | 'unknown';
 
@@ -85,18 +86,9 @@ export const signUp = async (
 
     return { success: true, userId: firebaseUid };
   } catch (error: any) {
-    let message = "Inscription échouée.";
-    if (error.code === "auth/email-already-in-use") {
-      message = "Cet email est déjà utilisé.";
-    } else if (error.code === "auth/invalid-email") {
-      message = "Email invalide.";
-    } else if (error.code === "auth/weak-password") {
-      message = "Mot de passe trop faible (min. 6 caractères).";
-    } else if (error.code === "auth/operation-not-allowed") {
-      message = "Inscription temporairement désactivée.";
-    }
     console.error("Sign up error:", error);
-    return { success: false, error: message };
+    const errorKey = getFirebaseErrorMessage(error);
+    return { success: false, error: errorKey };
   }
 };
 
@@ -133,16 +125,9 @@ export const signIn = async (
 
     return { success: true, userId: firebaseUid };
   } catch (error: any) {
-    let message = "Connexion échouée.";
-    if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
-      message = "Email ou mot de passe incorrect.";
-    } else if (error.code === "auth/invalid-email") {
-      message = "Email invalide.";
-    } else if (error.code === "auth/user-disabled") {
-      message = "Ce compte a été désactivé.";
-    }
     console.error("Sign in error:", error);
-    return { success: false, error: message };
+    const errorKey = getFirebaseErrorMessage(error);
+    return { success: false, error: errorKey };
   }
 };
 
