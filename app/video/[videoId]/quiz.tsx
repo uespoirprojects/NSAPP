@@ -32,15 +32,18 @@ export default function VideoQuizScreen() {
     {},
   );
   const [subject, setSubject] = React.useState<any>(undefined);
+  const [isLoadingSubject, setIsLoadingSubject] = React.useState(true);
   const [isLoadingQuestions, setIsLoadingQuestions] = React.useState(false);
 
   React.useEffect(() => {
     const loadSubject = async () => {
       if (!subjectId) {
         setSubject(undefined);
+        setIsLoadingSubject(false);
         return;
       }
       try {
+        setIsLoadingSubject(true);
         // Fetch directly from Firestore to get the latest quizSlug (bypasses cache)
         const subjectData = await getSubjectByIdDirect(subjectId);
         console.log('[quiz] Loaded subject:', subjectData?.id, 'quizSlug:', subjectData?.quizSlug);
@@ -48,6 +51,8 @@ export default function VideoQuizScreen() {
       } catch (error) {
         console.error('Error loading subject:', error);
         setSubject(undefined);
+      } finally {
+        setIsLoadingSubject(false);
       }
     };
     loadSubject();
@@ -225,11 +230,13 @@ export default function VideoQuizScreen() {
         </View>
       </View>
 
-      {isLoadingQuestions ? (
+      {isLoadingSubject || isLoadingQuestions ? (
         <View style={styles.emptyState}>
           <ActivityIndicator size="large" color={colors.blue} />
           <Typography variant="body" color={colors.text} style={{ marginTop: 16, opacity: 0.7 }}>
-            {t('quiz.loading') || 'Loading quiz questions...'}
+            {isLoadingSubject 
+              ? (t('quiz.loadingSubject') || 'Loading quiz...')
+              : (t('quiz.loading') || 'Loading quiz questions...')}
           </Typography>
         </View>
       ) : totalQuestions === 0 ? (

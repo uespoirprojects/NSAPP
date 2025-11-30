@@ -119,6 +119,7 @@
   "quiz": {
     "defaultTitle": "Tès",
     "subtitle": "Reponn kesyon yo pou verifye konesans ou",
+    "loadingSubject": "Nap chaje tès la...",
     "loading": "Nap chaje kesyon tès yo...",
     "empty": "Pa gen okenn tès disponib pou kounye a.",
     "question": "Kesyon",

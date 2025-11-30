@@ -119,6 +119,7 @@
   "quiz": {
     "defaultTitle": "Quiz",
     "subtitle": "Answer the questions to test your knowledge",
+    "loadingSubject": "Loading quiz...",
     "loading": "Loading quiz questions...",
     "empty": "No quizzes are available right now.",
     "question": "Question",
