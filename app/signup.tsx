@@ -88,6 +88,28 @@ export default function SignupScreen() {
       if (result.success) {
         await setIsAuthenticated(true);
         await setIsGuest(false);
+        
+        // Prefetch quizzes after successful signup (in background)
+        (async () => {
+          try {
+            const { prefetchAllQuizzes } = await import('@/services/quizService');
+            const { getSubjectsSync } = await import('@/services/subjectSyncService');
+            const subjects = await getSubjectsSync();
+            const uniqueQuizSlugs = [...new Set(
+              subjects
+                .map((s) => s.quizSlug)
+                .filter((slug): slug is string => Boolean(slug && slug.trim()))
+            )];
+            
+            if (uniqueQuizSlugs.length > 0) {
+              console.log('[signup] Prefetching quizzes after signup...');
+              await prefetchAllQuizzes(uniqueQuizSlugs);
+            }
+          } catch (error) {
+            console.warn('[signup] Failed to prefetch quizzes:', error);
+          }
+        })();
+        
         router.push("/(tabs)/home");
       } else {
         // Display translated error message
@@ -109,6 +131,28 @@ export default function SignupScreen() {
     if (result.success) {
       await setIsAuthenticated(true);
       await setIsGuest(false);
+      
+      // Prefetch quizzes after successful Google signup (in background)
+      (async () => {
+        try {
+          const { prefetchAllQuizzes } = await import('@/services/quizService');
+          const { getSubjectsSync } = await import('@/services/subjectSyncService');
+          const subjects = await getSubjectsSync();
+          const uniqueQuizSlugs = [...new Set(
+            subjects
+              .map((s) => s.quizSlug)
+              .filter((slug): slug is string => Boolean(slug && slug.trim()))
+          )];
+          
+          if (uniqueQuizSlugs.length > 0) {
+            console.log('[signup] Prefetching quizzes after Google signup...');
+            await prefetchAllQuizzes(uniqueQuizSlugs);
+          }
+        } catch (error) {
+          console.warn('[signup] Failed to prefetch quizzes:', error);
+        }
+      })();
+      
       router.push("/(tabs)/home");
     } else {
       const errorMessage = result.error ? t(result.error) : t("auth.cancelled");

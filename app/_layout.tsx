@@ -13,6 +13,8 @@ import { I18nProvider } from '@/contexts/i18n-context';
 import { ThemeProvider, useTheme } from '@/contexts/theme-context';
 import '@/global.css';
 import { initI18n } from '@/i18n/config';
+import { prefetchAllQuizzes } from '@/services/quizService';
+import { getSubjectsSync } from '@/services/subjectSyncService';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -36,6 +38,26 @@ function RootLayoutContent() {
     const initializeApp = async () => {
       await initI18n();
       setI18nInitialized(true);
+      
+      // Prefetch all quizzes in the background
+      // This doesn't block app initialization
+      (async () => {
+        try {
+          const subjects = await getSubjectsSync();
+          const uniqueQuizSlugs = [...new Set(
+            subjects
+              .map((s) => s.quizSlug)
+              .filter((slug): slug is string => Boolean(slug && slug.trim()))
+          )];
+          
+          if (uniqueQuizSlugs.length > 0) {
+            await prefetchAllQuizzes(uniqueQuizSlugs);
+          }
+        } catch (error) {
+          console.warn('[app] Failed to prefetch quizzes:', error);
+          // Don't block app initialization if prefetch fails
+        }
+      })();
     };
     initializeApp();
   }, []);

@@ -3,9 +3,11 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { getVideoCategories, videoCategories } from '@/constants/videos';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
+import { prefetchAllQuizzes } from '@/services/quizService';
+import { getSubjectsSync } from '@/services/subjectSyncService';
 import type { VideoCategory } from '@/types/video';
-import { router } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import { router, useFocusEffect } from 'expo-router';
+import React, { useCallback, useEffect, useState } from 'react';
 import type { ViewStyle } from 'react-native';
 import { ActivityIndicator, RefreshControl, ScrollView, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -41,6 +43,34 @@ export default function HomeScreen() {
 
   useEffect(() => {
     loadCategories();
+    // Prefetch quizzes when home screen loads
+    prefetchQuizzes();
+  }, []);
+
+  // Prefetch quizzes when screen comes into focus (e.g., after login)
+  useFocusEffect(
+    useCallback(() => {
+      prefetchQuizzes();
+    }, [])
+  );
+
+  const prefetchQuizzes = useCallback(async () => {
+    try {
+      const subjects = await getSubjectsSync();
+      const uniqueQuizSlugs = [...new Set(
+        subjects
+          .map((s) => s.quizSlug)
+          .filter((slug): slug is string => Boolean(slug && slug.trim()))
+      )];
+      
+      if (uniqueQuizSlugs.length > 0) {
+        console.log('[home] Prefetching quizzes on home screen load...');
+        await prefetchAllQuizzes(uniqueQuizSlugs);
+      }
+    } catch (error) {
+      console.warn('[home] Failed to prefetch quizzes:', error);
+      // Don't block UI if prefetch fails
+    }
   }, []);
 
   const loadCategories = async (forceRefresh = false) => {

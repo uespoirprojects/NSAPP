@@ -74,6 +74,28 @@ export default function LoginScreen() {
         // Fetch user data to check role and redirect
         try {
           const userData = await getUserData(result.userId);
+          
+          // Prefetch quizzes after successful login (in background)
+          (async () => {
+            try {
+              const { prefetchAllQuizzes } = await import('@/services/quizService');
+              const { getSubjectsSync } = await import('@/services/subjectSyncService');
+              const subjects = await getSubjectsSync();
+              const uniqueQuizSlugs = [...new Set(
+                subjects
+                  .map((s) => s.quizSlug)
+                  .filter((slug): slug is string => Boolean(slug && slug.trim()))
+              )];
+              
+              if (uniqueQuizSlugs.length > 0) {
+                console.log('[login] Prefetching quizzes after login...');
+                await prefetchAllQuizzes(uniqueQuizSlugs);
+              }
+            } catch (error) {
+              console.warn('[login] Failed to prefetch quizzes:', error);
+            }
+          })();
+          
           if (userData?.role === 'admin') {
             router.push("/admin");
           } else {
@@ -109,6 +131,28 @@ export default function LoginScreen() {
       // Fetch user data to check role and redirect
       try {
         const userData = await getUserData(result.userId);
+        
+        // Prefetch quizzes after successful Google login (in background)
+        (async () => {
+          try {
+            const { prefetchAllQuizzes } = await import('@/services/quizService');
+            const { getSubjectsSync } = await import('@/services/subjectSyncService');
+            const subjects = await getSubjectsSync();
+            const uniqueQuizSlugs = [...new Set(
+              subjects
+                .map((s) => s.quizSlug)
+                .filter((slug): slug is string => Boolean(slug && slug.trim()))
+            )];
+            
+            if (uniqueQuizSlugs.length > 0) {
+              console.log('[login] Prefetching quizzes after Google login...');
+              await prefetchAllQuizzes(uniqueQuizSlugs);
+            }
+          } catch (error) {
+            console.warn('[login] Failed to prefetch quizzes:', error);
+          }
+        })();
+        
         if (userData?.role === 'admin') {
           router.push("/admin");
         } else {

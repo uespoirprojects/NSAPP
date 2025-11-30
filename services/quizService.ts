@@ -214,7 +214,29 @@ const fetchQuizFromUrl = async (
 };
 
 /**
+ * Check if an error is a network-related error
+ */
+const isNetworkError = (error: any): boolean => {
+  if (!error) return false;
+  
+  const message = error.message?.toLowerCase() || '';
+  const name = error.name?.toLowerCase() || '';
+  
+  return (
+    name === 'typeerror' ||
+    message.includes('network') ||
+    message.includes('failed to fetch') ||
+    message.includes('cors') ||
+    message.includes('offline') ||
+    message.includes('connection') ||
+    message.includes('timeout')
+  );
+};
+
+/**
  * Get quiz modules from cPanel with caching and fallback
+ * Always tries to fetch from server first to ensure up-to-date content
+ * Only uses cache if network error occurs
  */
 export const getQuizModules = async (
   language: QuizLanguage,
@@ -229,33 +251,33 @@ export const getQuizModules = async (
   const normalizedSlug = quizSlug.toLowerCase().trim();
 
   try {
-    // Try to get from cache first
-    const cached = await getCachedQuiz(normalizedSlug, normalizedLanguage);
-    if (cached) {
-      console.log('[quizService] Using cached quiz:', normalizedSlug, normalizedLanguage);
-      return cached;
-    }
-
-    // Fetch from cPanel
+    // Always try to fetch from server first to get latest version
     const modules = await fetchQuizFromUrl(normalizedSlug, normalizedLanguage);
     
-    if (modules.length === 0) {
-      console.warn('[quizService] No modules found, trying fallback');
-      return getFallbackQuizModules(language, normalizedSlug);
+    if (modules.length > 0) {
+      console.log('[quizService] Successfully fetched from server:', normalizedSlug, normalizedLanguage);
+      return modules;
     }
 
-    return modules;
+    // Server returned empty, try fallback
+    console.warn('[quizService] Server returned empty, trying fallback');
+    return getFallbackQuizModules(language, normalizedSlug);
   } catch (error: any) {
-    // Check if it's a CORS error (common in web development)
-    const isCorsError = error?.message?.includes('CORS') || 
-                        error?.message?.includes('Failed to fetch') ||
-                        error?.name === 'TypeError';
-    
-    if (!isCorsError) {
-      // Only log non-CORS errors verbosely
-      console.error('[quizService] Error fetching quiz, using fallback:', error);
+    // Network error: try cache as fallback
+    if (isNetworkError(error)) {
+      console.log('[quizService] Network error, checking cache:', normalizedSlug, normalizedLanguage);
+      const cached = await getCachedQuiz(normalizedSlug, normalizedLanguage);
+      if (cached && cached.length > 0) {
+        console.log('[quizService] Using cached quiz due to network error:', normalizedSlug, normalizedLanguage);
+        return cached;
+      }
+    } else {
+      // Non-network error (e.g., 404, invalid JSON)
+      console.warn('[quizService] Server error (non-network):', error.message);
     }
-    // Fallback to local assets (works for both CORS and other errors)
+    
+    // Final fallback: use local assets
+    console.warn('[quizService] Using local fallback:', normalizedSlug);
     return getFallbackQuizModules(language, normalizedSlug);
   }
 };
@@ -306,5 +328,69 @@ export const getRandomQuizQuestions = async (
 
   const shuffled = shuffleArray(allQuestions);
   return shuffled.slice(0, Math.min(count, shuffled.length));
+};
+
+/**
+ * Prefetch all quizzes for all available quiz slugs
+ * This is called on app start to ensure all quizzes are up-to-date
+ * Always fetches from server (ignores cache) to get latest versions
+ */
+export const prefetchAllQuizzes = async (quizSlugs: string[]): Promise<void> => {
+  if (!quizSlugs || quizSlugs.length === 0) {
+    console.log('[quizService] No quiz slugs provided for prefetching');
+    return;
+  }
+
+  const languages: SupportedLanguage[] = ['fr', 'ht'];
+  const prefetchPromises: Promise<void>[] = [];
+
+  console.log(`[quizService] Refreshing ${quizSlugs.length} quizzes for ${languages.length} languages from server...`);
+
+  for (const quizSlug of quizSlugs) {
+    if (!quizSlug || quizSlug.trim() === '') continue;
+
+    const normalizedSlug = quizSlug.toLowerCase().trim();
+
+    for (const language of languages) {
+      // Always fetch from server (force refresh) to ensure we have the latest version
+      // This will update the cache with fresh data
+      prefetchPromises.push(
+        fetchQuizFromUrl(normalizedSlug, language)
+          .then((modules) => {
+            if (modules.length > 0) {
+              console.log(`[quizService] ✓ Refreshed ${normalizedSlug} (${language}) - ${modules.length} module(s)`);
+            } else {
+              console.warn(`[quizService] ⚠ Quiz ${normalizedSlug} (${language}) returned empty from server`);
+            }
+          })
+          .catch((error) => {
+            // Check if it's a network error
+            if (isNetworkError(error)) {
+              // Network error: check if we have cached version
+              getCachedQuiz(normalizedSlug, language)
+                .then((cached) => {
+                  if (cached && cached.length > 0) {
+                    console.log(`[quizService] ⚠ Network error for ${normalizedSlug} (${language}), using cached version`);
+                  } else {
+                    console.warn(`[quizService] ✗ Network error for ${normalizedSlug} (${language}), no cache available`);
+                  }
+                })
+                .catch(() => {
+                  console.warn(`[quizService] ✗ Failed to check cache for ${normalizedSlug} (${language})`);
+                });
+            } else {
+              // Non-network error (e.g., 404, invalid JSON)
+              console.warn(`[quizService] ✗ Failed to refresh ${normalizedSlug} (${language}):`, error.message);
+            }
+          })
+      );
+    }
+  }
+
+  // Wait for all prefetches to complete (or fail)
+  const results = await Promise.allSettled(prefetchPromises);
+  const successful = results.filter((r) => r.status === 'fulfilled').length;
+  const total = quizSlugs.length * languages.length;
+  console.log(`[quizService] Quiz refresh completed: ${successful}/${total} successful`);
 };
 
