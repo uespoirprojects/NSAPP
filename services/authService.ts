@@ -26,6 +26,11 @@ export class FriendlyError extends Error {
 }
 
 /**
+ * User roles
+ */
+export type UserRole = 'user' | 'admin';
+
+/**
  * Type pour les données utilisateur étendues
  */
 export type UserData = {
@@ -36,6 +41,7 @@ export type UserData = {
   city?: string | null;
   province?: string | null;
   dateOfBirth?: string | null;
+  role: UserRole; // User role: 'user' (default) or 'admin'
   createdAt: Timestamp;
   firebaseUid: string;
 };
@@ -70,6 +76,7 @@ export const signUp = async (
       city: userData.city?.trim() || null,
       province: userData.province?.trim() || null,
       dateOfBirth: userData.dateOfBirth?.trim() || null,
+      role: 'user', // Default role is 'user'
       createdAt: Timestamp.now(),
     };
 
@@ -111,8 +118,17 @@ export const signIn = async (
       await setDoc(doc(db, "users", firebaseUid), {
         firebaseUid,
         email,
+        role: 'user' as UserRole, // Default role is 'user'
         createdAt: Timestamp.now(),
       });
+    } else {
+      // Ensure existing users have a role field (migration for old users)
+      const userData = userDoc.data();
+      if (!userData.role) {
+        await setDoc(doc(db, "users", firebaseUid), {
+          role: 'user' as UserRole,
+        }, { merge: true });
+      }
     }
 
     return { success: true, userId: firebaseUid };
@@ -185,5 +201,31 @@ export const updateUserData = async (
   } catch (error: any) {
     console.error("Update user data error:", error);
     return { success: false, error: "Échec de la mise à jour du profil." };
+  }
+};
+
+/**
+ * Check if user is admin
+ */
+export const isUserAdmin = async (firebaseUid: string): Promise<boolean> => {
+  try {
+    const userData = await getUserData(firebaseUid);
+    return userData?.role === 'admin';
+  } catch (error) {
+    console.error("Check admin role error:", error);
+    return false;
+  }
+};
+
+/**
+ * Get user role
+ */
+export const getUserRole = async (firebaseUid: string): Promise<UserRole | null> => {
+  try {
+    const userData = await getUserData(firebaseUid);
+    return userData?.role || 'user';
+  } catch (error) {
+    console.error("Get user role error:", error);
+    return null;
   }
 };

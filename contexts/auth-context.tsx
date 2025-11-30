@@ -12,6 +12,7 @@ interface AuthContextType {
   user: UserData | null;
   firebaseUser: FirebaseUser | null;
   isLoading: boolean;
+  isAdmin: boolean; // Helper to check if user is admin
   setIsAuthenticated: (value: boolean) => void;
   setIsGuest: (value: boolean) => void;
   logout: () => Promise<void>;
@@ -195,6 +196,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
+  // Check if user is admin
+  const isAdmin = user?.role === 'admin';
+
   return (
     <AuthContext.Provider
       value={{
@@ -203,6 +207,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         user,
         firebaseUser,
         isLoading,
+        isAdmin,
         setIsAuthenticated,
         setIsGuest,
         logout,

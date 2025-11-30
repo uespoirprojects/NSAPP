@@ -1,10 +1,9 @@
 // app/services/googleAuthService.ts
-import * as WebBrowser from 'expo-web-browser';
 import * as AuthSession from 'expo-auth-session';
-import { auth, db } from '../lib/firebase';
+import * as WebBrowser from 'expo-web-browser';
 import {
-  signInWithCredential,
   GoogleAuthProvider,
+  signInWithCredential,
   UserCredential,
 } from 'firebase/auth';
 import {
@@ -13,6 +12,7 @@ import {
   setDoc,
   Timestamp,
 } from 'firebase/firestore';
+import { auth, db } from '../lib/firebase';
 
 
 WebBrowser.maybeCompleteAuthSession();
@@ -66,8 +66,17 @@ export const signInWithGoogle = async () => {
         email: user.email || null,
         displayName: user.displayName || null,
         photoURL: user.photoURL || null,
+        role: 'user' as const, // Default role is 'user'
         createdAt: Timestamp.now(),
       });
+    } else {
+      // Ensure existing users have a role field (migration for old users)
+      const userData = userDoc.data();
+      if (!userData.role) {
+        await setDoc(userDocRef, {
+          role: 'user' as const,
+        }, { merge: true });
+      }
     }
 
     return {

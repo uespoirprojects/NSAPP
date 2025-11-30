@@ -2,23 +2,43 @@ import { Typography } from '@/components/ui';
 import { useAuth } from '@/contexts/auth-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import { router, Stack } from 'expo-router';
-import React, { useEffect } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Alert, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function AdminLayout() {
   const colors = useThemeColors();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
+  const [isCheckingRole, setIsCheckingRole] = useState(true);
 
   useEffect(() => {
-    // Redirect to login if not authenticated (after loading completes)
-    if (!isLoading && !isAuthenticated) {
-      router.replace('/login');
+    // Check authentication and admin role
+    if (!isLoading) {
+      if (!isAuthenticated) {
+        // Redirect to login if not authenticated
+        router.replace('/login');
+      } else if (user) {
+        // Check if user is admin
+        if (user.role !== 'admin') {
+          Alert.alert(
+            'Access Denied',
+            'You do not have permission to access the admin dashboard.',
+            [
+              {
+                text: 'OK',
+                onPress: () => router.replace('/(tabs)/home'),
+              },
+            ]
+          );
+        } else {
+          setIsCheckingRole(false);
+        }
+      }
     }
-  }, [isAuthenticated, isLoading]);
+  }, [isAuthenticated, isLoading, user]);
 
-  // Show loading screen while checking authentication
-  if (isLoading) {
+  // Show loading screen while checking authentication and role
+  if (isLoading || isCheckingRole) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground, width: '100%' }} edges={['top', 'bottom']}>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -31,8 +51,8 @@ export default function AdminLayout() {
     );
   }
 
-  // Don't render admin screens if not authenticated
-  if (!isAuthenticated) {
+  // Don't render admin screens if not authenticated or not admin
+  if (!isAuthenticated || !user || user.role !== 'admin') {
     return null;
   }
 
