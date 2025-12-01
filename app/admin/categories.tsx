@@ -13,6 +13,7 @@ import {
     type CategoryInput,
 } from '@/services/adminService';
 import { clearCache } from '@/services/subjectSyncService';
+import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
@@ -166,7 +167,7 @@ export default function CategoriesScreen() {
             alignSelf: isWideLayout ? 'center' : 'stretch',
           }}
         >
-          {/* Header with Create Button */}
+          {/* Header with Back Button and Create Button */}
           <View
             style={{
               flexDirection: 'row',
@@ -175,9 +176,20 @@ export default function CategoriesScreen() {
               marginBottom: 24,
             }}
           >
-            <Typography variant="h2" color={colors.text} style={{ fontFamily: 'Poppins-SemiBold' }}>
-              Categories ({categories.length})
-            </Typography>
+            <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+              <TouchableOpacity
+                onPress={() => router.back()}
+                style={{
+                  marginRight: 12,
+                  padding: 8,
+                }}
+              >
+                <IconSymbol name="arrow-back-outline" size={24} color={colors.text} />
+              </TouchableOpacity>
+              <Typography variant="h2" color={colors.text} style={{ fontFamily: 'Poppins-SemiBold' }}>
+                Categories ({categories.length})
+              </Typography>
+            </View>
             <TouchableOpacity
               onPress={openCreateModal}
               style={{

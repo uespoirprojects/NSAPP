@@ -7,6 +7,7 @@ import {
     type AdminUser,
 } from '@/services/adminService';
 import type { UserRole } from '@/services/authService';
+import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
@@ -109,7 +110,7 @@ export default function UsersScreen() {
             alignSelf: isWideLayout ? 'center' : 'stretch',
           }}
         >
-          {/* Header */}
+          {/* Header with Back Button */}
           <View
             style={{
               flexDirection: 'row',
@@ -118,9 +119,20 @@ export default function UsersScreen() {
               marginBottom: 24,
             }}
           >
-            <Typography variant="h2" color={colors.text} style={{ fontFamily: 'Poppins-SemiBold' }}>
-              Users ({users.length})
-            </Typography>
+            <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+              <TouchableOpacity
+                onPress={() => router.back()}
+                style={{
+                  marginRight: 12,
+                  padding: 8,
+                }}
+              >
+                <IconSymbol name="arrow-back-outline" size={24} color={colors.text} />
+              </TouchableOpacity>
+              <Typography variant="h2" color={colors.text} style={{ fontFamily: 'Poppins-SemiBold' }}>
+                Users ({users.length})
+              </Typography>
+            </View>
           </View>
 
           {/* Users List */}
