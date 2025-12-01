@@ -163,6 +163,15 @@
     "generalTitle": "Yon erè rive",
     "generalMessage": "Nou pa kapab chaje enfòmasyon ou pou kounye a. Tanpri eseye ankò pita."
   },
+  "admin": {
+    "deleteCategoryError": "Pa ka efase kategori a",
+    "deleteCategoryWithSubjects": "Kategori sa a gen matyè ladan l. Tanpri efase oswa deplase tout matyè yo anvan ou efase kategori a.",
+    "deleteCategoryFailed": "Echwe pou efase kategori a. Tanpri eseye ankò.",
+    "deleteCategorySuccess": "Kategori a efase avèk siksè",
+    "createCategorySuccess": "Kategori a kreye avèk siksè",
+    "updateCategorySuccess": "Kategori a mete ajou avèk siksè",
+    "saveCategoryFailed": "Echwe pou anrejistre kategori a. Tanpri eseye ankò."
+  },
   "common": {
     "appName": "Akademix",
     "videos": "videyo",

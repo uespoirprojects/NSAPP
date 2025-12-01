@@ -162,6 +162,15 @@
     "generalTitle": "Something went wrong",
     "generalMessage": "We couldn’t load your information at the moment. Please try again later."
   },
+  "admin": {
+    "deleteCategoryError": "Cannot delete category",
+    "deleteCategoryWithSubjects": "This category contains subjects. Please delete or move all subjects before deleting the category.",
+    "deleteCategoryFailed": "Failed to delete category. Please try again.",
+    "deleteCategorySuccess": "Category deleted successfully",
+    "createCategorySuccess": "Category created successfully",
+    "updateCategorySuccess": "Category updated successfully",
+    "saveCategoryFailed": "Failed to save category. Please try again."
+  },
   "common": {
     "appName": "Akademix",
     "videos": "videos",

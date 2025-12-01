@@ -1,17 +1,17 @@
 import { db } from '@/lib/firebase';
 import type { UserData, UserRole } from '@/services/authService';
 import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  orderBy,
-  query,
-  Timestamp,
-  updateDoc,
-  where
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDoc,
+    getDocs,
+    orderBy,
+    query,
+    Timestamp,
+    updateDoc,
+    where
 } from 'firebase/firestore';
 
 // Category interfaces
@@ -173,7 +173,9 @@ export const deleteCategory = async (categoryId: string): Promise<void> => {
     // Check if category has subjects
     const subjects = await getSubjectsByCategory(categoryId);
     if (subjects.length > 0) {
-      throw new Error('Cannot delete category with existing subjects. Please remove subjects first.');
+      const error: any = new Error('Cannot delete category with existing subjects. Please remove subjects first.');
+      error.code = 'CATEGORY_HAS_SUBJECTS';
+      throw error;
     }
     
     const categoryRef = doc(db, 'categories', categoryId);

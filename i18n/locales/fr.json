@@ -163,6 +163,15 @@
     "generalTitle": "Une erreur est survenue",
     "generalMessage": "Nous ne pouvons pas charger vos informations pour le moment. Veuillez réessayer plus tard."
   },
+  "admin": {
+    "deleteCategoryError": "Impossible de supprimer la catégorie",
+    "deleteCategoryWithSubjects": "Cette catégorie contient des matières. Veuillez supprimer ou déplacer toutes les matières avant de supprimer la catégorie.",
+    "deleteCategoryFailed": "Échec de la suppression de la catégorie. Veuillez réessayer.",
+    "deleteCategorySuccess": "Catégorie supprimée avec succès",
+    "createCategorySuccess": "Catégorie créée avec succès",
+    "updateCategorySuccess": "Catégorie mise à jour avec succès",
+    "saveCategoryFailed": "Échec de l'enregistrement de la catégorie. Veuillez réessayer."
+  },
   "common": {
     "appName": "Akademix",
     "videos": "vidéos",

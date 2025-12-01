@@ -2,31 +2,33 @@ import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { CATEGORY_COLORS, DEFAULT_CATEGORY_COLOR } from '@/constants/categoryColors';
 import { DEFAULT_CATEGORY_ICON, EDUCATION_ICONS } from '@/constants/categoryIcons';
+import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import {
-  createCategory,
-  deleteCategory,
-  getCategories,
-  updateCategory,
-  type Category,
-  type CategoryInput,
+    createCategory,
+    deleteCategory,
+    getCategories,
+    updateCategory,
+    type Category,
+    type CategoryInput,
 } from '@/services/adminService';
 import { clearCache } from '@/services/subjectSyncService';
 import React, { useEffect, useState } from 'react';
 import {
-  ActivityIndicator,
-  Alert,
-  Modal,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  View,
-  useWindowDimensions,
+    ActivityIndicator,
+    Alert,
+    Modal,
+    ScrollView,
+    TextInput,
+    TouchableOpacity,
+    View,
+    useWindowDimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CategoriesScreen() {
   const colors = useThemeColors();
+  const { t } = useI18n();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const isWideLayout = windowWidth > windowHeight || windowWidth >= 900;
   const contentMaxWidth = Math.min(windowWidth * 0.9, 1200);
@@ -92,10 +94,10 @@ export default function CategoriesScreen() {
 
       if (editingCategory) {
         await updateCategory(editingCategory.id, formData);
-        Alert.alert('Success', 'Category updated successfully');
+        Alert.alert(t('common.success'), t('admin.updateCategorySuccess'));
       } else {
         await createCategory(formData);
-        Alert.alert('Success', 'Category created successfully');
+        Alert.alert(t('common.success'), t('admin.createCategorySuccess'));
       }
 
       // Clear cache so the app fetches fresh data
@@ -104,16 +106,16 @@ export default function CategoriesScreen() {
       setModalVisible(false);
       loadCategories();
     } catch (error: any) {
-      Alert.alert('Error', error.message || 'Failed to save category');
+      Alert.alert('Error', error.message || t('admin.saveCategoryFailed'));
     }
   };
 
   const handleDelete = (category: Category) => {
     Alert.alert(
-      'Delete Category',
+      t('admin.deleteCategoryError'),
       `Are you sure you want to delete "${category.name.fr}"?`,
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: t('common.cancel'), style: 'cancel' },
         {
           text: 'Delete',
           style: 'destructive',
@@ -122,10 +124,18 @@ export default function CategoriesScreen() {
               await deleteCategory(category.id);
               // Clear cache so the app fetches fresh data
               await clearCache();
-              Alert.alert('Success', 'Category deleted successfully');
+              Alert.alert(t('common.success'), t('admin.deleteCategorySuccess'));
               loadCategories();
             } catch (error: any) {
-              Alert.alert('Error', error.message || 'Failed to delete category');
+              // Check if it's the specific error about subjects
+              if (error?.code === 'CATEGORY_HAS_SUBJECTS' || error?.message?.includes('existing subjects')) {
+                Alert.alert(
+                  t('admin.deleteCategoryError'),
+                  t('admin.deleteCategoryWithSubjects')
+                );
+              } else {
+                Alert.alert('Error', error.message || t('admin.deleteCategoryFailed'));
+              }
             }
           },
         },
