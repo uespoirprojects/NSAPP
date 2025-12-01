@@ -1,13 +1,16 @@
 import { Typography } from '@/components/ui';
+import { IconSymbol } from '@/components/ui/icon-symbol';
 import { useAuth } from '@/contexts/auth-context';
+import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
-import { router, Stack } from 'expo-router';
+import { router, Tabs } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function AdminLayout() {
   const colors = useThemeColors();
+  const { t } = useI18n();
   const { isAuthenticated, isLoading, user } = useAuth();
   const [isCheckingRole, setIsCheckingRole] = useState(true);
 
@@ -57,51 +60,56 @@ export default function AdminLayout() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.screenBackground, width: '100%' }} edges={['top', 'bottom']}>
-      <Stack
-        screenOptions={{
-          headerShown: true,
-          headerStyle: {
-            backgroundColor: colors.cardBackground,
-          },
-          headerTintColor: colors.text,
-          headerTitleStyle: {
-            fontFamily: 'Poppins-SemiBold',
-          },
-          headerShadowVisible: false,
-          contentStyle: {
-            backgroundColor: colors.screenBackground,
-            width: '100%',
-          },
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: colors.tabIconSelected,
+        tabBarInactiveTintColor: colors.tabIconDefault,
+        tabBarStyle: {
+          backgroundColor: colors.tabBarBackground,
+          borderTopWidth: 1,
+          borderTopColor: colors.tabBarBorder,
+        },
+      }}
+    >
+      {/* Dashboard tab */}
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: t('admin.dashboard'),
+          tabBarIcon: ({ color }) => <IconSymbol size={24} name="grid-outline" color={color} />,
         }}
-      >
-        <Stack.Screen
-          name="index"
-          options={{
-            title: 'Admin Dashboard',
-            headerShown: false, // Hide header to remove back arrow
-          }}
-        />
-        <Stack.Screen
-          name="categories"
-          options={{
-            title: 'Categories',
-          }}
-        />
-        <Stack.Screen
-          name="subjects"
-          options={{
-            title: 'Subjects',
-          }}
-        />
-        <Stack.Screen
-          name="users"
-          options={{
-            title: 'Users',
-          }}
-        />
-      </Stack>
-    </SafeAreaView>
+      />
+      
+      {/* Settings tab */}
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: t('admin.settings'),
+          tabBarIcon: ({ color }) => <IconSymbol size={24} name="settings-outline" color={color} />,
+        }}
+      />
+
+      {/* Hidden tabs for nested routes - accessible via navigation but not shown in tab bar */}
+      <Tabs.Screen
+        name="categories"
+        options={{
+          href: null, // Hide from tabs, accessible via navigation
+        }}
+      />
+      <Tabs.Screen
+        name="subjects"
+        options={{
+          href: null, // Hide from tabs, accessible via navigation
+        }}
+      />
+      <Tabs.Screen
+        name="users"
+        options={{
+          href: null, // Hide from tabs, accessible via navigation
+        }}
+      />
+    </Tabs>
   );
 }
 
