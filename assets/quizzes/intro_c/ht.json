@@ -1,0 +1,868 @@
+[
+  {
+    "title": "Entwodiksyon langaj C",
+    "questions": [
+      {
+        "id": 1,
+        "question": "Pwogramasyon rele tou kodaj.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 2,
+        "question": "Langaj C toujou itilize jodi a gras a estrikti nivo wo li yo.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 3,
+        "question": "Langaj C ka itilize sèlman sou yon sèl sistèm eksplwatasyon.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 4,
+        "question": "Ki moun ki konsidere kòm premye pwogramatris nan istwa?",
+        "options": [
+          "Grace Hopper",
+          "Ada Lovelace",
+          "Niklaus Wirth",
+          "Charles Babbage"
+        ],
+        "answer": "Ada Lovelace"
+      },
+      {
+        "id": 5,
+        "question": "Ki moun ki te kreye langaj Pascal an 1970?",
+        "options": [
+          "Ada Lovelace",
+          "Dennis Ritchie",
+          "Niklaus Wirth",
+          "Grace Hopper"
+        ],
+        "answer": "Niklaus Wirth"
+      },
+      {
+        "id": 6,
+        "question": "Code Blocks se yon IDE ki pèmèt sèlman pwograme nan langaj C.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 7,
+        "question": "Pou kreye yon pwojè nan Code Blocks, fòk ou ale nan \"File > New > Project\".",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 8,
+        "question": "Dev-C++ ka itilize pou pwograme nan ki langaj?",
+        "options": [
+          "Sèlman Java",
+          "C++ sèlman",
+          "Okenn langaj pwogramasyon",
+          "C ak C++"
+        ],
+        "answer": "C ak C++"
+      },
+      {
+        "id": 9,
+        "question": "Deklarasyon yon varyab sèvi pou afiche yon tèks sou ekran an.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 10,
+        "question": "int nbr3 65; se yon deklarasyon kòrèk pou yon varyab antye.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 11,
+        "question": "Ki liy ki afiche kòrèkteman tèks Bonjour?",
+        "options": [
+          "printf(Bonjour);",
+          "printf(\"Bonjour\");",
+          "printf('Bonjour');",
+          "print(\"Bonjour\");"
+        ],
+        "answer": "printf(\"Bonjour\");"
+      },
+      {
+        "id": 12,
+        "question": "Ki valè pwogram sa a afiche?\n#include <stdio.h>\nint main() {\n    int a = 10;\n    int b = 20;\n    int total = a + b;\n    printf(\"%d\", total);\n    return 0;\n}",
+        "options": ["10", "20", "30", "1020"],
+        "answer": "30"
+      },
+      {
+        "id": 13,
+        "question": "Yon pwogram enfòmatik se yon ansanm operasyon ki fèt pou egzekite pa yon òdinatè.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 14,
+        "question": "Pwogram binè a gen sèlman 0 ak 1.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 15,
+        "question": "Ki zouti nan yon IDE ki pèmèt jwenn erè nan pwogram nan?",
+        "options": [
+          "Editè tèks",
+          "Konpilatè",
+          "Debugè",
+          "Kreyatè entèfas grafik"
+        ],
+        "answer": "Debugè"
+      },
+      {
+        "id": 16,
+        "question": "Langaj C apresye pou karakteristik sa yo, eksepte:",
+        "options": [
+          "Pòtabilite",
+          "Vitès",
+          "Tipaj fèb",
+          "Entèfas grafik entegre"
+        ],
+        "answer": "Entèfas grafik entegre"
+      },
+      {
+        "id": 17,
+        "question": "Ki afimasyon ki dekri kòrèkteman yon pwogram sous?",
+        "options": [
+          "Gen sèlman 0 ak 1",
+          "Ekri pa pwogramatè a epi konpreyansib pou moun",
+          "Enposib modifye",
+          "Egzekite dirèkteman pa machin nan"
+        ],
+        "answer": "Ekri pa pwogramatè a epi konpreyansib pou moun"
+      },
+      {
+        "id": 18,
+        "question": "Memwa ROM ka modifye lib pandan egzekisyon yon pwogram.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 19,
+        "question": "Yon done nan enfòmatik se reprezantasyon yon enfòmasyon nan yon pwogram oswa nan memwa.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 20,
+        "question": "CPU a vle aksede varyab x ki estoke tanporèman. Kote x ye?",
+        "options": [
+          "Nan ROM",
+          "Nan disk di",
+          "Nan RAM",
+          "Nan yon periferik ekstèn"
+        ],
+        "answer": "Nan RAM"
+      },
+      {
+        "id": 21,
+        "question": "Ki definisyon ki matche pi byen ak yon varyab?",
+        "options": [
+          "Yon done fiks ki pa janm chanje",
+          "Yon kote memwa ki ka genyen yon valè",
+          "Yon konpozan materyèl",
+          "Yon enstriksyon machin"
+        ],
+        "answer": "Yon kote memwa ki ka genyen yon valè"
+      },
+      {
+        "id": 22,
+        "question": "Non yon varyab ka kòmanse ak yon chif.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 23,
+        "question": "Inisyalizasyon yon varyab konsiste nan ba li yon valè lè w ap deklare li.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 24,
+        "question": "Yon konstan se yon varyab ki valè li ka modifye plizyè fwa.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 25,
+        "question": "Tip yon varyab detèmine kantite espas memwa li okipe ak kijan valè li entèprete.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 26,
+        "question": "Ki notasyon camelCase kòrèk pou yon varyab ki estoke longè?",
+        "options": [
+          "longueur_rectangle",
+          "longueurRectangle",
+          "Longueurrectangle",
+          "longueurRectangle"
+        ],
+        "answer": "longueurRectangle"
+      },
+      {
+        "id": 27,
+        "question": "Yon varyab unsigned int ka genyen nimewo negatif.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 28,
+        "question": "Tip float ka estoke tou de nimewo antye ak nimewo ak virgul.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 29,
+        "question": "Pami deklarasyon sa yo, ki youn ki kòrèk pou yon int?",
+        "options": [
+          "int quantite = 235;",
+          "int temp = -400.5;",
+          "int montant = 32768;",
+          "int nombre habitant = 1000;"
+        ],
+        "answer": "int quantite = 235;"
+      },
+      {
+        "id": 30,
+        "question": "Fonksyon printf sèvi pou afiche tèks oswa valè varyab sou ekran an.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 31,
+        "question": "Pou ale nan yon liy nan printf, nou itilize \\n.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 32,
+        "question": "Konplete pwogram nan pou kalkile sòm ak diferans de nimewo:\n#include <stdio.h>\nint main() {\n    int age = 48;\n    int nbre = 987;\n    int somme;\n    int reste;\n}",
+        "options": [
+          "somme = age + nbre; reste = nbre - age;",
+          "somme = age - nbre; reste = nbre + age;",
+          "somme = age * nbre; reste = nbre / age;",
+          "somme = age / nbre; reste = nbre * age;"
+        ],
+        "answer": "somme = age + nbre; reste = nbre - age;"
+      },
+      {
+        "id": 33,
+        "question": "Fonksyon gets(nom); pèmèt li yon chenn karaktè itilizatè a antre.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 34,
+        "question": "Pou afiche yon chenn karaktè ak printf, nou itilize %s.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 35,
+        "question": "Konplete pwogram nan pou mande epi afiche non itilizatè a:\n#include <stdio.h>\nint main() {\n    char nom[25];\n    printf(\"Entrez votre nom:\\n\");\n    // compléter\n    printf(\"Votre nom est: \");\n    // compléter\n    return 0;\n}",
+        "options": [
+          "gets(nom); puts(nom);",
+          "scanf(\"%s\", nom); printf(\"%d\", nom);",
+          "puts(nom); gets(nom);",
+          "scanf(\"%d\", nom); puts(nom);"
+        ],
+        "answer": "gets(nom); puts(nom);"
+      },
+      {
+        "id": 36,
+        "question": "%c nan printf sèvi pou afiche yon sèl karaktè.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 37,
+        "question": "Afiche laj ak wotè\nint age_moi = 25;\nint taille_moi = 175; // an cm\nprintf(\"J'ai ... ans et ma taille est ... cm\", ...);",
+        "options": [
+          "printf(\"J'ai %d ans et ma taille est %d cm\", age_moi, taille_moi);",
+          "printf(\"J'ai %f ans et ma taille est %f cm\", age_moi, taille_moi);",
+          "printf(\"J'ai %c ans et ma taille est %c cm\", age_moi, taille_moi);",
+          "printf(\"J'ai %s ans et ma taille est %s cm\", age_moi, taille_moi);"
+        ],
+        "answer": "printf(\"J'ai %d ans et ma taille est %d cm\", age_moi, taille_moi);"
+      },
+      {
+        "id": 38,
+        "question": "scanf(\"%d\", &nbrel); pèmèt li yon nonb antye itilizatè a antre epi estoke li nan nbrel.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 39,
+        "question": "Konplete kòrèkteman sekans la:\nprintf(\"Entrez un premier nombre\\n\");\nscanf(\"%d\", &nbrel);\nprintf(\"Entrez un second nombre\\n\");\n...",
+        "options": [
+          "scanf(\"%d\", &somme);",
+          "scanf(\"%d\", &nbre2);",
+          "scanf(\"%c\", &nbre2);"
+        ],
+        "answer": "scanf(\"%d\", &nbre2);"
+      },
+      {
+        "id": 40,
+        "question": "Ki enstriksyon ki kòrèk pou afiche sòm nan ak yon mesaj?",
+        "options": [
+          "printf(\"La somme est %f\", somme);",
+          "printf(\"La somme est %d\", somme);",
+          "printf(\"La somme est %c\", somme);",
+          "printf(\"La somme est %s\", somme);"
+        ],
+        "answer": "printf(\"La somme est %d\", somme);"
+      },
+      {
+        "id": 41,
+        "question": "%c ak %s ka entèchanje nan scanf.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 42,
+        "question": "Ki liy ki afiche kòrèkteman koulè ki estoke nan char couleur[25];?",
+        "options": [
+          "printf(\"%c\", couleur);",
+          "printf(\"%s\", couleur);",
+          "printf(\"%d\", couleur);",
+          "printf(\"%f\", couleur);"
+        ],
+        "answer": "printf(\"%s\", couleur);"
+      },
+      {
+        "id": 43,
+        "question": "Pou estoke yon sèl lèt, ki varyab ki kòrèk?",
+        "options": [
+          "char lettre;",
+          "char mot[20];",
+          "int lettre;",
+          "float lettre;"
+        ],
+        "answer": "char lettre;"
+      },
+      {
+        "id": 44,
+        "question": "Kisa yon kòmantè nan pwogramasyon?",
+        "options": [
+          "Pòsyon kòd ki konvèti nan 1 ak 0 pa konpilatè a.",
+          "Pòsyon kòd ki inyore pa konpilatè a oswa entèprèt la."
+        ],
+        "answer": "Pòsyon kòd ki inyore pa konpilatè a oswa entèprèt la."
+      },
+      {
+        "id": 45,
+        "question": "Ki wòl yon kòmantè genyen?",
+        "options": [
+          "Pèmèt dekri liy kòd yo.",
+          "Pèmèt ekri kòd yo."
+        ],
+        "answer": "Pèmèt dekri liy kòd yo."
+      },
+      {
+        "id": 46,
+        "question": "Definisyon kalite erè nan pwogramasyon - Erè sentaks:",
+        "options": [
+          "Erè ki rive lè pwogram ou an ap fonksyone deja men kèk sikonstans patikilye prezante.",
+          "Erè ki rive lè nou pa jwenn rezilta espere kòd la.",
+          "Erè ki rive lè kòd la pa ekri kòrèkteman selon règ langaj pwogramasyon an."
+        ],
+        "answer": "Erè ki rive lè kòd la pa ekri kòrèkteman selon règ langaj pwogramasyon an."
+      },
+      {
+        "id": 47,
+        "question": "Definisyon kalite erè nan pwogramasyon - Erè egzekisyon:",
+        "options": [
+          "Erè ki rive lè nou pa jwenn rezilta espere kòd la.",
+          "Erè ki rive lè kòd la pa ekri kòrèkteman selon règ langaj pwogramasyon an.",
+          "Erè ki rive lè pwogram ou an ap fonksyone deja men kèk sikonstans patikilye prezante."
+        ],
+        "answer": "Erè ki rive lè pwogram ou an ap fonksyone deja men kèk sikonstans patikilye prezante."
+      },
+      {
+        "id": 48,
+        "question": "Definisyon kalite erè nan pwogramasyon - Erè semantik:",
+        "options": [
+          "Erè ki rive lè kòd la pa ekri kòrèkteman selon règ langaj pwogramasyon an.",
+          "Erè ki rive lè nou pa jwenn rezilta espere kòd la.",
+          "Erè ki rive lè pwogram ou an ap fonksyone deja men kèk sikonstans patikilye prezante."
+        ],
+        "answer": "Erè ki rive lè nou pa jwenn rezilta espere kòd la."
+      },
+      {
+        "id": 49,
+        "question": "Yon enstriksyon nan pwogramasyon se yon ansanm valè ki konekte pa operatè epi ekivalan ak yon sèl valè.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 50,
+        "question": "Enkremantasyon se yon operasyon ki konsiste nan diminye yon grandè valè yon varyab a chak sik operasyon.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 51,
+        "question": "Yon konvèsyon genyen pou objektif chanje tip yon valè, san chanje valè sa a.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 52,
+        "question": "Kisa 'enkrèmantasyon' vle di nan pwogramasyon?",
+        "options": [
+          "Diminye valè yon varyab a chak sik.",
+          "Ajoute 1 nan valè yon varyab.",
+          "Konvèti yon varyab nan yon tip nan yon lòt.",
+          "Sispann yon bouk."
+        ],
+        "answer": "Ajoute 1 nan valè yon varyab."
+      },
+      {
+        "id": 53,
+        "question": "Kisa yon konvèsyon tip fè nan C?",
+        "options": [
+          "Li chanje valè yon varyab pou yon lòt nonb.",
+          "Li chanje tip yon varyab san chanje valè li.",
+          "Li efase yon varyab nan pwogram nan."
+        ],
+        "answer": "Li chanje tip yon varyab san chanje valè li."
+      },
+      {
+        "id": 54,
+        "question": "Pou fè yon sòt liy, nou itilize __________________.",
+        "options": [
+          "'' ''",
+          "\\n"
+        ],
+        "answer": "\\n"
+      },
+      {
+        "id": 55,
+        "question": "Pou afiche yon mesaj sou ekran an nou itilize fonksyon______________, epi pou li yon valè itilizatè a antre nou itilize __________________.",
+        "options": [
+          "printf() ak scanf()",
+          "afficherf() ak scanf()",
+          "printf() ak liref()"
+        ],
+        "answer": "printf() ak scanf()"
+      },
+      {
+        "id": 56,
+        "question": "Pou fè enkrèmantasyon yon varyab (moyenne = 6), nou fè ___________________.",
+        "options": [
+          "moyenne + 1",
+          "moyenne = moyenne + 1",
+          "moyenne == moyenne + 1"
+        ],
+        "answer": "moyenne = moyenne + 1"
+      },
+      {
+        "id": 57,
+        "question": "Bouk la:",
+        "options": [
+          "Se yon fonksyon ki pèmèt defini varyab yo.",
+          "Se yon fonksyon ki pèmèt repete yon enstriksyon yon kantite fwa.",
+          "Se yon estrikti ki kontwole enstriksyon yo."
+        ],
+        "answer": "Se yon fonksyon ki pèmèt repete yon enstriksyon yon kantite fwa."
+      },
+      {
+        "id": 58,
+        "question": "Yon bouk konpoze de:",
+        "options": [
+          "Yon fonksyon, yon varyab, ak tip.",
+          "Yon inisyalizasyon, yon tès, yon enkrèmantasyon.",
+          "Yon tès, yon varyab, yon enkrèmantasyon."
+        ],
+        "answer": "Yon inisyalizasyon, yon tès, yon enkrèmantasyon."
+      },
+      {
+        "id": 59,
+        "question": "Lè kondisyon yon bouk pa janm vin fo nou jwenn yon bouk enfini.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 60,
+        "question": "Yon bouk ka genyen yon printf().",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 61,
+        "question": "Yon bouk for pa ka dekrèmante.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 62,
+        "question": "Yon bouk ka egzekite dè milyon fwa nan yon pwogram.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 63,
+        "question": "Estrikti if sèvi pou egzekite kòd sèlman si yon kondisyon vrè.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 64,
+        "question": "Yon kondisyon ka itilize operatè lojik &&, || ak !.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 65,
+        "question": "Yon estrikti kondisyonèl pèmèt modifye konpòtman yon pwogram selon kondisyon yo.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 66,
+        "question": "Operatè == sèvi pou asiyen yon valè nan yon varyab.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 67,
+        "question": "Kondisyon yo ka konbine plizyè konparezon ak && oswa ||?",
+        "options": [
+          "Wi, pou teste plizyè kondisyon an menm tan.",
+          "Non, yon kondisyon ka genyen sèlman yon sèl konparezon.",
+          "Non, fòk ou ekri plizyè if separe."
+        ],
+        "answer": "Wi, pou teste plizyè kondisyon an menm tan."
+      },
+      {
+        "id": 68,
+        "question": "Ki operatè ki sèvi pou konpare egalite ant de valè?",
+        "options": [
+          "=",
+          "==",
+          "+=",
+          "==="
+        ],
+        "answer": "=="
+      },
+      {
+        "id": 69,
+        "question": "Kisa operatè ! vle di?",
+        "options": [
+          "Adisyon.",
+          "Negasyon lojik.",
+          "Soustraksyon",
+          "Divizyon"
+        ],
+        "answer": "Negasyon lojik."
+      },
+      {
+        "id": 70,
+        "question": "Kisa enstriksyon sa a fè? if (age >= 18) { printf('Adulte'); }",
+        "options": [
+          "Li afiche 'Adulte' si laj la pi piti pase 18",
+          "Li afiche 'Adulte' si laj la egal 18",
+          "Li afiche 'Adulte' si laj la pi gran oswa egal 18",
+          "Li pa afiche anyen"
+        ],
+        "answer": "Li afiche 'Adulte' si laj la pi gran oswa egal 18"
+      },
+      {
+        "id": 71,
+        "question": "Ki mo kle ki pèmèt teste yon dezyèm kondisyon?",
+        "options": [
+          "If if",
+          "Elseif",
+          "else if"
+        ],
+        "answer": "else if"
+      },
+      {
+        "id": 72,
+        "question": "Ki kòd ki kòrèk?",
+        "options": [
+          "if (x = 5) { }",
+          "if x == 5 { }",
+          "if (x == 5) { }",
+          "if (x => 5) { }"
+        ],
+        "answer": "if (x == 5) { }"
+      },
+      {
+        "id": 73,
+        "question": "Ki sòti? int x = 10; if (x > 5) printf('Grand'); else printf('Petit');",
+        "options": [
+          "10",
+          "Grand",
+          "5",
+          "Petit"
+        ],
+        "answer": "Grand"
+      },
+      {
+        "id": 74,
+        "question": "Kijan nou deklare yon tablo 10 nonb antye?",
+        "options": [
+          "int tab(10)",
+          "int tab[10]",
+          "array tab[10]",
+          "tableau tab(10)"
+        ],
+        "answer": "int tab[10]"
+      },
+      {
+        "id": 75,
+        "question": "Ki enstriksyon ki bay valè 5 nan premye eleman an?",
+        "options": [
+          "tab[1] = 5",
+          "tab[0] = 5",
+          "tab = 5",
+          "tab(0) = 5"
+        ],
+        "answer": "tab[0] = 5"
+      },
+      {
+        "id": 76,
+        "question": "Ki tablo ki genyen 5 eleman?",
+        "options": [
+          "int t[6]",
+          "int t[4]",
+          "int t[5]",
+          "int t[0]"
+        ],
+        "answer": "int t[5]"
+      },
+      {
+        "id": 77,
+        "question": "Eleman yon tablo estoke nan kote memwa ki vini youn apre lòt.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 78,
+        "question": "Endèks dènye eleman yon tablo ki gen gwosè 8 se 8.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 79,
+        "question": "tab[0] reprezante toujou premye eleman nan yon tablo.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 80,
+        "question": "Premye eleman yon tablo t note _____________________.",
+        "options": [
+          "t1",
+          "t[1]",
+          "t[0]"
+        ],
+        "answer": "t[0]"
+      },
+      {
+        "id": 81,
+        "question": "Pou estoke valè 20 nan 4yèm kaz tablo a, nou ekri:",
+        "options": [
+          "a[4] = 20",
+          "a[3] = 20",
+          "a[20] = 20"
+        ],
+        "answer": "a[3] = 20"
+      },
+      {
+        "id": 82,
+        "question": "Nou gen yon tablo: notes = [12, 15, 18]. Eleman nan endèks 1 se……",
+        "options": [
+          "18",
+          "15",
+          "12"
+        ],
+        "answer": "15"
+      },
+      {
+        "id": 83,
+        "question": "Nou ka aksede eleman yon tablo lè nou itilize:",
+        "options": [
+          "Valè a",
+          "Tablo a",
+          "Endèks la"
+        ],
+        "answer": "Endèks la"
+      },
+      {
+        "id": 84,
+        "question": "Paramèt yon fonksyon mete ant parantèz yo.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 85,
+        "question": "De fonksyon ka genyen menm non nan menm pwogram nan.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 86,
+        "question": "Yon fonksyon ka rele yon lòt fonksyon.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 87,
+        "question": "Ki mo kle ki endike yon fonksyon pa retounen okenn valè?",
+        "options": [
+          "Int",
+          "Void",
+          "None",
+          "Null"
+        ],
+        "answer": "Void"
+      },
+      {
+        "id": 88,
+        "question": "Kijan fonksyon prensipal yon pwogram C rele?",
+        "options": [
+          "start()",
+          "main()",
+          "begin()",
+          "root()"
+        ],
+        "answer": "main()"
+      },
+      {
+        "id": 89,
+        "question": "Ki egzanp ki montre yon fonksyon kòrèk?",
+        "options": [
+          "fonction(int x)",
+          "int f(x)",
+          "int calcul()",
+          "return calc()"
+        ],
+        "answer": "int calcul()"
+      },
+      {
+        "id": 90,
+        "question": "Kisa mo kle return fè nan yon fonksyon?",
+        "options": [
+          "Li repete pwogram nan",
+          "Li afiche yon tèks",
+          "Li retounen yon valè",
+          "Li efase yon varyab"
+        ],
+        "answer": "Li retounen yon valè"
+      },
+      {
+        "id": 91,
+        "question": "Kijan yon valè voye nan yon fonksyon rele?",
+        "options": [
+          "Yon bwat",
+          "Yon paramèt",
+          "Yon retou",
+          "Yon senbòl"
+        ],
+        "answer": "Yon paramèt"
+      },
+      {
+        "id": 92,
+        "question": "Ki fonksyon sa a ki pa retounen okenn valè?",
+        "options": [
+          "int somme()",
+          "float total()",
+          "void afficher()",
+          "char lettre()"
+        ],
+        "answer": "void afficher()"
+      },
+      {
+        "id": 93,
+        "question": "Ki wòl yon pwototip fonksyon genyen?",
+        "options": [
+          "Dekore pwogram nan",
+          "Pèmèt itilize fonksyon an anvan definisyon li",
+          "Efase erè yo",
+          "Kreye yon nouvo varyab"
+        ],
+        "answer": "Pèmèt itilize fonksyon an anvan definisyon li"
+      },
+      {
+        "id": 94,
+        "question": "Kisa apèl sa a fè: afficher(3 + 2);?",
+        "options": [
+          "Li voye valè 3 nan fonksyon an",
+          "Li voye valè 2",
+          "Li voye valè 5",
+          "Li voye de valè"
+        ],
+        "answer": "Li voye valè 5"
+      },
+      {
+        "id": 95,
+        "question": "Ki pati ki manke fonksyon sa a pou fè adisyon de nonb sa yo? int addition(int a, int b) { // complète ici }",
+        "options": [
+          "somme( a,b) ;",
+          "somme( a + b) ;",
+          "return(a + b) ;",
+          "return(a,b) ;"
+        ],
+        "answer": "return(a + b) ;"
+      },
+      {
+        "id": 96,
+        "question": "Afiche valè resevwa kòm paramèt: void affiche(int x) { // complète }",
+        "options": [
+          "return int x ;",
+          "printf('%d', x);",
+          "printf(x)"
+        ],
+        "answer": "printf('%d', x);"
+      },
+      {
+        "id": 97,
+        "question": "Yon fonksyon ka rele plizyè fwa nan yon pwogram.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 98,
+        "question": "Nou ka itilize yon fonksyon pou senplifye epi reitilize kòd.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 99,
+        "question": "Parantèz ( ) sèvi pou antoure kò fonksyon an.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 100,
+        "question": "Yon fonksyon ka genyen zewo paramèt.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      },
+      {
+        "id": 101,
+        "question": "return pèmèt afiche yon valè sou ekran an.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Fo"
+      },
+      {
+        "id": 102,
+        "question": "Yon fonksyon ka afiche tèks epi retounen yon valè an menm tan.",
+        "options": ["Vrè", "Fo"],
+        "answer": "Vrè"
+      }
+    ]
+  }
+]
+

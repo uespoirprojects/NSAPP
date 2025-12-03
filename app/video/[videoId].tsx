@@ -1,11 +1,11 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
-import { getSubjectById } from '@/constants/subjects';
 import { getCategoryById } from '@/constants/videos';
 import { useAuth } from '@/contexts/auth-context';
 import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import { getCompletedVideos, markVideoAsComplete, updateVideoWatchTime } from '@/services/progressService';
+import { getSubjectByIdDirect } from '@/services/subjectSyncService';
 import { getPlaylistVideos, PlaylistVideo } from '@/services/youtubeService';
 import { getYouTubeEmbedUrl } from '@/utils/video-helpers';
 import Constants from 'expo-constants';
@@ -74,7 +74,7 @@ export default function VideoScreen() {
       }
 
       try {
-        const subjectData = await getSubjectById(subjectId);
+        const subjectData = await getSubjectByIdDirect(subjectId);
         if (!isMounted) return;
         
         setSubject(subjectData);
@@ -105,16 +105,16 @@ export default function VideoScreen() {
     let isMounted = true;
 
     const loadPlaylist = async () => {
+      // If subject is still loading, keep the loading state
       if (!subject) {
-        console.error('[VideoScreen] No subject found for subjectId:', subjectId);
         if (!isMounted) return;
-        setPlaylistVideos([]);
-        setSelectedVideo(null);
-        setPlaylistLoading(false);
-        setPlaylistError(t('video.playlistMissing'));
+        // Keep loading state - don't show error yet, subject might still be loading
+        setPlaylistLoading(true);
+        setPlaylistError(null);
         return;
       }
       
+      // Subject exists but missing playlistId - this is a real error
       if (!subject.playlistId) {
         console.error('[VideoScreen] Subject missing playlistId:', subject.id, subject);
         if (!isMounted) return;

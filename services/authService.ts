@@ -1,14 +1,14 @@
 // services/authService.ts
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut
 } from "firebase/auth";
 import {
-  doc,
-  getDoc,
-  setDoc,
-  Timestamp,
+    doc,
+    getDoc,
+    setDoc,
+    Timestamp,
 } from "firebase/firestore";
 import { auth, db } from "../lib/firebase";
 import { getFirebaseErrorMessage } from "../utils/firebaseErrorHandler";
@@ -148,6 +148,12 @@ export const signOutUser = async (): Promise<void> => {
  */
 export const getUserData = async (firebaseUid: string): Promise<UserData | null> => {
   try {
+    // Check if user is authenticated before making the request
+    if (!auth.currentUser || auth.currentUser.uid !== firebaseUid) {
+      // User is not authenticated or UID doesn't match - return null silently
+      return null;
+    }
+
     const docRef = doc(db, "users", firebaseUid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -155,17 +161,38 @@ export const getUserData = async (firebaseUid: string): Promise<UserData | null>
     }
     return null;
   } catch (error) {
-    console.error("Get user data error:", error);
     const firebaseError = error as { code?: string; message?: string };
     const message = firebaseError?.message || '';
     const code = firebaseError?.code || '';
+    
+    // Check if it's a permission error - suppress these as they're expected in some cases
+    const isPermissionError = code === 'permission-denied' || 
+                             code === 'permissions-denied' ||
+                             message.toLowerCase().includes('permission');
+    
+    // Check if it's an offline error
     const isOffline =
       code === 'unavailable' ||
       code === 'failed-precondition' ||
       message.toLowerCase().includes('client is offline');
 
+    // Only log non-permission errors
+    if (!isPermissionError) {
+      console.error("Get user data error:", error);
+    }
+
+    // If permission error and user is not authenticated, return null silently
+    if (isPermissionError && !auth.currentUser) {
+      return null;
+    }
+
     if (isOffline) {
       throw new FriendlyError('offline');
+    }
+
+    // For permission errors when authenticated, still throw but as a friendly error
+    if (isPermissionError) {
+      throw new FriendlyError('unknown');
     }
 
     throw new FriendlyError('unknown');

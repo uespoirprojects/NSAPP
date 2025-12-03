@@ -1,0 +1,867 @@
+[
+  {
+    "title": "Introduction au langage C",
+    "questions": [
+      {
+        "id": 1,
+        "question": "La programmation est aussi appelée codage.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 2,
+        "question": "Le langage C est encore très utilisé aujourd'hui grâce à ses structures de haut niveau.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 3,
+        "question": "Le langage C ne peut être utilisé que sur un seul système d'exploitation.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 4,
+        "question": "Qui est considérée comme la première programmeuse de l'histoire ?",
+        "options": [
+          "Grace Hopper",
+          "Ada Lovelace",
+          "Niklaus Wirth",
+          "Charles Babbage"
+        ],
+        "answer": "Ada Lovelace"
+      },
+      {
+        "id": 5,
+        "question": "Qui a créé le langage Pascal en 1970 ?",
+        "options": [
+          "Ada Lovelace",
+          "Dennis Ritchie",
+          "Niklaus Wirth",
+          "Grace Hopper"
+        ],
+        "answer": "Niklaus Wirth"
+      },
+      {
+        "id": 6,
+        "question": "Code Blocks est un IDE qui permet uniquement de programmer en langage C.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 7,
+        "question": "Pour créer un projet dans Code Blocks, il faut aller dans \"File > New > Project\".",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 8,
+        "question": "Dev-C++ peut être utilisé pour programmer dans quel langage?",
+        "options": [
+          "Uniquement Java",
+          "C++ uniquement",
+          "Aucun langage de programmation",
+          "C et C++"
+        ],
+        "answer": "C et C++"
+      },
+      {
+        "id": 9,
+        "question": "La déclaration d'une variable sert à afficher un texte à l'écran.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 10,
+        "question": "int nbr3 65; est une déclaration correcte d'une variable entière.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 11,
+        "question": "Quelle ligne affiche correctement le texte Bonjour ?",
+        "options": [
+          "printf(Bonjour);",
+          "printf(\"Bonjour\");",
+          "printf('Bonjour');",
+          "print(\"Bonjour\");"
+        ],
+        "answer": "printf(\"Bonjour\");"
+      },
+      {
+        "id": 12,
+        "question": "Quelle est la valeur affichée par le programme suivant ?\n#include <stdio.h>\nint main() {\n    int a = 10;\n    int b = 20;\n    int total = a + b;\n    printf(\"%d\", total);\n    return 0;\n}",
+        "options": ["10", "20", "30", "1020"],
+        "answer": "30"
+      },
+      {
+        "id": 13,
+        "question": "Un programme informatique est un ensemble d'opérations destinées à être exécutées par un ordinateur.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 14,
+        "question": "Le programme binaire contient uniquement des 0 et des 1.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 15,
+        "question": "Quel outil d'un IDE permet de trouver les erreurs dans le programme ?",
+        "options": [
+          "Éditeur de texte",
+          "Compilateur",
+          "Débogueur",
+          "Créateur d'interface graphique"
+        ],
+        "answer": "Débogueur"
+      },
+      {
+        "id": 16,
+        "question": "Le langage C est apprécié pour ses caractéristiques suivantes, sauf :",
+        "options": [
+          "Portabilité",
+          "Rapidité",
+          "Faible typage",
+          "Interface graphique intégrée"
+        ],
+        "answer": "Interface graphique intégrée"
+      },
+      {
+        "id": 17,
+        "question": "Quelle affirmation décrit correctement un programme source ?",
+        "options": [
+          "Contient uniquement des 0 et 1",
+          "Écrit par le programmeur et compréhensible par l'humain",
+          "Impossible à modifier",
+          "Exécuté directement par la machine"
+        ],
+        "answer": "Écrit par le programmeur et compréhensible par l'humain"
+      },
+      {
+        "id": 18,
+        "question": "La mémoire ROM peut être modifiée librement pendant l'exécution d'un programme.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 19,
+        "question": "Une donnée en informatique est la représentation d'une information dans un programme ou en mémoire.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 20,
+        "question": "Le CPU veut accéder à la variable x qui est stockée temporairement. Où se trouve x ?",
+        "options": [
+          "Dans la ROM",
+          "Dans le disque dur",
+          "Dans la RAM",
+          "Dans un périphérique externe"
+        ],
+        "answer": "Dans la RAM"
+      },
+      {
+        "id": 21,
+        "question": "Quelle définition correspond le mieux à une variable ?",
+        "options": [
+          "Une donnée fixe qui ne change jamais",
+          "Un emplacement mémoire pouvant contenir une valeur",
+          "Un composant matériel",
+          "Une instruction machine"
+        ],
+        "answer": "Un emplacement mémoire pouvant contenir une valeur"
+      },
+      {
+        "id": 22,
+        "question": "Le nom d'une variable peut commencer par un chiffre.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 23,
+        "question": "L'initialisation d'une variable consiste à lui donner une valeur lors de sa déclaration.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 24,
+        "question": "Une constante est une variable dont la valeur peut être modifiée plusieurs fois.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 25,
+        "question": "Le type d'une variable détermine la quantité d'espace mémoire qu'elle occupe et comment sa valeur est interprétée.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 26,
+        "question": "Quelle est la notation camelCase correcte pour une variable stockant la longueur ?",
+        "options": [
+          "longueur_rectangle",
+          "longueurRectangle",
+          "Longueurrectangle",
+          "longueurRectangle"
+        ],
+        "answer": "longueurRectangle"
+      },
+      {
+        "id": 27,
+        "question": "Une variable unsigned int peut contenir des nombres négatifs.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 28,
+        "question": "Le type float peut stocker à la fois des nombres entiers et des nombres à virgule.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 29,
+        "question": "Parmi ces déclarations, laquelle est correcte pour un int ?",
+        "options": [
+          "int quantite = 235;",
+          "int temp = -400.5;",
+          "int montant = 32768;",
+          "int nombre habitant = 1000;"
+        ],
+        "answer": "int quantite = 235;"
+      },
+      {
+        "id": 30,
+        "question": "La fonction printf sert à afficher du texte ou des valeurs de variables à l'écran.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 31,
+        "question": "Pour aller à la ligne dans printf, on utilise \\n.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 32,
+        "question": "Compléter le programme pour calculer la somme et la différence de deux nombres :\n#include <stdio.h>\nint main() {\n    int age = 48;\n    int nbre = 987;\n    int somme;\n    int reste;\n}",
+        "options": [
+          "somme = age + nbre; reste = nbre - age;",
+          "somme = age - nbre; reste = nbre + age;",
+          "somme = age * nbre; reste = nbre / age;",
+          "somme = age / nbre; reste = nbre * age;"
+        ],
+        "answer": "somme = age + nbre; reste = nbre - age;"
+      },
+      {
+        "id": 33,
+        "question": "La fonction gets(nom); permet de lire une chaîne de caractères entrée par l'utilisateur.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 34,
+        "question": "Pour afficher une chaîne de caractères avec printf, on utilise %s.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 35,
+        "question": "Compléter le programme pour demander et afficher le nom de l'utilisateur :\n#include <stdio.h>\nint main() {\n    char nom[25];\n    printf(\"Entrez votre nom:\\n\");\n    // compléter\n    printf(\"Votre nom est: \");\n    // compléter\n    return 0;\n}",
+        "options": [
+          "gets(nom); puts(nom);",
+          "scanf(\"%s\", nom); printf(\"%d\", nom);",
+          "puts(nom); gets(nom);",
+          "scanf(\"%d\", nom); puts(nom);"
+        ],
+        "answer": "gets(nom); puts(nom);"
+      },
+      {
+        "id": 36,
+        "question": "%c dans printf sert à afficher un seul caractère.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 37,
+        "question": "Afficher l'âge et la taille\nint age_moi = 25;\nint taille_moi = 175; // en cm\nprintf(\"J'ai ... ans et ma taille est ... cm\", ...);",
+        "options": [
+          "printf(\"J'ai %d ans et ma taille est %d cm\", age_moi, taille_moi);",
+          "printf(\"J'ai %f ans et ma taille est %f cm\", age_moi, taille_moi);",
+          "printf(\"J'ai %c ans et ma taille est %c cm\", age_moi, taille_moi);",
+          "printf(\"J'ai %s ans et ma taille est %s cm\", age_moi, taille_moi);"
+        ],
+        "answer": "printf(\"J'ai %d ans et ma taille est %d cm\", age_moi, taille_moi);"
+      },
+      {
+        "id": 38,
+        "question": "scanf(\"%d\", &nbrel); permet de lire un entier entré par l'utilisateur et de le stocker dans nbrel.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 39,
+        "question": "Compléter correctement la séquence :\nprintf(\"Entrez un premier nombre\\n\");\nscanf(\"%d\", &nbrel);\nprintf(\"Entrez un second nombre\\n\");\n...",
+        "options": [
+          "scanf(\"%d\", &somme);",
+          "scanf(\"%d\", &nbre2);",
+          "scanf(\"%c\", &nbre2);"
+        ],
+        "answer": "scanf(\"%d\", &nbre2);"
+      },
+      {
+        "id": 40,
+        "question": "Quelle instruction est correcte pour afficher la somme avec un message ?",
+        "options": [
+          "printf(\"La somme est %f\", somme);",
+          "printf(\"La somme est %d\", somme);",
+          "printf(\"La somme est %c\", somme);",
+          "printf(\"La somme est %s\", somme);"
+        ],
+        "answer": "printf(\"La somme est %d\", somme);"
+      },
+      {
+        "id": 41,
+        "question": "%c et %s sont interchangeables dans scanf.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 42,
+        "question": "Quelle ligne affiche correctement la couleur stockée dans char couleur[25]; ?",
+        "options": [
+          "printf(\"%c\", couleur);",
+          "printf(\"%s\", couleur);",
+          "printf(\"%d\", couleur);",
+          "printf(\"%f\", couleur);"
+        ],
+        "answer": "printf(\"%s\", couleur);"
+      },
+      {
+        "id": 43,
+        "question": "Pour stocker une seule lettre, quelle variable est correcte ?",
+        "options": [
+          "char lettre;",
+          "char mot[20];",
+          "int lettre;",
+          "float lettre;"
+        ],
+        "answer": "char lettre;"
+      },
+      {
+        "id": 44,
+        "question": "Qu'est-ce qu'un commentaire en programmation ?",
+        "options": [
+          "Des portions de code convertir en 1 et 0 par le compilateur.",
+          "Des portions de code ignoré par le compilateur ou l'interpréteur."
+        ],
+        "answer": "Des portions de code ignoré par le compilateur ou l'interpréteur."
+      },
+      {
+        "id": 45,
+        "question": "Quel est le rôle d'un commentaire ?",
+        "options": [
+          "Permet de décrire des lignes de code.",
+          "Permet d'écrire des codes."
+        ],
+        "answer": "Permet de décrire des lignes de code."
+      },
+      {
+        "id": 46,
+        "question": "Définition des types d'erreurs en programmation - Erreur de syntaxe :",
+        "options": [
+          "Erreur qui survient lorsque votre programme fonctionne déjà mais que des circonstances particulières se présentent.",
+          "Erreur qui survient quand on n'obtient pas le résultat attendu du code.",
+          "Erreur qui survient quand le code n'est écrit correctement selon les règles du langage de programmation."
+        ],
+        "answer": "Erreur qui survient quand le code n'est écrit correctement selon les règles du langage de programmation."
+      },
+      {
+        "id": 47,
+        "question": "Définition des types d'erreurs en programmation - Erreur d'exécution :",
+        "options": [
+          "Erreur qui survient quand on n'obtient pas le résultat attendu du code.",
+          "Erreur qui survient quand le code n'est écrit correctement selon les règles du langage de programmation.",
+          "Erreur qui survient lorsque votre programme fonctionne déjà mais que des circonstances particulières se présentent."
+        ],
+        "answer": "Erreur qui survient lorsque votre programme fonctionne déjà mais que des circonstances particulières se présentent."
+      },
+      {
+        "id": 48,
+        "question": "Définition des types d'erreurs en programmation - Erreur sémantique :",
+        "options": [
+          "Erreur qui survient quand le code n'est écrit correctement selon les règles du langage de programmation.",
+          "Erreur qui survient quand on n'obtient pas le résultat attendu du code.",
+          "Erreur qui survient lorsque votre programme fonctionne déjà mais que des circonstances particulières se présentent."
+        ],
+        "answer": "Erreur qui survient quand on n'obtient pas le résultat attendu du code."
+      },
+      {
+        "id": 49,
+        "question": "Une instruction en programmation est un ensemble de valeurs reliées par des opérateurs et équivalent a une seule valeur.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 50,
+        "question": "Incrémentation est une opération qui consiste à diminuer une grandeur de la valeur d'une variable à chaque cycle d'Operations.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 51,
+        "question": "Une convertion a pour but de changer le type d'une valeur, sans changer cette valeur.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 52,
+        "question": "Que signifie 'incrémentation' en programmation ?",
+        "options": [
+          "Diminuer la valeur d'une variable à chaque cycle.",
+          "Ajouter 1 à la valeur d'une variable.",
+          "Convertir une variable d'un type à un autre.",
+          "Arrêter une boucle."
+        ],
+        "answer": "Ajouter 1 à la valeur d'une variable."
+      },
+      {
+        "id": 53,
+        "question": "Que fait une conversion de type en C ?",
+        "options": [
+          "Elle change la valeur d'une variable pour un autre nombre.",
+          "Elle change le type d'une variable sans changer sa valeur.",
+          "Elle supprime une variable du programme."
+        ],
+        "answer": "Elle change le type d'une variable sans changer sa valeur."
+      },
+      {
+        "id": 54,
+        "question": "Pour faire un saut de ligne, on utilise __________________.",
+        "options": [
+          "'' ''",
+          "\\n"
+        ],
+        "answer": "\\n"
+      },
+      {
+        "id": 55,
+        "question": "Pour afficher un message à l'écran on utilise la fonction______________, et pour lire une valeur rentrée par l'utilisateur on utilise __________________.",
+        "options": [
+          "printf() et scanf()",
+          "afficherf() et scanf()",
+          "printf() et liref()"
+        ],
+        "answer": "printf() et scanf()"
+      },
+      {
+        "id": 56,
+        "question": "Pour faire l'incrémentation d'une variable (moyenne = 6), on fait ___________________.",
+        "options": [
+          "moyenne + 1",
+          "moyenne = moyenne + 1",
+          "moyenne == moyenne + 1"
+        ],
+        "answer": "moyenne = moyenne + 1"
+      },
+      {
+        "id": 57,
+        "question": "La Boucle :",
+        "options": [
+          "Est une fonction qui permet de définir des variables.",
+          "Est une fonction qui permet de répéter une instruction un certain nombre de fois.",
+          "Est une structure qui contrôle les instructions."
+        ],
+        "answer": "Est une fonction qui permet de répéter une instruction un certain nombre de fois."
+      },
+      {
+        "id": 58,
+        "question": "Une boucle se compose de :",
+        "options": [
+          "Une fonction, une variable, et type.",
+          "Une initialisation, un test, une incrémentation.",
+          "Un test, une variable, une incrémentation."
+        ],
+        "answer": "Une initialisation, un test, une incrémentation."
+      },
+      {
+        "id": 59,
+        "question": "Quand la condition d'une boucle ne devient jamais fausse on obtient une boucle infinie.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 60,
+        "question": "Une boucle peut contenir un printf().",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 61,
+        "question": "Une boucle for ne peut pas décrémenter.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 62,
+        "question": "Une boucle peut s'exécuter des millions de fois dans un programme.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 63,
+        "question": "La structure if sert à exécuter du code seulement si une condition est vraie.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 64,
+        "question": "Une condition peut utiliser les opérateurs logiques &&, || et !.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 65,
+        "question": "Une structure conditionnelle permet de modifier le comportement d'un programme selon des conditions.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 66,
+        "question": "L'opérateur == sert à assigner une valeur à une variable.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 67,
+        "question": "Les conditions peuvent-elles combiner plusieurs comparaisons avec && ou || ?",
+        "options": [
+          "Oui, pour tester plusieurs conditions à la fois.",
+          "Non, une condition ne peut contenir qu'une seule comparaison.",
+          "Non, il faut écrire plusieurs ifs séparés."
+        ],
+        "answer": "Oui, pour tester plusieurs conditions à la fois."
+      },
+      {
+        "id": 68,
+        "question": "Quel opérateur sert à comparer l'égalité entre deux valeurs ?",
+        "options": [
+          "=",
+          "==",
+          "+=",
+          "==="
+        ],
+        "answer": "=="
+      },
+      {
+        "id": 69,
+        "question": "Quelle est la signification de l'opérateur ! ?",
+        "options": [
+          "Addition.",
+          "Négation logique.",
+          "Soustraction",
+          "Division"
+        ],
+        "answer": "Négation logique."
+      },
+      {
+        "id": 70,
+        "question": "Que fait l'instruction suivante ? if (age >= 18) { printf('Adulte'); }",
+        "options": [
+          "Elle affiche 'Adulte' si l'âge est inférieur à 18",
+          "Elle affiche 'Adulte' si l'âge est égal à 18",
+          "Elle affiche 'Adulte' si l'âge est supérieur ou égal à 18",
+          "Elle n'affiche rien"
+        ],
+        "answer": "Elle affiche 'Adulte' si l'âge est supérieur ou égal à 18"
+      },
+      {
+        "id": 71,
+        "question": "Quel mot-clé permet de tester une deuxième condition ?",
+        "options": [
+          "If if",
+          "Elseif",
+          "else if"
+        ],
+        "answer": "else if"
+      },
+      {
+        "id": 72,
+        "question": "Quel code est correct?",
+        "options": [
+          "if (x = 5) { }",
+          "if x == 5 { }",
+          "if (x == 5) { }",
+          "if (x => 5) { }"
+        ],
+        "answer": "if (x == 5) { }"
+      },
+      {
+        "id": 73,
+        "question": "Quelle est la sortie ? int x = 10; if (x > 5) printf('Grand'); else printf('Petit');",
+        "options": [
+          "10",
+          "Grand",
+          "5",
+          "Petit"
+        ],
+        "answer": "Grand"
+      },
+      {
+        "id": 74,
+        "question": "Comment déclare-t-on un tableau de 10 entiers ?",
+        "options": [
+          "int tab(10)",
+          "int tab[10]",
+          "array tab[10]",
+          "tableau tab(10)"
+        ],
+        "answer": "int tab[10]"
+      },
+      {
+        "id": 75,
+        "question": "Quelle instruction donne la valeur 5 au premier élément ?",
+        "options": [
+          "tab[1] = 5",
+          "tab[0] = 5",
+          "tab = 5",
+          "tab(0) = 5"
+        ],
+        "answer": "tab[0] = 5"
+      },
+      {
+        "id": 76,
+        "question": "Quel tableau contient 5 éléments ?",
+        "options": [
+          "int t[6]",
+          "int t[4]",
+          "int t[5]",
+          "int t[0]"
+        ],
+        "answer": "int t[5]"
+      },
+      {
+        "id": 77,
+        "question": "Les éléments d'un tableau sont stockés dans des emplacements de mémoire consécutifs.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 78,
+        "question": "L'indice du dernier élément d'un tableau de taille 8 est 8.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 79,
+        "question": "tab[0] représente toujours le premier élément dans un tableau.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 80,
+        "question": "Le premier élément d'un tableau t se note _____________________.",
+        "options": [
+          "t1",
+          "t[1]",
+          "t[0]"
+        ],
+        "answer": "t[0]"
+      },
+      {
+        "id": 81,
+        "question": "Pour stocker la valeur 20 dans la 4ᵉ case du tableau a, on écrit :",
+        "options": [
+          "a[4] = 20",
+          "a[3] = 20",
+          "a[20] = 20"
+        ],
+        "answer": "a[3] = 20"
+      },
+      {
+        "id": 82,
+        "question": "On a un tableau : notes = [12, 15, 18]. L'élément à l'index 1 est……",
+        "options": [
+          "18",
+          "15",
+          "12"
+        ],
+        "answer": "15"
+      },
+      {
+        "id": 83,
+        "question": "On peut accéder a l'élément d'un tableau en utilisant :",
+        "options": [
+          "La valeur",
+          "Le tableau",
+          "L'index"
+        ],
+        "answer": "L'index"
+      },
+      {
+        "id": 84,
+        "question": "Les paramètres d'une fonction sont placés entre parenthèses.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 85,
+        "question": "Deux fonctions peuvent avoir le même nom dans un même programme.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 86,
+        "question": "Une fonction peut appeler une autre fonction.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 87,
+        "question": "Quel mot-clé indique qu'une fonction ne retourne aucune valeur ?",
+        "options": [
+          "Int",
+          "Void",
+          "None",
+          "Null"
+        ],
+        "answer": "Void"
+      },
+      {
+        "id": 88,
+        "question": "Comment s'appelle la fonction principale d'un programme C ?",
+        "options": [
+          "start()",
+          "main()",
+          "begin()",
+          "root()"
+        ],
+        "answer": "main()"
+      },
+      {
+        "id": 89,
+        "question": "Quel exemple montre une fonction correcte ?",
+        "options": [
+          "fonction(int x)",
+          "int f(x)",
+          "int calcul()",
+          "return calc()"
+        ],
+        "answer": "int calcul()"
+      },
+      {
+        "id": 90,
+        "question": "Que fait le mot-clé return dans une fonction ?",
+        "options": [
+          "Il répète le programme",
+          "Il affiche un texte",
+          "Il renvoie une valeur",
+          "Il efface une variable"
+        ],
+        "answer": "Il renvoie une valeur"
+      },
+      {
+        "id": 91,
+        "question": "Comment s'appelle une valeur envoyée à une fonction ?",
+        "options": [
+          "Une boîte",
+          "Un paramètre",
+          "Un retour",
+          "Un symbole"
+        ],
+        "answer": "Un paramètre"
+      },
+      {
+        "id": 92,
+        "question": "Quelle fonction suivante ne retourne pas de valeur ?",
+        "options": [
+          "int somme()",
+          "float total()",
+          "void afficher()",
+          "char lettre()"
+        ],
+        "answer": "void afficher()"
+      },
+      {
+        "id": 93,
+        "question": "Quel est le rôle d'un prototype de fonction ?",
+        "options": [
+          "Décorer le programme",
+          "Permettre d'utiliser la fonction avant sa définition",
+          "Supprimer les erreurs",
+          "Créer une nouvelle variable"
+        ],
+        "answer": "Permettre d'utiliser la fonction avant sa définition"
+      },
+      {
+        "id": 94,
+        "question": "Que fait l'appel suivant : afficher(3 + 2); ?",
+        "options": [
+          "Il envoie la valeur 3 dans la fonction",
+          "Il envoie la valeur 2",
+          "Il envoie la valeur 5",
+          "Il envoie deux valeurs"
+        ],
+        "answer": "Il envoie la valeur 5"
+      },
+      {
+        "id": 95,
+        "question": "Quelle partie manque cette fonction pour faire l'addition de ces deux nombres ? int addition(int a, int b) { // complète ici }",
+        "options": [
+          "somme( a,b) ;",
+          "somme( a + b) ;",
+          "return(a + b) ;",
+          "return(a,b) ;"
+        ],
+        "answer": "return(a + b) ;"
+      },
+      {
+        "id": 96,
+        "question": "Afficher la valeur reçue en paramètre : void affiche(int x) { // complète }",
+        "options": [
+          "return int x ;",
+          "printf('%d', x);",
+          "printf(x)"
+        ],
+        "answer": "printf('%d', x);"
+      },
+      {
+        "id": 97,
+        "question": "Une fonction peut être appelée plusieurs fois dans un programme.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 98,
+        "question": "On peut utiliser une fonction pour simplifier et réutiliser du code.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 99,
+        "question": "Les parenthèses ( ) servent à entourer le corps de la fonction.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 100,
+        "question": "Une fonction peut avoir zéro paramètre.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      },
+      {
+        "id": 101,
+        "question": "return permet d'afficher une valeur à l'écran.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Faux"
+      },
+      {
+        "id": 102,
+        "question": "Une fonction peut afficher du texte et retourner une valeur en même temps.",
+        "options": ["Vrai", "Faux"],
+        "answer": "Vrai"
+      }
+    ]
+  }
+]
