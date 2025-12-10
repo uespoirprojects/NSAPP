@@ -4,13 +4,17 @@
     "slug": "akademix",
     "version": "1.0.1",
     "orientation": "default",
-    "icon": "./assets/images/icons/icon.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "nsapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "requireFullScreen": false
+      "requireFullScreen": false,
+      "bundleIdentifier": "com.uespoir.akademix",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
