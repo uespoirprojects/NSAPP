@@ -32,6 +32,13 @@ export default function SignupScreen() {
   // Use white border in dark mode, grey in light mode
   const borderColor = effectiveTheme === "dark" ? colors.white : colors.grey;
 
+  // Calculate maximum date (9 years ago from today)
+  const getMaxDate = React.useMemo(() => {
+    const maxDate = new Date();
+    maxDate.setFullYear(maxDate.getFullYear() - 9);
+    return maxDate;
+  }, []);
+
   const [firstName, setFirstName] = React.useState("");
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -55,6 +62,17 @@ export default function SignupScreen() {
     dateOfBirth?: string;
   }>({});
 
+  // Calculate age from date of birth
+  const calculateAge = (birthDate: Date): number => {
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
   const validate = () => {
     const newErrors: typeof errors = {};
     const emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
@@ -65,6 +83,16 @@ export default function SignupScreen() {
       newErrors.email = t("signup.invalidEmail");
     if (!password || password.length < 6)
       newErrors.password = t("signup.passwordMinLength");
+    
+    // Validate age (must be at least 9 years old)
+    if (!dateOfBirthDate) {
+      newErrors.dateOfBirth = t("signup.dateOfBirthRequired");
+    } else {
+      const age = calculateAge(dateOfBirthDate);
+      if (age < 9) {
+        newErrors.dateOfBirth = t("signup.ageRestriction");
+      }
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -501,7 +529,7 @@ export default function SignupScreen() {
                   {/* @ts-ignore - input type="date" is valid for web */}
                   <input
                     type="date"
-                    max={new Date().toISOString().split('T')[0]}
+                    max={getMaxDate.toISOString().split('T')[0]}
                     value={dateOfBirthDate ? dateOfBirthDate.toISOString().split('T')[0] : ''}
                     onChange={(e: any) => {
                       if (e.target.value) {
@@ -512,6 +540,10 @@ export default function SignupScreen() {
                         const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
                         const year = selectedDate.getFullYear();
                         setDateOfBirth(`${day}/${month}/${year}`);
+                        // Clear error when date is selected
+                        if (errors.dateOfBirth) {
+                          setErrors({ ...errors, dateOfBirth: undefined });
+                        }
                       }
                     }}
                     placeholder={t("signup.dateOfBirthPlaceholder")}
@@ -591,6 +623,10 @@ export default function SignupScreen() {
                                 const month = String(dateOfBirthDate.getMonth() + 1).padStart(2, "0");
                                 const year = dateOfBirthDate.getFullYear();
                                 setDateOfBirth(`${day}/${month}/${year}`);
+                                // Clear error when date is selected
+                                if (errors.dateOfBirth) {
+                                  setErrors({ ...errors, dateOfBirth: undefined });
+                                }
                               }
                               setShowDatePicker(false);
                             }}
@@ -605,13 +641,17 @@ export default function SignupScreen() {
                           </TouchableOpacity>
                         </View>
                         <DateTimePicker
-                          value={dateOfBirthDate || new Date()}
+                          value={dateOfBirthDate || getMaxDate}
                           mode="date"
                           display="spinner"
-                          maximumDate={new Date()}
+                          maximumDate={getMaxDate}
                           onChange={(event: any, selectedDate?: Date) => {
                             if (selectedDate) {
                               setDateOfBirthDate(selectedDate);
+                              // Clear error when date is selected
+                              if (errors.dateOfBirth) {
+                                setErrors({ ...errors, dateOfBirth: undefined });
+                              }
                             }
                           }}
                           style={{ backgroundColor: colors.cardBackground }}
@@ -619,10 +659,10 @@ export default function SignupScreen() {
                       </View>
                     ) : (
                       <DateTimePicker
-                        value={dateOfBirthDate || new Date()}
+                        value={dateOfBirthDate || getMaxDate}
                         mode="date"
                         display="default"
-                        maximumDate={new Date()}
+                        maximumDate={getMaxDate}
                         onChange={(event: any, selectedDate?: Date) => {
                           setShowDatePicker(false);
                           if (event.type === "set" && selectedDate) {
@@ -632,6 +672,10 @@ export default function SignupScreen() {
                             const month = String(selectedDate.getMonth() + 1).padStart(2, "0");
                             const year = selectedDate.getFullYear();
                             setDateOfBirth(`${day}/${month}/${year}`);
+                            // Clear error when date is selected
+                            if (errors.dateOfBirth) {
+                              setErrors({ ...errors, dateOfBirth: undefined });
+                            }
                           }
                         }}
                       />

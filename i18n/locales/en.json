@@ -43,6 +43,8 @@
     "provincePlaceholder": "Enter your province",
     "dateOfBirth": "Date of Birth",
     "dateOfBirthPlaceholder": "YYYY-MM-DD",
+    "dateOfBirthRequired": "Date of birth is required",
+    "ageRestriction": "You must be at least 9 years old to sign up",
     "signUp": "Sign Up",
     "orSignUp": "or sign up with",
     "hasAccount": "Already have an account?",

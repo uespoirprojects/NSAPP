@@ -44,6 +44,8 @@
     "provincePlaceholder": "Antre pwovens ou",
     "dateOfBirth": "Dat Nesans",
     "dateOfBirthPlaceholder": "AAAA-MM-JJ",
+    "dateOfBirthRequired": "Dat nesans la obligatwa",
+    "ageRestriction": "Ou dwe gen omwen 9 an pou ou ka enskri",
     "signUp": "Enskri",
     "orSignUp": "oswa enskri ak",
     "hasAccount": "Ou gen yon kont deja?",

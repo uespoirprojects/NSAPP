@@ -44,6 +44,8 @@
     "provincePlaceholder": "Ingresa tu provincia",
     "dateOfBirth": "Fecha de Nacimiento",
     "dateOfBirthPlaceholder": "AAAA-MM-DD",
+    "dateOfBirthRequired": "La fecha de nacimiento es obligatoria",
+    "ageRestriction": "Debes tener al menos 9 años para registrarte",
     "signUp": "Registrarse",
     "orSignUp": "o registrarse con",
     "hasAccount": "¿Ya tienes una cuenta?",

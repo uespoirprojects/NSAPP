@@ -44,6 +44,8 @@
     "provincePlaceholder": "Entrez votre province",
     "dateOfBirth": "Date de naissance",
     "dateOfBirthPlaceholder": "AAAA-MM-JJ",
+    "dateOfBirthRequired": "La date de naissance est requise",
+    "ageRestriction": "Vous devez avoir au moins 9 ans pour vous inscrire",
     "signUp": "S'inscrire",
     "orSignUp": "ou s'inscrire avec",
     "hasAccount": "Vous avez déjà un compte ?",
