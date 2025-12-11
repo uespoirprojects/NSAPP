@@ -2,13 +2,13 @@
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    signOut
+    signOut,
 } from "firebase/auth";
 import {
     doc,
     getDoc,
     setDoc,
-    Timestamp,
+    Timestamp
 } from "firebase/firestore";
 import { auth, db } from "../lib/firebase";
 import { getFirebaseErrorMessage } from "../utils/firebaseErrorHandler";
@@ -42,6 +42,7 @@ export type UserData = {
   city?: string | null;
   province?: string | null;
   role: UserRole; // User role: 'user' (default) or 'admin'
+  status: 'active' | 'inactive'; // Account status
   createdAt: Timestamp;
   firebaseUid: string;
 };
@@ -75,6 +76,7 @@ export const signUp = async (
       city: userData.city?.trim() || null,
       province: userData.province?.trim() || null,
       role: 'user', // Default role is 'user'
+      status: 'active', // New users are active by default
       createdAt: Timestamp.now(),
     };
 
@@ -108,15 +110,31 @@ export const signIn = async (
         firebaseUid,
         email,
         role: 'user' as UserRole, // Default role is 'user'
+        status: 'active' as const, // New users are active by default
         createdAt: Timestamp.now(),
       });
     } else {
-      // Ensure existing users have a role field (migration for old users)
+      // Ensure existing users have required fields (migration for old users)
       const userData = userDoc.data();
+      const updates: any = {};
+      
       if (!userData.role) {
-        await setDoc(doc(db, "users", firebaseUid), {
-          role: 'user' as UserRole,
-        }, { merge: true });
+        updates.role = 'user' as UserRole;
+      }
+      
+      // Migration: Add status field to existing users (set to 'active')
+      if (!userData.status) {
+        updates.status = 'active' as const;
+      }
+      
+      // Check if user account is inactive
+      if (userData.status === 'inactive') {
+        throw new Error('account_inactive');
+      }
+      
+      // Apply updates if any
+      if (Object.keys(updates).length > 0) {
+        await setDoc(doc(db, "users", firebaseUid), updates, { merge: true });
       }
     }
 
@@ -236,5 +254,52 @@ export const getUserRole = async (firebaseUid: string): Promise<UserRole | null>
   } catch (error) {
     console.error("Get user role error:", error);
     return null;
+  }
+};
+
+/**
+ * Delete user account
+ * 1. Updates status to 'inactive' in users collection
+ * 2. Copies user data to inactive_users collection
+ * 3. Signs out the user
+ */
+export const deleteAccount = async (firebaseUid: string): Promise<{ success: boolean; error?: string }> => {
+  try {
+    // Check if user is authenticated
+    if (!auth.currentUser || auth.currentUser.uid !== firebaseUid) {
+      return { success: false, error: 'not_authenticated' };
+    }
+
+    // 1. Get user data from users collection
+    const userDocRef = doc(db, "users", firebaseUid);
+    const userDoc = await getDoc(userDocRef);
+    
+    if (!userDoc.exists()) {
+      return { success: false, error: 'user_not_found' };
+    }
+
+    const userData = userDoc.data() as UserData;
+
+    // 2. Update status to 'inactive' in users collection
+    await setDoc(userDocRef, {
+      status: 'inactive' as const,
+    }, { merge: true });
+
+    // 3. Copy user data to inactive_users collection with status field
+    const inactiveUserData = {
+      ...userData,
+      status: 'inactive' as const,
+      deactivatedAt: Timestamp.now(),
+    };
+    await setDoc(doc(db, "inactive_users", firebaseUid), inactiveUserData);
+
+    // 4. Sign out the user
+    await signOut(auth);
+
+    return { success: true };
+  } catch (error: any) {
+    console.error("Delete account error:", error);
+    const errorKey = getFirebaseErrorMessage(error);
+    return { success: false, error: errorKey };
   }
 };

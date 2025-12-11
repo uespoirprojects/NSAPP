@@ -103,7 +103,14 @@
     "language": "Langue",
     "selectLanguage": "Sélectionner la Langue",
     "logoutConfirm": "Êtes-vous sûr de vouloir vous déconnecter ?",
-    "dateOfBirth": "Date de naissance"
+    "dateOfBirth": "Date de naissance",
+    "deleteAccount": "Supprimer le compte",
+    "deleteAccountWarning": "Cette action est irréversible. Votre compte sera définitivement désactivé.",
+    "deleteAccountConsequences": "Vous perdrez l'accès à toute votre progression d'apprentissage, résultats de quiz et données de cours.",
+    "deleteAccountConfirm": "Supprimer le compte",
+    "deleteAccountError": "Erreur",
+    "deleteAccountFailed": "Échec de la suppression du compte. Veuillez réessayer.",
+    "deleteAccountNotAuthenticated": "Vous devez être connecté pour supprimer votre compte."
   },
   "settings": {
     "title": "Paramètres",

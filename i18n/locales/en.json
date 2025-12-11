@@ -55,6 +55,8 @@
   },
   "auth": {
     "emailAlreadyInUse": "This email is already registered. Please sign in instead.",
+    "accountInactive": "Account Deactivated",
+    "accountInactiveMessage": "Your account has been deactivated. Please contact support if you believe this is an error.",
     "invalidEmail": "Please enter a valid email address.",
     "weakPassword": "Password must be at least 6 characters long.",
     "userNotFound": "No account found with this email address.",
@@ -102,7 +104,14 @@
     "language": "Language",
     "selectLanguage": "Select Language",
     "logoutConfirm": "Are you sure you want to logout?",
-    "dateOfBirth": "Date of Birth"
+    "dateOfBirth": "Date of Birth",
+    "deleteAccount": "Delete Account",
+    "deleteAccountWarning": "This action cannot be undone. Your account will be permanently deactivated.",
+    "deleteAccountConsequences": "You will lose access to all your learning progress, quiz results, and course data.",
+    "deleteAccountConfirm": "Delete Account",
+    "deleteAccountError": "Error",
+    "deleteAccountFailed": "Failed to delete account. Please try again.",
+    "deleteAccountNotAuthenticated": "You must be logged in to delete your account."
   },
   "settings": {
     "title": "Settings",

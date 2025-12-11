@@ -3,20 +3,20 @@ import { useAuth } from "@/contexts/auth-context";
 import { useI18n } from "@/contexts/i18n-context";
 import { useTheme } from "@/contexts/theme-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
-import { getUserData, signIn } from "@/services/authService";
+import { getUserData, signIn, signOutUser } from "@/services/authService";
 import { signInWithGoogle } from "@/services/googleAuthService";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
-  Alert, Image,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  useWindowDimensions
+    Alert, Image,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+    useWindowDimensions
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -71,16 +71,37 @@ export default function LoginScreen() {
         await setIsAuthenticated(true);
         await setIsGuest(false);
         
-        // Fetch user data to check role and redirect
+        // Fetch user data to check role and status
         try {
           const userData = await getUserData(result.userId);
+          
+          // Check if account is inactive
+          if (userData && userData.status === 'inactive') {
+            await signOutUser();
+            Alert.alert(
+              t("auth.accountInactive") || "Account Inactive",
+              t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
+            );
+            setIsSubmitting(false);
+            return;
+          }
           
           if (userData?.role === 'admin') {
             router.push("/admin");
           } else {
             router.push("/(tabs)/home");
           }
-        } catch (error) {
+        } catch (error: any) {
+          // Handle account inactive error
+          if (error?.message === 'account_inactive' || error?.code === 'account_inactive') {
+            await signOutUser();
+            Alert.alert(
+              t("auth.accountInactive") || "Account Inactive",
+              t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
+            );
+            setIsSubmitting(false);
+            return;
+          }
           console.error("Error checking user role:", error);
           // Default to home if we can't check role
           router.push("/(tabs)/home");
@@ -107,16 +128,37 @@ export default function LoginScreen() {
       await setIsAuthenticated(true);
       await setIsGuest(false);
       
-      // Fetch user data to check role and redirect
+      // Fetch user data to check role and status
       try {
         const userData = await getUserData(result.userId);
+        
+        // Check if account is inactive
+        if (userData && userData.status === 'inactive') {
+          await signOutUser();
+          Alert.alert(
+            t("auth.accountInactive") || "Account Inactive",
+            t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
+          );
+          setIsSubmitting(false);
+          return;
+        }
         
         if (userData?.role === 'admin') {
           router.push("/admin");
         } else {
           router.push("/(tabs)/home");
         }
-      } catch (error) {
+      } catch (error: any) {
+        // Handle account inactive error
+        if (error?.message === 'account_inactive' || error?.code === 'account_inactive') {
+          await signOutUser();
+          Alert.alert(
+            t("auth.accountInactive") || "Account Inactive",
+            t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
+          );
+          setIsSubmitting(false);
+          return;
+        }
         console.error("Error checking user role:", error);
         // Default to home if we can't check role
         router.push("/(tabs)/home");

@@ -49,6 +49,10 @@ export const getFirebaseErrorMessage = (error: any): string => {
     case 'auth/account-exists-with-different-credential':
       return 'auth.accountExistsWithDifferentCredential';
     
+    // Custom app errors
+    case 'account_inactive':
+      return 'auth.accountInactive';
+    
     // Firestore errors
     case 'unavailable':
     case 'failed-precondition':

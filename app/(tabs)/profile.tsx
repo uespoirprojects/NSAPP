@@ -7,17 +7,19 @@ import { useThemeColors } from '@/hooks/use-theme-colors';
 import { router, useFocusEffect } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import type { ViewStyle } from 'react-native';
-import { ActivityIndicator, Modal, ScrollView, Switch, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, Alert, Modal, ScrollView, Switch, TouchableOpacity, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileScreen() {
   const colors = useThemeColors();
   const { effectiveTheme, themeMode, setThemeMode } = useTheme();
   const { t, currentLanguage, changeLanguage } = useI18n();
-  const { logout, user, isLoading, refreshUserData } = useAuth();
+  const { logout, user, isLoading, refreshUserData, deleteAccount } = useAuth();
   const [isLogoutPressed, setIsLogoutPressed] = useState(false);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showDeleteAccountModal, setShowDeleteAccountModal] = useState(false);
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const isWideLayout = windowWidth > windowHeight || windowWidth >= 900;
   const contentMaxWidth = Math.min(windowWidth * 0.7, 720);
@@ -69,6 +71,39 @@ export default function ProfileScreen() {
       setShowLogoutModal(false);
       // Still navigate even if there's an error
       router.replace('/login');
+    }
+  };
+
+  const handleDeleteAccount = () => {
+    setShowDeleteAccountModal(true);
+  };
+
+  const confirmDeleteAccount = async () => {
+    try {
+      setIsDeletingAccount(true);
+      const result = await deleteAccount();
+      
+      if (result.success) {
+        setShowDeleteAccountModal(false);
+        // Navigate to login screen
+        router.replace('/login');
+      } else {
+        // Show error message
+        Alert.alert(
+          t('profile.deleteAccountError') || 'Error',
+          result.error === 'not_authenticated' 
+            ? t('profile.deleteAccountNotAuthenticated') || 'You must be logged in to delete your account.'
+            : t('profile.deleteAccountFailed') || 'Failed to delete account. Please try again.'
+        );
+        setIsDeletingAccount(false);
+      }
+    } catch (error) {
+      console.error('Delete account error:', error);
+      Alert.alert(
+        t('profile.deleteAccountError') || 'Error',
+        t('profile.deleteAccountFailed') || 'Failed to delete account. Please try again.'
+      );
+      setIsDeletingAccount(false);
     }
   };
 
@@ -268,6 +303,31 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         </View>
 
+        {/* Delete Account Button */}
+        <TouchableOpacity
+          style={[
+            {
+              backgroundColor: colors.cardBackground,
+              borderRadius: 12,
+              padding: 16,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderWidth: 1,
+              borderColor: colors.red,
+              marginBottom: 12,
+            },
+            responsiveContainerStyle,
+          ]}
+          activeOpacity={0.7}
+          onPress={handleDeleteAccount}
+        >
+          <IconSymbol name="trash-outline" size={20} color={colors.red} />
+          <Typography variant="body" color={colors.red} style={{ marginLeft: 8 }}>
+            {t('profile.deleteAccount') || 'Delete Account'}
+          </Typography>
+        </TouchableOpacity>
+
         {/* Logout Button */}
         <TouchableOpacity
           style={[
@@ -348,6 +408,66 @@ export default function ProfileScreen() {
                 {t('common.cancel')}
               </Typography>
             </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Delete Account Confirmation Modal */}
+      <Modal
+        visible={showDeleteAccountModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => !isDeletingAccount && setShowDeleteAccountModal(false)}
+      >
+        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+          <View style={{ backgroundColor: colors.cardBackground, borderRadius: 20, padding: 24, width: '100%', maxWidth: 400 }}>
+            <Typography variant="h2" color={colors.text} style={{ marginBottom: 12, textAlign: 'center' }}>
+              {t('profile.deleteAccount') || 'Delete Account'}
+            </Typography>
+            <Typography variant="body" color={colors.text} style={{ marginBottom: 8, textAlign: 'center', opacity: 0.9 }}>
+              {t('profile.deleteAccountWarning') || 'This action cannot be undone. Your account will be permanently deactivated.'}
+            </Typography>
+            <Typography variant="caption" color={colors.text} style={{ marginBottom: 24, textAlign: 'center', opacity: 0.7 }}>
+              {t('profile.deleteAccountConsequences') || 'You will lose access to all your learning progress, quiz results, and course data.'}
+            </Typography>
+            <View style={{ flexDirection: 'row', gap: 12 }}>
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.grey,
+                  borderRadius: 12,
+                  padding: 16,
+                  alignItems: 'center',
+                  opacity: isDeletingAccount ? 0.5 : 1,
+                }}
+                onPress={() => setShowDeleteAccountModal(false)}
+                disabled={isDeletingAccount}
+              >
+                <Typography variant="body" color={colors.text}>
+                  {t('common.cancel') || 'Cancel'}
+                </Typography>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.red,
+                  borderRadius: 12,
+                  padding: 16,
+                  alignItems: 'center',
+                  opacity: isDeletingAccount ? 0.7 : 1,
+                }}
+                onPress={confirmDeleteAccount}
+                disabled={isDeletingAccount}
+              >
+                {isDeletingAccount ? (
+                  <ActivityIndicator size="small" color={colors.white} />
+                ) : (
+                  <Typography variant="body" color={colors.white}>
+                    {t('profile.deleteAccountConfirm') || 'Delete Account'}
+                  </Typography>
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>

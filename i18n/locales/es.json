@@ -103,7 +103,14 @@
     "language": "Idioma",
     "selectLanguage": "Seleccionar Idioma",
     "logoutConfirm": "¿Estás seguro de que quieres cerrar sesión?",
-    "dateOfBirth": "Fecha de Nacimiento"
+    "dateOfBirth": "Fecha de Nacimiento",
+    "deleteAccount": "Eliminar Cuenta",
+    "deleteAccountWarning": "Esta acción no se puede deshacer. Tu cuenta será desactivada permanentemente.",
+    "deleteAccountConsequences": "Perderás el acceso a todo tu progreso de aprendizaje, resultados de cuestionarios y datos del curso.",
+    "deleteAccountConfirm": "Eliminar Cuenta",
+    "deleteAccountError": "Error",
+    "deleteAccountFailed": "Error al eliminar la cuenta. Por favor, inténtalo de nuevo.",
+    "deleteAccountNotAuthenticated": "Debes iniciar sesión para eliminar tu cuenta."
   },
   "settings": {
     "title": "Configuración",

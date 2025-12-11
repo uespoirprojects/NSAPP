@@ -1,5 +1,5 @@
 import { auth } from '@/lib/firebase';
-import { FriendlyError, getUserData, signOutUser, UserData } from '@/services/authService';
+import { deleteAccount, FriendlyError, getUserData, signOutUser, UserData } from '@/services/authService';
 import { prefetchAllQuizzes } from '@/services/quizService';
 import { getSubjectsSync } from '@/services/subjectSyncService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -19,6 +19,7 @@ interface AuthContextType {
   setIsGuest: (value: boolean) => void;
   logout: () => Promise<void>;
   refreshUserData: () => Promise<void>;
+  deleteAccount: () => Promise<{ success: boolean; error?: string }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -134,13 +135,44 @@ export function AuthProvider({ children }: AuthProviderProps) {
         
         // Load user profile from Firestore (only if still authenticated)
         if (auth.currentUser?.uid === firebaseUser.uid) {
-          await loadUserProfile(firebaseUser.uid);
-          
-          // Prefetch quizzes once after successful authentication
-          // This runs in background and doesn't block the auth flow
-          prefetchQuizzesOnce().catch((error) => {
-            console.warn('[auth] Quiz prefetch error (non-blocking):', error);
-          });
+          // Check user status before loading profile
+          try {
+            const userData = await getUserData(firebaseUser.uid);
+            
+            // If user account is inactive, sign them out
+            if (userData && userData.status === 'inactive') {
+              console.warn('[auth] User account is inactive, signing out...');
+              await signOutUser();
+              setFirebaseUser(null);
+              setUser(null);
+              setIsAuthenticatedState(false);
+              setIsGuestState(false);
+              setIsLoading(false);
+              return;
+            }
+            
+            // Load profile if account is active
+            await loadUserProfile(firebaseUser.uid);
+            
+            // Prefetch quizzes once after successful authentication
+            // This runs in background and doesn't block the auth flow
+            prefetchQuizzesOnce().catch((error) => {
+              console.warn('[auth] Quiz prefetch error (non-blocking):', error);
+            });
+          } catch (error: any) {
+            // Handle account inactive error
+            if (error?.message === 'account_inactive' || error?.code === 'account_inactive') {
+              console.warn('[auth] User account is inactive, signing out...');
+              await signOutUser();
+              setFirebaseUser(null);
+              setUser(null);
+              setIsAuthenticatedState(false);
+              setIsGuestState(false);
+            } else {
+              // Other errors - still try to load profile
+              await loadUserProfile(firebaseUser.uid);
+            }
+          }
         }
         
         // Save auth state
@@ -261,6 +293,34 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
+  // Delete account function
+  const handleDeleteAccount = async (): Promise<{ success: boolean; error?: string }> => {
+    if (!firebaseUser?.uid) {
+      return { success: false, error: 'not_authenticated' };
+    }
+
+    try {
+      const result = await deleteAccount(firebaseUser.uid);
+      
+      if (result.success) {
+        // Clear local state
+        setIsAuthenticatedState(false);
+        setIsGuestState(false);
+        setFirebaseUser(null);
+        setUser(null);
+        quizzesPrefetchedRef.current = false;
+        
+        // Clear storage keys
+        await AsyncStorage.multiRemove([AUTH_STORAGE_KEY, GUEST_STORAGE_KEY]);
+      }
+      
+      return result;
+    } catch (error) {
+      console.error('Failed to delete account:', error);
+      return { success: false, error: 'unknown' };
+    }
+  };
+
   // Check if user is admin
   const isAdmin = user?.role === 'admin';
 
@@ -277,6 +337,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         setIsGuest,
         logout,
         refreshUserData,
+        deleteAccount: handleDeleteAccount,
       }}
     >
       {children}

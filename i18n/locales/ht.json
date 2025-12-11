@@ -103,7 +103,14 @@
     "language": "Lang",
     "selectLanguage": "Chwazi Lang",
     "logoutConfirm": "Èske w sèten ou vle dekonekte?",
-    "dateOfBirth": "Dat Nesans"
+    "dateOfBirth": "Dat Nesans",
+    "deleteAccount": "Efase Kont",
+    "deleteAccountWarning": "Aksyon sa a pa ka defèt. Kont ou a pral dezaktive pou tout tan.",
+    "deleteAccountConsequences": "Ou pral pèdi aksè nan tout pwogrè aprantisaj ou, rezilta tès yo, ak done kou yo.",
+    "deleteAccountConfirm": "Efase Kont",
+    "deleteAccountError": "Erè",
+    "deleteAccountFailed": "Echwe pou efase kont la. Tanpri eseye ankò.",
+    "deleteAccountNotAuthenticated": "Ou dwe konekte pou efase kont ou."
   },
   "settings": {
     "title": "Anviwònman",
