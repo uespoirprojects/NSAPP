@@ -177,7 +177,6 @@
     "dashboardSubtitle": "Gérer les catégories, les matières et consulter les statistiques",
     "categories": "Catégories",
     "subjects": "Matières",
-    "users": "Utilisateurs",
     "quickActions": "Actions rapides",
     "createCategory": "Créer une catégorie",
     "createCategoryDescription": "Ajouter une nouvelle catégorie de cours",
@@ -198,7 +197,23 @@
     "deleteCategorySuccess": "Catégorie supprimée avec succès",
     "createCategorySuccess": "Catégorie créée avec succès",
     "updateCategorySuccess": "Catégorie mise à jour avec succès",
-    "saveCategoryFailed": "Échec de l'enregistrement de la catégorie. Veuillez réessayer."
+    "saveCategoryFailed": "Échec de l'enregistrement de la catégorie. Veuillez réessayer.",
+    "users": {
+      "title": "Utilisateurs",
+      "all": "Tous",
+      "active": "Actif",
+      "inactive": "Inactif",
+      "noUsers": "Aucun utilisateur",
+      "noUsersFound": "Aucun utilisateur trouvé dans le système",
+      "noFilteredUsers": "Aucun utilisateur {status} trouvé",
+      "changeRole": "Changer le rôle de l'utilisateur",
+      "selectRole": "Sélectionner le rôle",
+      "regularUser": "Utilisateur régulier",
+      "regularUserDescription": "Peut accéder aux cours et passer les quiz",
+      "adminDescription": "Peut gérer les catégories, sujets et utilisateurs",
+      "roleUpdated": "Rôle de l'utilisateur mis à jour vers {role}",
+      "roleUpdateFailed": "Échec de la mise à jour du rôle de l'utilisateur"
+    }
   },
   "common": {
     "appName": "Akademix",

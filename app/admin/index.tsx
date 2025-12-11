@@ -278,7 +278,7 @@ export default function AdminDashboard() {
               />
               <StatCard
                 icon="people-outline"
-                title={t('admin.users')}
+                title={t('admin.users.title') || t('admin.users') || 'Users'}
                 value={stats.usersCount}
                 color="#FF9800"
                 onPress={() => router.push({ pathname: '/admin/users' } as any)}

@@ -178,7 +178,6 @@
     "dashboardSubtitle": "Manage categories, subjects, and view statistics",
     "categories": "Categories",
     "subjects": "Subjects",
-    "users": "Users",
     "quickActions": "Quick Actions",
     "createCategory": "Create Category",
     "createCategoryDescription": "Add a new course category",
@@ -199,7 +198,23 @@
     "deleteCategorySuccess": "Category deleted successfully",
     "createCategorySuccess": "Category created successfully",
     "updateCategorySuccess": "Category updated successfully",
-    "saveCategoryFailed": "Failed to save category. Please try again."
+    "saveCategoryFailed": "Failed to save category. Please try again.",
+    "users": {
+      "title": "Users",
+      "all": "All",
+      "active": "Active",
+      "inactive": "Inactive",
+      "noUsers": "No Users",
+      "noUsersFound": "No users found in the system",
+      "noFilteredUsers": "No {status} users found",
+      "changeRole": "Change User Role",
+      "selectRole": "Select Role",
+      "regularUser": "Regular User",
+      "regularUserDescription": "Can access courses and take quizzes",
+      "adminDescription": "Can manage categories, subjects, and users",
+      "roleUpdated": "User role updated to {role}",
+      "roleUpdateFailed": "Failed to update user role"
+    }
   },
   "common": {
     "appName": "Akademix",

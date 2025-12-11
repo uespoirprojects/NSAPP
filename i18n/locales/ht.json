@@ -177,7 +177,6 @@
     "dashboardSubtitle": "Jere kategori, matyè, epi wè estatistik yo",
     "categories": "Kategori",
     "subjects": "Matyè",
-    "users": "Itilizatè",
     "quickActions": "Aksyon rapid",
     "createCategory": "Kreye yon kategori",
     "createCategoryDescription": "Ajoute yon nouvo kategori kou",
@@ -198,7 +197,23 @@
     "deleteCategorySuccess": "Kategori a efase avèk siksè",
     "createCategorySuccess": "Kategori a kreye avèk siksè",
     "updateCategorySuccess": "Kategori a mete ajou avèk siksè",
-    "saveCategoryFailed": "Echwe pou anrejistre kategori a. Tanpri eseye ankò."
+    "saveCategoryFailed": "Echwe pou anrejistre kategori a. Tanpri eseye ankò.",
+    "users": {
+      "title": "Itilizatè",
+      "all": "Tout",
+      "active": "Aktif",
+      "inactive": "Inaktif",
+      "noUsers": "Pa gen itilizatè",
+      "noUsersFound": "Pa gen itilizatè nan sistèm nan",
+      "noFilteredUsers": "Pa gen itilizatè {status}",
+      "changeRole": "Chanje wòl itilizatè",
+      "selectRole": "Chwazi wòl",
+      "regularUser": "Itilizatè regilye",
+      "regularUserDescription": "Ka aksede kou yo epi pase tès yo",
+      "adminDescription": "Ka jere kategori, sijè ak itilizatè",
+      "roleUpdated": "Wòl itilizatè mete ajou nan {role}",
+      "roleUpdateFailed": "Echwe pou mete ajou wòl itilizatè a"
+    }
   },
   "common": {
     "appName": "Akademix",

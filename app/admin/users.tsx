@@ -1,5 +1,6 @@
 import { Typography } from '@/components/ui';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { useI18n } from '@/contexts/i18n-context';
 import { useThemeColors } from '@/hooks/use-theme-colors';
 import {
     getUsers,
@@ -23,15 +24,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function UsersScreen() {
   const colors = useThemeColors();
+  const { t } = useI18n();
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const isWideLayout = windowWidth > windowHeight || windowWidth >= 900;
   const contentMaxWidth = Math.min(windowWidth * 0.9, 1200);
 
   const [users, setUsers] = useState<AdminUser[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [roleModalVisible, setRoleModalVisible] = useState(false);
   const [userToUpdate, setUserToUpdate] = useState<AdminUser | null>(null);
   const [updatingRole, setUpdatingRole] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
 
   useEffect(() => {
     loadUsers();
@@ -42,6 +46,7 @@ export default function UsersScreen() {
       setLoading(true);
       const usersData = await getUsers();
       setUsers(usersData);
+      applyFilter(usersData, statusFilter);
     } catch (error) {
       console.error('Error loading users:', error);
       Alert.alert('Error', 'Failed to load users');
@@ -49,6 +54,22 @@ export default function UsersScreen() {
       setLoading(false);
     }
   };
+
+  const applyFilter = (usersList: AdminUser[], filter: 'all' | 'active' | 'inactive') => {
+    if (filter === 'all') {
+      setFilteredUsers(usersList);
+    } else {
+      const filtered = usersList.filter((user) => {
+        const status = user.status || 'active'; // Default to 'active' for users without status field
+        return status === filter;
+      });
+      setFilteredUsers(filtered);
+    }
+  };
+
+  useEffect(() => {
+    applyFilter(users, statusFilter);
+  }, [statusFilter, users]);
 
   const openRoleModal = (user: AdminUser) => {
     setUserToUpdate(user);
@@ -61,13 +82,19 @@ export default function UsersScreen() {
     try {
       setUpdatingRole(true);
       await updateUserRole(userToUpdate.id, newRole);
-      Alert.alert('Success', `User role updated to ${newRole}`);
+      Alert.alert(
+        t('common.success') || 'Success',
+        t('admin.users.roleUpdated', { role: newRole }) || `User role updated to ${newRole}`
+      );
       setRoleModalVisible(false);
       setUserToUpdate(null);
       loadUsers(); // Reload users to show updated role
     } catch (error: any) {
       console.error('Error updating user role:', error);
-      Alert.alert('Error', error.message || 'Failed to update user role');
+      Alert.alert(
+        'Error',
+        error.message || t('admin.users.roleUpdateFailed') || 'Failed to update user role'
+      );
     } finally {
       setUpdatingRole(false);
     }
@@ -85,6 +112,16 @@ export default function UsersScreen() {
 
   const getRoleBadgeColor = (role: UserRole) => {
     return role === 'admin' ? '#4CAF50' : colors.blue;
+  };
+
+  const getStatusBadgeColor = (status: string | undefined) => {
+    const userStatus = status || 'active'; // Default to 'active' for users without status field
+    return userStatus === 'active' ? '#4CAF50' : '#EA222B';
+  };
+
+  const getStatusLabel = (status: string | undefined) => {
+    const userStatus = status || 'active'; // Default to 'active' for users without status field
+    return userStatus === 'active' ? 'Active' : 'Inactive';
   };
 
   return (
@@ -130,9 +167,88 @@ export default function UsersScreen() {
                 <IconSymbol name="arrow-back-outline" size={24} color={colors.text} />
               </TouchableOpacity>
               <Typography variant="h2" color={colors.text} style={{ fontFamily: 'Poppins-SemiBold' }}>
-                Users ({users.length})
+                {t('admin.users.title') || 'Users'} ({filteredUsers.length}{statusFilter !== 'all' ? ` / ${users.length}` : ''})
               </Typography>
             </View>
+          </View>
+
+          {/* Status Filter Buttons */}
+          <View
+            style={{
+              flexDirection: 'row',
+              gap: 8,
+              marginBottom: 20,
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => setStatusFilter('all')}
+              style={{
+                flex: 1,
+                paddingVertical: 10,
+                paddingHorizontal: 16,
+                borderRadius: 8,
+                backgroundColor: statusFilter === 'all' ? colors.blue : colors.cardBackground,
+                borderWidth: 1,
+                borderColor: statusFilter === 'all' ? colors.blue : colors.grey,
+                alignItems: 'center',
+              }}
+            >
+              <Text
+                style={{
+                  color: statusFilter === 'all' ? colors.white : colors.text,
+                  fontFamily: 'Poppins-SemiBold',
+                  fontSize: 14,
+                }}
+              >
+                {t('admin.users.all') || 'All'} ({users.length})
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setStatusFilter('active')}
+              style={{
+                flex: 1,
+                paddingVertical: 10,
+                paddingHorizontal: 16,
+                borderRadius: 8,
+                backgroundColor: statusFilter === 'active' ? '#4CAF50' : colors.cardBackground,
+                borderWidth: 1,
+                borderColor: statusFilter === 'active' ? '#4CAF50' : colors.grey,
+                alignItems: 'center',
+              }}
+            >
+              <Text
+                style={{
+                  color: statusFilter === 'active' ? colors.white : colors.text,
+                  fontFamily: 'Poppins-SemiBold',
+                  fontSize: 14,
+                }}
+              >
+                {t('admin.users.active') || 'Active'} ({users.filter(u => (u.status || 'active') === 'active').length})
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setStatusFilter('inactive')}
+              style={{
+                flex: 1,
+                paddingVertical: 10,
+                paddingHorizontal: 16,
+                borderRadius: 8,
+                backgroundColor: statusFilter === 'inactive' ? '#EA222B' : colors.cardBackground,
+                borderWidth: 1,
+                borderColor: statusFilter === 'inactive' ? '#EA222B' : colors.grey,
+                alignItems: 'center',
+              }}
+            >
+              <Text
+                style={{
+                  color: statusFilter === 'inactive' ? colors.white : colors.text,
+                  fontFamily: 'Poppins-SemiBold',
+                  fontSize: 14,
+                }}
+              >
+                {t('admin.users.inactive') || 'Inactive'} ({users.filter(u => (u.status || 'active') === 'inactive').length})
+              </Text>
+            </TouchableOpacity>
           </View>
 
           {/* Users List */}
@@ -140,7 +256,7 @@ export default function UsersScreen() {
             <View style={{ alignItems: 'center', padding: 40 }}>
               <ActivityIndicator size="large" color={colors.blue} />
             </View>
-          ) : users.length === 0 ? (
+          ) : filteredUsers.length === 0 ? (
             <View
               style={{
                 backgroundColor: colors.cardBackground,
@@ -153,14 +269,16 @@ export default function UsersScreen() {
             >
               <IconSymbol name="people-outline" size={48} color={colors.grey} style={{ marginBottom: 16 }} />
               <Typography variant="h3" color={colors.text} style={{ marginBottom: 8 }}>
-                No Users
+                {t('admin.users.noUsers') || 'No Users Found'}
               </Typography>
               <Typography variant="body" color={colors.text} style={{ opacity: 0.7, textAlign: 'center' }}>
-                No users found in the system
+                {statusFilter === 'all' 
+                  ? t('admin.users.noUsersFound') || 'No users found in the system'
+                  : t('admin.users.noFilteredUsers', { status: statusFilter }) || `No ${statusFilter} users found`}
               </Typography>
             </View>
           ) : (
-            users.map((user) => (
+            filteredUsers.map((user) => (
               <View
                 key={user.id}
                 style={{
@@ -174,8 +292,8 @@ export default function UsersScreen() {
               >
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <View style={{ flex: 1 }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
-                      <Typography variant="h3" color={colors.text} style={{ marginRight: 12 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
+                      <Typography variant="h3" color={colors.text} style={{ marginRight: 8 }}>
                         {user.firstName} {user.lastName}
                       </Typography>
                       <View
@@ -197,6 +315,27 @@ export default function UsersScreen() {
                           }}
                         >
                           {user.role}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          backgroundColor: `${getStatusBadgeColor(user.status)}15`,
+                          paddingHorizontal: 8,
+                          paddingVertical: 4,
+                          borderRadius: 6,
+                          borderWidth: 1,
+                          borderColor: getStatusBadgeColor(user.status),
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: getStatusBadgeColor(user.status),
+                            fontSize: 10,
+                            fontFamily: 'Poppins-SemiBold',
+                            textTransform: 'uppercase',
+                          }}
+                        >
+                          {getStatusLabel(user.status)}
                         </Text>
                       </View>
                     </View>
@@ -266,7 +405,7 @@ export default function UsersScreen() {
               }}
             >
               <Typography variant="h2" color={colors.text} style={{ fontFamily: 'Poppins-SemiBold' }}>
-                Change User Role
+                {t('admin.users.changeRole') || 'Change User Role'}
               </Typography>
               <TouchableOpacity onPress={() => setRoleModalVisible(false)}>
                 <IconSymbol name="close" size={24} color={colors.text} />
@@ -289,7 +428,7 @@ export default function UsersScreen() {
 
                 <View style={{ marginBottom: 24 }}>
                   <Typography variant="body" color={colors.text} style={{ marginBottom: 12, fontFamily: 'Poppins-SemiBold' }}>
-                    Select Role
+                    {t('admin.users.selectRole') || 'Select Role'}
                   </Typography>
 
                   <TouchableOpacity
@@ -310,10 +449,10 @@ export default function UsersScreen() {
                         <IconSymbol name="person-outline" size={24} color={colors.blue} style={{ marginRight: 12 }} />
                         <View>
                           <Typography variant="h3" color={colors.text}>
-                            Regular User
+                            {t('admin.users.regularUser') || 'Regular User'}
                           </Typography>
                           <Typography variant="body" color={colors.text} style={{ opacity: 0.7, fontSize: 12 }}>
-                            Can access courses and take quizzes
+                            {t('admin.users.regularUserDescription') || 'Can access courses and take quizzes'}
                           </Typography>
                         </View>
                       </View>
@@ -343,7 +482,7 @@ export default function UsersScreen() {
                             Admin
                           </Typography>
                           <Typography variant="body" color={colors.text} style={{ opacity: 0.7, fontSize: 12 }}>
-                            Can manage categories, subjects, and users
+                            {t('admin.users.adminDescription') || 'Can manage categories, subjects, and users'}
                           </Typography>
                         </View>
                       </View>
