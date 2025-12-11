@@ -130,6 +130,8 @@ export default function UsersScreen() {
         flex: 1,
         backgroundColor: colors.screenBackground,
         alignItems: isWideLayout ? 'center' : 'stretch',
+        width: '100%',
+        maxWidth: '100%',
       }}
       edges={['top', 'bottom']}
     >
@@ -138,13 +140,18 @@ export default function UsersScreen() {
         contentContainerStyle={{
           padding: 20,
           alignItems: isWideLayout ? 'center' : 'stretch',
+          flexGrow: 1,
+          minWidth: 0,
         }}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={true}
       >
         <View
           style={{
             width: '100%',
             maxWidth: contentMaxWidth,
             alignSelf: isWideLayout ? 'center' : 'stretch',
+            minWidth: 0,
           }}
         >
           {/* Header with Back Button */}
