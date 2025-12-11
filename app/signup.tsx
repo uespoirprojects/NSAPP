@@ -10,14 +10,13 @@ import { useRouter } from "expo-router";
 import React from "react";
 import {
   Alert,
-  Image,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -499,7 +498,7 @@ export default function SignupScreen() {
                 marginVertical: 24,
               }}
             >
-              <View
+              {/* <View
                 style={{ flex: 1, height: 1, backgroundColor: colors.grey }}
               />
               <Text
@@ -514,11 +513,11 @@ export default function SignupScreen() {
           </Text>
               <View
                 style={{ flex: 1, height: 1, backgroundColor: colors.grey }}
-              />
+              /> */}
         </View>
 
         {/* Social Buttons */}
-            <View
+            {/* <View
               style={{
                 flexDirection: "row",
                 justifyContent: "center",
@@ -573,7 +572,7 @@ export default function SignupScreen() {
               resizeMode="contain"
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* Link to Login */}
             <View

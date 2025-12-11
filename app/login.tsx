@@ -8,15 +8,15 @@ import { signInWithGoogle } from "@/services/googleAuthService";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
-    Alert, Image,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-    useWindowDimensions
+  Alert, Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  useWindowDimensions
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -325,7 +325,7 @@ export default function LoginScreen() {
                 marginVertical: 24,
               }}
             >
-              <View
+              {/* <View
                 style={{ flex: 1, height: 1, backgroundColor: colors.grey }}
               />
               <Text
@@ -340,11 +340,11 @@ export default function LoginScreen() {
               </Text>
               <View
                 style={{ flex: 1, height: 1, backgroundColor: colors.grey }}
-              />
+              /> */}
             </View>
 
             {/* Social Buttons */}
-            <View
+            {/* <View
               style={{
                 flexDirection: "row",
                 justifyContent: "center",
@@ -399,7 +399,7 @@ export default function LoginScreen() {
                   resizeMode="contain"
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
 
             {/* Link to Sign Up + Divider */}
             <View style={{ alignItems: "center", marginBottom: 24 }}>
