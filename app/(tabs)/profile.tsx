@@ -90,7 +90,6 @@ export default function ProfileScreen() {
         address: user.address || null,
         city: user.city || null,
         province: user.province || null,
-        dateOfBirth: user.dateOfBirth || null,
       };
     }
     
@@ -104,7 +103,6 @@ export default function ProfileScreen() {
       address: null,
       city: null,
       province: null,
-      dateOfBirth: null,
     };
   }, [user]);
 
@@ -173,11 +171,6 @@ export default function ProfileScreen() {
                     </Typography>
                   )}
                 </View>
-              )}
-              {userInfo.dateOfBirth && (
-                <Typography variant="caption" color={colors.text} style={{ marginTop: 4, opacity: 0.7 }}>
-                  {t('profile.dateOfBirth') || 'Date of Birth'}: {userInfo.dateOfBirth}
-                </Typography>
               )}
             </>
           )}

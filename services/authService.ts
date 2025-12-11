@@ -41,7 +41,6 @@ export type UserData = {
   address?: string | null;
   city?: string | null;
   province?: string | null;
-  dateOfBirth?: string | null;
   role: UserRole; // User role: 'user' (default) or 'admin'
   createdAt: Timestamp;
   firebaseUid: string;
@@ -59,7 +58,6 @@ export const signUp = async (
     address?: string;
     city?: string;
     province?: string;
-    dateOfBirth?: string;
   }
 ): Promise<{ success: boolean; error?: string; userId?: string }> => {
   try {
@@ -76,7 +74,6 @@ export const signUp = async (
       address: userData.address?.trim() || null,
       city: userData.city?.trim() || null,
       province: userData.province?.trim() || null,
-      dateOfBirth: userData.dateOfBirth?.trim() || null,
       role: 'user', // Default role is 'user'
       createdAt: Timestamp.now(),
     };
