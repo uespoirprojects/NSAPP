@@ -5,9 +5,10 @@ import { useTheme } from "@/contexts/theme-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 import { signInWithApple } from "@/services/appleAuthService";
 import { getUserData, signIn, signOutUser } from "@/services/authService";
-import { signInWithGoogle } from "@/services/googleAuthService";
+// import { signInWithGoogle } from "@/services/googleAuthService";
+import { useGoogleAuth } from "@/services/googleAuthService";
 import { useRouter } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Alert, Image,
   KeyboardAvoidingView,
@@ -29,6 +30,9 @@ export default function LoginScreen() {
   const router = useRouter();
   const { width, height } = useWindowDimensions();
 
+  // Initialize Google Auth hook at top level
+  const { signInWithGoogle, request, authResult } = useGoogleAuth();
+
   // Calculate responsive logo size
   const logoSize = React.useMemo(() => {
     // Base size on screen width, with min/max constraints
@@ -48,6 +52,13 @@ export default function LoginScreen() {
     email?: string;
     password?: string;
   }>({});
+
+  // Handle Google auth result
+  useEffect(() => {
+    if (authResult) {
+      handleGoogleAuthResult(authResult);
+    }
+  }, [authResult]);
 
   const validate = () => {
     const newErrors: { email?: string; password?: string } = {};
@@ -121,19 +132,15 @@ export default function LoginScreen() {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    setIsSubmitting(true);
-    const result = await signInWithGoogle();
-
+  // Unified handler for Google auth result
+  const handleGoogleAuthResult = async (result: any) => {
     if (result.success && result.userId) {
       await setIsAuthenticated(true);
       await setIsGuest(false);
 
-      // Fetch user data to check role and status
       try {
         const userData = await getUserData(result.userId);
 
-        // Check if account is inactive
         if (userData && userData.status === 'inactive') {
           await signOutUser();
           Alert.alert(
@@ -150,7 +157,6 @@ export default function LoginScreen() {
           router.push("/(tabs)/home");
         }
       } catch (error: any) {
-        // Handle account inactive error
         if (error?.message === 'account_inactive' || error?.code === 'account_inactive') {
           await signOutUser();
           Alert.alert(
@@ -161,7 +167,6 @@ export default function LoginScreen() {
           return;
         }
         console.error("Error checking user role:", error);
-        // Default to home if we can't check role
         router.push("/(tabs)/home");
       }
       setIsSubmitting(false);
@@ -171,6 +176,11 @@ export default function LoginScreen() {
       setIsSubmitting(false);
     }
   };
+
+  const handleGoogleLogin = async () => {
+    setIsSubmitting(true);
+    await signInWithGoogle();
+  };    
 
   const handleAppleLogin = async () => {
     try {
@@ -467,7 +477,7 @@ export default function LoginScreen() {
             >
               <TouchableOpacity
                 onPress={handleGoogleLogin}
-                disabled={isSubmitting}
+                disabled={!request || isSubmitting}
                 style={{
                   padding: 12,
                   borderWidth: 1,
