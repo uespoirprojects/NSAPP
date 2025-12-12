@@ -1,14 +1,14 @@
 // services/authService.ts
 import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import {
-    doc,
-    getDoc,
-    setDoc,
-    Timestamp
+  doc,
+  getDoc,
+  setDoc,
+  Timestamp
 } from "firebase/firestore";
 import { auth, db } from "../lib/firebase";
 import { getFirebaseErrorMessage } from "../utils/firebaseErrorHandler";
@@ -254,6 +254,96 @@ export const getUserRole = async (firebaseUid: string): Promise<UserRole | null>
   } catch (error) {
     console.error("Get user role error:", error);
     return null;
+  }
+};
+
+/**
+ * Helper function to create or update user data from social auth providers
+ * This ensures consistent user data structure across all auth methods
+ */
+export const createOrUpdateSocialAuthUser = async (
+  firebaseUid: string,
+  email: string | null,
+  displayName: string | null,
+  firstName?: string | null,
+  lastName?: string | null
+): Promise<void> => {
+  const userDocRef = doc(db, "users", firebaseUid);
+  const userDoc = await getDoc(userDocRef);
+
+  if (!userDoc.exists()) {
+    // Parse displayName into firstName and lastName if provided
+    let parsedFirstName = firstName || null;
+    let parsedLastName = lastName || null;
+    
+    if (!parsedFirstName && !parsedLastName && displayName) {
+      const nameParts = displayName.trim().split(/\s+/);
+      if (nameParts.length > 0) {
+        parsedFirstName = nameParts[0];
+        parsedLastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : null;
+      }
+    }
+
+    // Create new user document
+    const userDocData: UserData = {
+      firebaseUid,
+      email: email || '',
+      firstName: parsedFirstName || 'User',
+      lastName: parsedLastName || '',
+      address: null,
+      city: null,
+      province: null,
+      role: 'user',
+      status: 'active',
+      createdAt: Timestamp.now(),
+    };
+
+    await setDoc(userDocRef, userDocData);
+  } else {
+    // Update existing user - ensure required fields exist
+    const userData = userDoc.data();
+    const updates: any = {};
+
+    // Migrate old users without role
+    if (!userData.role) {
+      updates.role = 'user' as UserRole;
+    }
+
+    // Migrate old users without status
+    if (!userData.status) {
+      updates.status = 'active' as const;
+    }
+
+    // Update firstName/lastName if missing and we have displayName
+    if ((!userData.firstName || !userData.lastName) && displayName && !firstName && !lastName) {
+      const nameParts = displayName.trim().split(/\s+/);
+      if (nameParts.length > 0) {
+        if (!userData.firstName) {
+          updates.firstName = nameParts[0];
+        }
+        if (!userData.lastName && nameParts.length > 1) {
+          updates.lastName = nameParts.slice(1).join(' ');
+        }
+      }
+    }
+
+    // Update firstName/lastName if explicitly provided
+    if (firstName && !userData.firstName) {
+      updates.firstName = firstName;
+    }
+    if (lastName && !userData.lastName) {
+      updates.lastName = lastName;
+    }
+
+    // Check if user account is inactive
+    if (userData.status === 'inactive') {
+      throw new Error('account_inactive');
+    }
+
+    // Apply updates if any
+    if (Object.keys(updates).length > 0) {
+      await setDoc(userDocRef, updates, { merge: true });
+    }
   }
 };
 

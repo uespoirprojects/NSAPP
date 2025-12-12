@@ -71,7 +71,9 @@
     "cancelled": "El inicio de sesión fue cancelado.",
     "popupBlocked": "La ventana emergente fue bloqueada. Por favor, permite las ventanas emergentes e inténtalo de nuevo.",
     "accountExistsWithDifferentCredential": "Ya existe una cuenta con este correo electrónico usando un método de inicio de sesión diferente.",
-    "genericError": "Ocurrió un error durante la autenticación. Por favor, inténtalo de nuevo."
+    "genericError": "Ocurrió un error durante la autenticación. Por favor, inténtalo de nuevo.",
+    "appleNotSupported": "Inicio de sesión con Apple solo está disponible en dispositivos iOS.",
+    "appleNotAvailable": "Inicio de sesión con Apple no está disponible en este dispositivo."
   },
   "home": {
     "title": "Explorar Categorías",

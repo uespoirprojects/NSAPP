@@ -71,7 +71,9 @@
     "cancelled": "Koneksyon an te anile.",
     "popupBlocked": "Fenèt pop-up la te bloke. Tanpri pèmèt pop-ups yo epi eseye ankò.",
     "accountExistsWithDifferentCredential": "Yon kont egziste deja ak imèl sa a lè l sèvi avèk yon lòt metòd koneksyon.",
-    "genericError": "Yon erè te rive pandan otantifikasyon an. Tanpri eseye ankò."
+    "genericError": "Yon erè te rive pandan otantifikasyon an. Tanpri eseye ankò.",
+    "appleNotSupported": "Koneksyon Apple a disponib sèlman sou aparèy iOS.",
+    "appleNotAvailable": "Koneksyon Apple a pa disponib sou aparèy sa a."
   },
   "home": {
     "title": "Eksplore Kategori yo",

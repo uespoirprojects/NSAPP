@@ -1,4 +1,4 @@
-// app/services/googleAuthService.ts
+// services/googleAuthService.ts
 import * as AuthSession from 'expo-auth-session';
 import * as WebBrowser from 'expo-web-browser';
 import {
@@ -6,14 +6,9 @@ import {
   signInWithCredential,
   UserCredential,
 } from 'firebase/auth';
-import {
-  doc,
-  getDoc,
-  setDoc,
-  Timestamp,
-} from 'firebase/firestore';
-import { auth, db } from '../lib/firebase';
+import { auth } from '../lib/firebase';
 import { getFirebaseErrorMessage } from '../utils/firebaseErrorHandler';
+import { createOrUpdateSocialAuthUser } from './authService';
 
 
 WebBrowser.maybeCompleteAuthSession();
@@ -56,29 +51,16 @@ export const signInWithGoogle = async () => {
     const credential = GoogleAuthProvider.credential(null, code);
     const userCredential: UserCredential = await signInWithCredential(auth, credential);
 
-    
     const user = userCredential.user;
-    const userDocRef = doc(db, "users", user.uid);
-    const userDoc = await getDoc(userDocRef);
 
-    if (!userDoc.exists()) {
-      await setDoc(userDocRef, {
-        firebaseUid: user.uid,
-        email: user.email || null,
-        displayName: user.displayName || null,
-        photoURL: user.photoURL || null,
-        role: 'user' as const, // Default role is 'user'
-        createdAt: Timestamp.now(),
-      });
-    } else {
-      // Ensure existing users have a role field (migration for old users)
-      const userData = userDoc.data();
-      if (!userData.role) {
-        await setDoc(userDocRef, {
-          role: 'user' as const,
-        }, { merge: true });
-      }
-    }
+    // Create or update user data in Firestore using shared helper
+    await createOrUpdateSocialAuthUser(
+      user.uid,
+      user.email,
+      user.displayName,
+      null, // Google doesn't provide separate firstName/lastName
+      null
+    );
 
     return {
       success: true,

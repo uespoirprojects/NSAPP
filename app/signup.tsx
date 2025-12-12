@@ -4,19 +4,21 @@ import { useAuth } from "@/contexts/auth-context";
 import { useI18n } from "@/contexts/i18n-context";
 import { useTheme } from "@/contexts/theme-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
+import { signInWithApple } from "@/services/appleAuthService";
 import { signUp } from "@/services/authService";
 import { signInWithGoogle } from "@/services/googleAuthService";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
+    Alert,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -100,17 +102,102 @@ export default function SignupScreen() {
     setIsSubmitting(true);
     const result = await signInWithGoogle();
 
-    if (result.success) {
+    if (result.success && result.userId) {
       await setIsAuthenticated(true);
       await setIsGuest(false);
-      
-      router.push("/(tabs)/home");
+
+      // Fetch user data to check role and status
+      try {
+        const { getUserData } = await import("@/services/authService");
+        const userData = await getUserData(result.userId);
+
+        // Check if account is inactive
+        if (userData && userData.status === 'inactive') {
+          const { signOutUser } = await import("@/services/authService");
+          await signOutUser();
+          Alert.alert(
+            t("auth.accountInactive") || "Account Inactive",
+            t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
+          );
+          setIsSubmitting(false);
+          return;
+        }
+
+        if (userData?.role === 'admin') {
+          router.push("/admin");
+        } else {
+          router.push("/(tabs)/home");
+        }
+      } catch (error: any) {
+        console.error("Error checking user role:", error);
+        // Default to home if we can't check role
+        router.push("/(tabs)/home");
+      }
+      setIsSubmitting(false);
     } else {
       const errorMessage = result.error ? t(result.error) : t("auth.cancelled");
-      Alert.alert(t("signup.signUp"), errorMessage);
+      Alert.alert(t("signup.signUp") || "Sign Up", errorMessage);
+      setIsSubmitting(false);
     }
+  };
 
-    setIsSubmitting(false);
+  const handleAppleSignUp = async () => {
+    try {
+      setIsSubmitting(true);
+      const result = await signInWithApple();
+
+      if (result.success && result.userId) {
+        await setIsAuthenticated(true);
+        await setIsGuest(false);
+
+        // Fetch user data to check role and status
+        try {
+          const { getUserData } = await import("@/services/authService");
+          const userData = await getUserData(result.userId);
+
+          // Check if account is inactive
+          if (userData && userData.status === 'inactive') {
+            const { signOutUser } = await import("@/services/authService");
+            await signOutUser();
+            Alert.alert(
+              t("auth.accountInactive") || "Account Inactive",
+              t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
+            );
+            setIsSubmitting(false);
+            return;
+          }
+
+          if (userData?.role === 'admin') {
+            router.push("/admin");
+          } else {
+            router.push("/(tabs)/home");
+          }
+        } catch (error: any) {
+          console.error("Error checking user role:", error);
+          // Default to home if we can't check role
+          router.push("/(tabs)/home");
+        }
+        setIsSubmitting(false);
+      } else {
+        const errorMessage = result.error ? t(result.error) : t("auth.cancelled");
+        Alert.alert(t("signup.signUp") || "Sign Up", errorMessage);
+        setIsSubmitting(false);
+      }
+    } catch (error: any) {
+      console.error('[signup] Apple signup error:', error);
+      Alert.alert(
+        t("signup.signUp") || "Sign Up",
+        error?.message || t("auth.genericError") || "An error occurred. Please try again."
+      );
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleFacebookSignUp = async () => {
+    Alert.alert(
+      t("signup.signUp") || "Sign Up",
+      "Facebook Sign In is coming soon!"
+    );
   };
 
   return (
@@ -517,7 +604,7 @@ export default function SignupScreen() {
         </View>
 
         {/* Social Buttons */}
-            {/* <View
+            <View
               style={{
                 flexDirection: "row",
                 justifyContent: "center",
@@ -536,43 +623,52 @@ export default function SignupScreen() {
                   opacity: isSubmitting ? 0.7 : 1,
                 }}
               >
-            <Image
+                <Image
                   source={require("@/assets/icons/google.png")}
                   style={{ width: 20, height: 20 }}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+
+              {/* Only show Apple Sign In button on iOS */}
+              {Platform.OS === 'ios' && (
+                <TouchableOpacity
+                  onPress={handleAppleSignUp}
+                  disabled={isSubmitting}
+                  style={{
+                    padding: 12,
+                    borderWidth: 1,
+                    borderColor: colors.grey,
+                    borderRadius: 16,
+                    opacity: isSubmitting ? 0.7 : 1,
+                  }}
+                >
+                  <Image
+                    source={require("@/assets/icons/apple.png")}
+                    style={{ width: 20, height: 20 }}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              )}
 
               <TouchableOpacity
+                onPress={handleFacebookSignUp}
+                disabled={isSubmitting}
                 style={{
                   padding: 12,
                   borderWidth: 1,
                   borderColor: colors.grey,
                   borderRadius: 16,
+                  opacity: isSubmitting ? 0.7 : 1,
                 }}
               >
-            <Image
-                  source={require("@/assets/icons/apple.png")}
-                  style={{ width: 20, height: 20 }}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-
-              <TouchableOpacity
-                style={{
-                  padding: 12,
-                  borderWidth: 1,
-                  borderColor: colors.grey,
-                  borderRadius: 16,
-                }}
-              >
-            <Image
+                <Image
                   source={require("@/assets/icons/facebook.png")}
                   style={{ width: 20, height: 20 }}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-        </View> */}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
 
         {/* Link to Login */}
             <View

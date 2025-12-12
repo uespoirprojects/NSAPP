@@ -10,6 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
+      "usesAppleSignIn": true,
       "requireFullScreen": false,
       "bundleIdentifier": "com.uespoir.akademix",
       "infoPlist": {
@@ -57,6 +58,7 @@
           }
         }
       ],
+      "expo-apple-authentication",
       "expo-localization",
       "expo-web-browser"
     ],
