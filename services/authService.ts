@@ -56,9 +56,7 @@ export const signUp = async (
   userData: {
     firstName: string;
     lastName: string;
-    address?: string;
     city?: string;
-    province?: string;
   }
 ): Promise<{ success: boolean; error?: string; userId?: string }> => {
   try {
@@ -72,9 +70,7 @@ export const signUp = async (
       email: email.trim(),
       firstName: userData.firstName.trim(),
       lastName: userData.lastName.trim(),
-      address: userData.address?.trim() || null,
       city: userData.city?.trim() || null,
-      province: userData.province?.trim() || null,
       role: 'user', // Default role is 'user'
       status: 'active', // New users are active by default
       createdAt: Timestamp.now(),
