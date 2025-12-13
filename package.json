@@ -41,6 +41,7 @@
     "firebase": "^12.5.0",
     "i18next": "^23.15.1",
     "nativewind": "^4.1.23",
+    "patch-package": "^8.0.1",
     "react": "19.1.0",
     "react-aria": "^3.33.0",
     "react-dom": "19.1.0",

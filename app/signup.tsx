@@ -6,19 +6,17 @@ import { useTheme } from "@/contexts/theme-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 import { signInWithApple } from "@/services/appleAuthService";
 import { signUp } from "@/services/authService";
-import { signInWithGoogle } from "@/services/googleAuthService";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
-    Alert,
-    Image,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -36,9 +34,7 @@ export default function SignupScreen() {
   const [lastName, setLastName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [address, setAddress] = React.useState("");
   const [city, setCity] = React.useState("");
-  const [province, setProvince] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [errors, setErrors] = React.useState<{
@@ -46,9 +42,7 @@ export default function SignupScreen() {
     lastName?: string;
     email?: string;
     password?: string;
-    address?: string;
     city?: string;
-    province?: string;
   }>({});
 
   const validate = () => {
@@ -71,19 +65,17 @@ export default function SignupScreen() {
     try {
       setIsSubmitting(true);
 
-      // 🔥 Appel à Firebase au lieu de la simulation
+      // Calling Firebase
       const result = await signUp(email, password, {
         firstName,
         lastName,
-        address,
         city,
-        province,
       });
 
       if (result.success) {
         await setIsAuthenticated(true);
         await setIsGuest(false);
-        
+
         router.push("/(tabs)/home");
       } else {
         // Display translated error message
@@ -98,48 +90,6 @@ export default function SignupScreen() {
     }
   };
 
-  const handleGoogleSignUp = async () => {
-    setIsSubmitting(true);
-    const result = await signInWithGoogle();
-
-    if (result.success && result.userId) {
-      await setIsAuthenticated(true);
-      await setIsGuest(false);
-
-      // Fetch user data to check role and status
-      try {
-        const { getUserData } = await import("@/services/authService");
-        const userData = await getUserData(result.userId);
-
-        // Check if account is inactive
-        if (userData && userData.status === 'inactive') {
-          const { signOutUser } = await import("@/services/authService");
-          await signOutUser();
-          Alert.alert(
-            t("auth.accountInactive") || "Account Inactive",
-            t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
-          );
-          setIsSubmitting(false);
-          return;
-        }
-
-        if (userData?.role === 'admin') {
-          router.push("/admin");
-        } else {
-          router.push("/(tabs)/home");
-        }
-      } catch (error: any) {
-        console.error("Error checking user role:", error);
-        // Default to home if we can't check role
-        router.push("/(tabs)/home");
-      }
-      setIsSubmitting(false);
-    } else {
-      const errorMessage = result.error ? t(result.error) : t("auth.cancelled");
-      Alert.alert(t("signup.signUp") || "Sign Up", errorMessage);
-      setIsSubmitting(false);
-    }
-  };
 
   const handleAppleSignUp = async () => {
     try {
@@ -205,11 +155,11 @@ export default function SignupScreen() {
       style={{ flex: 1, backgroundColor: colors.screenBackground }}
       edges={["top", "bottom", "left", "right"]}
     >
-    <KeyboardAvoidingView
+      <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={{ flex: 1 }}
-    >
-      <ScrollView
+      >
+        <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
             paddingHorizontal: 24,
@@ -217,14 +167,14 @@ export default function SignupScreen() {
             justifyContent: "center",
             alignItems: "center",
           }}
-        showsVerticalScrollIndicator={false}
-      >
+          showsVerticalScrollIndicator={false}
+        >
           <View style={{ width: "100%", maxWidth: 420 }}>
-        {/* Heading */}
+            {/* Heading */}
             <View style={{ marginBottom: 40, alignItems: "center" }}>
               <Typography variant="h1" color={colors.blue}>
                 {t("signup.title")}
-          </Typography>
+              </Typography>
               <Text
                 style={{
                   color: colors.text,
@@ -234,10 +184,10 @@ export default function SignupScreen() {
                 }}
               >
                 {t("signup.subtitle")}
-          </Text>
-        </View>
+              </Text>
+            </View>
 
-        {/* Name Inputs */}
+            {/* Name Inputs */}
             <View style={{ marginBottom: 16 }}>
               <Text
                 style={{
@@ -246,9 +196,9 @@ export default function SignupScreen() {
                   fontFamily: "Poppins-Medium",
                 }}
               >
-                {t("signup.firstName")}
+                {t("signup.firstName")}*
               </Text>
-          <TextInput
+              <TextInput
                 placeholder={t("signup.firstNamePlaceholder")}
                 placeholderTextColor={
                   effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
@@ -277,7 +227,7 @@ export default function SignupScreen() {
                   {errors.firstName}
                 </Text>
               ) : null}
-        </View>
+            </View>
 
             <View style={{ marginBottom: 16 }}>
               <Text
@@ -287,9 +237,9 @@ export default function SignupScreen() {
                   fontFamily: "Poppins-Medium",
                 }}
               >
-                {t("signup.lastName")}
+                {t("signup.lastName")}*
               </Text>
-          <TextInput
+              <TextInput
                 placeholder={t("signup.lastNamePlaceholder")}
                 placeholderTextColor={
                   effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
@@ -318,9 +268,9 @@ export default function SignupScreen() {
                   {errors.lastName}
                 </Text>
               ) : null}
-        </View>
+            </View>
 
-        {/* Email Input */}
+            {/* Email Input */}
             <View style={{ marginBottom: 16 }}>
               <Text
                 style={{
@@ -329,16 +279,16 @@ export default function SignupScreen() {
                   fontFamily: "Poppins-Medium",
                 }}
               >
-                {t("signup.email")}
+                {t("signup.email")}*
               </Text>
-          <TextInput
+              <TextInput
                 placeholder={t("signup.emailPlaceholder")}
                 placeholderTextColor={
                   effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
                 }
                 value={email}
                 onChangeText={setEmail}
-            keyboardType="email-address"
+                keyboardType="email-address"
                 autoCapitalize="none"
                 style={{
                   borderWidth: 1,
@@ -362,9 +312,9 @@ export default function SignupScreen() {
                   {errors.email}
                 </Text>
               ) : null}
-        </View>
+            </View>
 
-        {/* Password Input */}
+            {/* Password Input */}
             <View style={{ marginBottom: 16 }}>
               <Text
                 style={{
@@ -373,7 +323,7 @@ export default function SignupScreen() {
                   fontFamily: "Poppins-Medium",
                 }}
               >
-                {t("signup.password")}
+                {t("signup.password")}*
               </Text>
               <View
                 style={{
@@ -387,7 +337,7 @@ export default function SignupScreen() {
                   alignItems: "center",
                 }}
               >
-          <TextInput
+                <TextInput
                   placeholder={t("signup.passwordPlaceholder")}
                   placeholderTextColor={
                     effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
@@ -424,51 +374,10 @@ export default function SignupScreen() {
                   {errors.password}
                 </Text>
               ) : null}
-        </View>
+            </View>
 
-        {/* Address Input */}
-            <View style={{ marginBottom: 16 }}>
-              <Text
-                style={{
-                  color: colors.text,
-                  marginBottom: 8,
-                  fontFamily: "Poppins-Medium",
-                }}
-              >
-                {t("signup.address")}
-              </Text>
-          <TextInput
-                placeholder={t("signup.addressPlaceholder")}
-                placeholderTextColor={
-                  effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
-                }
-                value={address}
-                onChangeText={setAddress}
-                style={{
-                  borderWidth: 1,
-                  borderColor: errors.address ? colors.red : borderColor,
-                  borderRadius: 16,
-                  paddingHorizontal: 16,
-                  paddingVertical: 12,
-                  color: colors.text,
-                  fontFamily: "Poppins-Regular",
-                  backgroundColor: colors.cardBackground,
-                }}
-              />
-              {errors.address ? (
-                <Text
-                  style={{
-                    color: colors.red,
-                    marginTop: 6,
-                    fontFamily: "Poppins-Regular",
-                  }}
-                >
-                  {errors.address}
-                </Text>
-              ) : null}
-        </View>
 
-        {/* City Input */}
+            {/* City Input */}
             <View style={{ marginBottom: 16 }}>
               <Text
                 style={{
@@ -479,7 +388,7 @@ export default function SignupScreen() {
               >
                 {t("signup.city")}
               </Text>
-          <TextInput
+              <TextInput
                 placeholder={t("signup.cityPlaceholder")}
                 placeholderTextColor={
                   effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
@@ -508,52 +417,9 @@ export default function SignupScreen() {
                   {errors.city}
                 </Text>
               ) : null}
-        </View>
+            </View>
 
-        {/* Province Input */}
-            <View style={{ marginBottom: 16 }}>
-              <Text
-                style={{
-                  color: colors.text,
-                  marginBottom: 8,
-                  fontFamily: "Poppins-Medium",
-                }}
-              >
-                {t("signup.province")}
-              </Text>
-          <TextInput
-                placeholder={t("signup.provincePlaceholder")}
-                placeholderTextColor={
-                  effectiveTheme === "dark" ? colors.whiteSmoke : colors.grey
-                }
-                value={province}
-                onChangeText={setProvince}
-                style={{
-                  borderWidth: 1,
-                  borderColor: errors.province ? colors.red : borderColor,
-                  borderRadius: 16,
-                  paddingHorizontal: 16,
-                  paddingVertical: 12,
-                  color: colors.text,
-                  fontFamily: "Poppins-Regular",
-                  backgroundColor: colors.cardBackground,
-                }}
-              />
-              {errors.province ? (
-                <Text
-                  style={{
-                    color: colors.red,
-                    marginTop: 6,
-                    fontFamily: "Poppins-Regular",
-                  }}
-                >
-                  {errors.province}
-                </Text>
-              ) : null}
-        </View>
-
-
-        {/* Sign Up Button */}
+            {/* Sign Up Button */}
             <TouchableOpacity
               onPress={handleSignUp}
               disabled={isSubmitting}
@@ -575,9 +441,9 @@ export default function SignupScreen() {
               >
                 {t("signup.signUp")}
               </Text>
-        </TouchableOpacity>
+            </TouchableOpacity>
 
-        {/* OR Continue with */}
+            {/* OR Continue with */}
             <View
               style={{
                 flexDirection: "row",
@@ -601,18 +467,18 @@ export default function SignupScreen() {
               <View
                 style={{ flex: 1, height: 1, backgroundColor: colors.grey }}
               /> */}
-        </View>
+            </View>
 
-        {/* Social Buttons */}
-            <View
+            {/* Social Buttons */}
+            {/* <View
               style={{
                 flexDirection: "row",
                 justifyContent: "center",
                 gap: 20,
                 marginBottom: 32,
               }}
-            >
-              <TouchableOpacity
+            > */}
+            {/* <TouchableOpacity
                 onPress={handleGoogleSignUp}
                 disabled={isSubmitting}
                 style={{
@@ -628,10 +494,10 @@ export default function SignupScreen() {
                   style={{ width: 20, height: 20 }}
                   resizeMode="contain"
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
-              {/* Only show Apple Sign In button on iOS */}
-              {Platform.OS === 'ios' && (
+            {/* Only show Apple Sign In button on iOS */}
+            {/* {Platform.OS === 'ios' && (
                 <TouchableOpacity
                   onPress={handleAppleSignUp}
                   disabled={isSubmitting}
@@ -649,9 +515,9 @@ export default function SignupScreen() {
                     resizeMode="contain"
                   />
                 </TouchableOpacity>
-              )}
+              )} */}
 
-              <TouchableOpacity
+            {/* <TouchableOpacity
                 onPress={handleFacebookSignUp}
                 disabled={isSubmitting}
                 style={{
@@ -668,9 +534,9 @@ export default function SignupScreen() {
                   resizeMode="contain"
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
 
-        {/* Link to Login */}
+            {/* Link to Login */}
             <View
               style={{
                 flexDirection: "row",
@@ -688,12 +554,12 @@ export default function SignupScreen() {
                   style={{ color: colors.blue, fontFamily: "Poppins-Bold" }}
                 >
                   {t("signup.signIn")}
-          </Text>
-          </TouchableOpacity>
+                </Text>
+              </TouchableOpacity>
             </View>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

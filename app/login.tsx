@@ -441,7 +441,7 @@ export default function LoginScreen() {
             </TouchableOpacity>
 
             {/* OR Continue with */}
-            <View
+            {/* <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -464,10 +464,10 @@ export default function LoginScreen() {
               <View
                 style={{ flex: 1, height: 1, backgroundColor: colors.grey }}
               />
-            </View>
+            </View> */}
 
             {/* Social Buttons */}
-            <View
+            {/* <View
               style={{
                 flexDirection: "row",
                 justifyContent: "center",
@@ -491,10 +491,10 @@ export default function LoginScreen() {
                   style={{ width: 20, height: 20 }}
                   resizeMode="contain"
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               {/* Only show Apple Sign In button on iOS */}
-              {Platform.OS === 'ios' && (
+              {/* {Platform.OS === 'ios' && (
                 <TouchableOpacity
                   onPress={() => {
                     console.log('[login] Apple button pressed');
@@ -535,7 +535,7 @@ export default function LoginScreen() {
                   resizeMode="contain"
                 />
               </TouchableOpacity>
-            </View>
+            </View> */}
 
             {/* Link to Sign Up + Divider */}
             <View style={{ alignItems: "center", marginBottom: 24 }}>
