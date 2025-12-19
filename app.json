@@ -60,7 +60,27 @@
       ],
       "expo-apple-authentication",
       "expo-localization",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.975955270723-i6aseoe52elbqcmqbat72o1nk21mm841"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static",
+            "buildReactNativeFromSource": false,
+            "newArchEnabled": false,
+            "podfileProperties": {
+              "use_modular_headers!": true
+            }
+          }
+        }
+      ],
+      "./withStaticFrameworksFix.js"
     ],
     "experiments": {
       "typedRoutes": true,

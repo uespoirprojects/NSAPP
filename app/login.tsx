@@ -3,12 +3,11 @@ import { useAuth } from "@/contexts/auth-context";
 import { useI18n } from "@/contexts/i18n-context";
 import { useTheme } from "@/contexts/theme-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
-import { signInWithApple } from "@/services/appleAuthService";
+// import { signInWithApple } from "@/services/appleAuthService";
 import { getUserData, signIn, signOutUser } from "@/services/authService";
 // import { signInWithGoogle } from "@/services/googleAuthService";
-import { useGoogleAuth } from "@/services/googleAuthService";
 import { useRouter } from "expo-router";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Alert, Image,
   KeyboardAvoidingView,
@@ -22,6 +21,14 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+// Configure Google Sign-In
+// GoogleSignin.configure({
+//   webClientId:
+//     process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB?.trim(),
+//   iosClientId:
+//     process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_IOS?.trim(),
+// });
+
 export default function LoginScreen() {
   const colors = useThemeColors();
   const { t } = useI18n();
@@ -31,7 +38,8 @@ export default function LoginScreen() {
   const { width, height } = useWindowDimensions();
 
   // Initialize Google Auth hook at top level
-  const { signInWithGoogle, request, authResult } = useGoogleAuth();
+  // const { signInWithGoogle, request, authResult } = useGoogleAuth();
+  // const { signInWithGoogle, authResult } = useGoogleAuth();
 
   // Calculate responsive logo size
   const logoSize = React.useMemo(() => {
@@ -52,13 +60,18 @@ export default function LoginScreen() {
     email?: string;
     password?: string;
   }>({});
+  // const [userData, setUserData] = useState<User | null>(null);
+  // const [authResult, setAuthResult] = useState<any>(null);
+  // const [isAuthenticating, setIsAuthenticating] = useState(false);
+
+
 
   // Handle Google auth result
-  useEffect(() => {
-    if (authResult) {
-      handleGoogleAuthResult(authResult);
-    }
-  }, [authResult]);
+  // useEffect(() => {
+  //   if (authResult) {
+  //     handleGoogleAuthResult(authResult);
+  //   }
+  // }, [authResult]);
 
   const validate = () => {
     const newErrors: { email?: string; password?: string } = {};
@@ -133,124 +146,187 @@ export default function LoginScreen() {
   };
 
   // Unified handler for Google auth result
-  const handleGoogleAuthResult = async (result: any) => {
-    if (result.success && result.userId) {
-      await setIsAuthenticated(true);
-      await setIsGuest(false);
+  // const handleGoogleAuthResult = async (result: any) => {
+  //   if (result.success && result.userId) {
+  //     await setIsAuthenticated(true);
+  //     await setIsGuest(false);
 
-      try {
-        const userData = await getUserData(result.userId);
+  //     try {
+  //       const userData = await getUserData(result.userId);
 
-        if (userData && userData.status === 'inactive') {
-          await signOutUser();
-          Alert.alert(
-            t("auth.accountInactive") || "Account Inactive",
-            t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
-          );
-          setIsSubmitting(false);
-          return;
-        }
+  //       if (userData && userData.status === 'inactive') {
+  //         await signOutUser();
+  //         Alert.alert(
+  //           t("auth.accountInactive") || "Account Inactive",
+  //           t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
+  //         );
+  //         setIsSubmitting(false);
+  //         return;
+  //       }
 
-        if (userData?.role === 'admin') {
-          router.push("/admin");
-        } else {
-          router.push("/(tabs)/home");
-        }
-      } catch (error: any) {
-        if (error?.message === 'account_inactive' || error?.code === 'account_inactive') {
-          await signOutUser();
-          Alert.alert(
-            t("auth.accountInactive") || "Account Inactive",
-            t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
-          );
-          setIsSubmitting(false);
-          return;
-        }
-        console.error("Error checking user role:", error);
-        router.push("/(tabs)/home");
-      }
-      setIsSubmitting(false);
-    } else {
-      const errorMessage = result.error ? t(result.error) : t("auth.cancelled");
-      Alert.alert(t("login.signIn"), errorMessage);
-      setIsSubmitting(false);
-    }
-  };
+  //       if (userData?.role === 'admin') {
+  //         router.push("/admin");
+  //       } else {
+  //         router.push("/(tabs)/home");
+  //       }
+  //     } catch (error: any) {
+  //       if (error?.message === 'account_inactive' || error?.code === 'account_inactive') {
+  //         await signOutUser();
+  //         Alert.alert(
+  //           t("auth.accountInactive") || "Account Inactive",
+  //           t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
+  //         );
+  //         setIsSubmitting(false);
+  //         return;
+  //       }
+  //       console.error("Error checking user role:", error);
+  //       router.push("/(tabs)/home");
+  //     }
+  //     setIsSubmitting(false);
+  //   } else {
+  //     const errorMessage = result.error ? t(result.error) : t("auth.cancelled");
+  //     Alert.alert(t("login.signIn"), errorMessage);
+  //     setIsSubmitting(false);
+  //   }
+  // };
 
-  const handleGoogleLogin = async () => {
-    setIsSubmitting(true);
-    await signInWithGoogle();
-  };    
+  // const handleGoogleLogin = async () => {
+  //   setIsSubmitting(true);
+  //   await signInWithGoogle();
+  // }; 
 
-  const handleAppleLogin = async () => {
-    try {
-      console.log('[login] Apple login button clicked');
-      setIsSubmitting(true);
-      
-      const result = await signInWithApple();
-      console.log('[login] Apple sign-in result:', result);
+  // const handleGoogleSignIn = async () => {
+  //   try {
+  //     await GoogleSignin.hasPlayServices();
+  //     const userInfo = await GoogleSignin.signIn();
+  //     console.log("User Info:", userInfo);
+  //     setUserData(userInfo.data);
+  //   } catch (error: any) {
+  //     console.error("Sign-In Error:", error);
+  //     if (isErrorWithCode(error)) {
+  //       switch (error.code) {
+  //         case statusCodes.SIGN_IN_CANCELLED:
+  //           Alert.alert("Cancelled", "User cancelled the login.");
+  //           break;
+  //         case statusCodes.IN_PROGRESS:
+  //           Alert.alert("In Progress", "Sign in is already in progress.");
+  //           break;
+  //         case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+  //           Alert.alert("Error", "Play Services not available or outdated.");
+  //           break;
+  //         default:
+  //           Alert.alert("Error", "An unknown error occurred.");
+  //       }
+  //     } else {
+  //       Alert.alert("Error", "Something went wrong. Please try again.");
+  //     }
+  //   }
+  // };
 
-      if (result.success && result.userId) {
-        await setIsAuthenticated(true);
-        await setIsGuest(false);
+  // const provider = new GoogleAuthProvider();
 
-        // Fetch user data to check role and status
-        try {
-          const userData = await getUserData(result.userId);
+//   const handleGoogleSignInWeb = async () => {
+//   try {
+//     const result = await signInWithPopup(auth, provider);
 
-          // Check if account is inactive
-          if (userData && userData.status === 'inactive') {
-            await signOutUser();
-            Alert.alert(
-              t("auth.accountInactive") || "Account Inactive",
-              t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
-            );
-            setIsSubmitting(false);
-            return;
-          }
+//     // Firestore should NOT block login
+//     try {
+//       await createOrUpdateSocialAuthUser(
+//         result.user.uid,
+//         result.user.email,
+//         result.user.displayName,
+//         null,
+//         null
+//       );
+//     } catch (dbError) {
+//       console.warn("Firestore sync failed, retry later", dbError);
+//     }
 
-          if (userData?.role === 'admin') {
-            router.push("/admin");
-          } else {
-            router.push("/(tabs)/home");
-          }
-        } catch (error: any) {
-          // Handle account inactive error
-          if (error?.message === 'account_inactive' || error?.code === 'account_inactive') {
-            await signOutUser();
-            Alert.alert(
-              t("auth.accountInactive") || "Account Inactive",
-              t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
-            );
-            setIsSubmitting(false);
-            return;
-          }
-          console.error("Error checking user role:", error);
-          // Default to home if we can't check role
-          router.push("/(tabs)/home");
-        }
-        setIsSubmitting(false);
-      } else {
-        const errorMessage = result.error ? t(result.error) : t("auth.cancelled");
-        console.log('[login] Apple sign-in failed:', errorMessage);
-        
-        // Show alert with proper error message
-        Alert.alert(
-          t("login.signIn") || "Sign In", 
-          errorMessage,
-          [{ text: t("common.ok") || "OK" }]
-        );
-        setIsSubmitting(false);
-      }
-    } catch (error: any) {
-      console.error('[login] Apple login error:', error);
-      Alert.alert(
-        t("login.signIn") || "Sign In",
-        error?.message || t("auth.genericError") || "An error occurred. Please try again."
-      );
-      setIsSubmitting(false);
-    }
-  }
+//     await setIsAuthenticated(true);
+//     await setIsGuest(false);
+
+//     router.push("/(tabs)/home");
+
+//   } catch (error: any) {
+//     if (error.code === "auth/popup-blocked") {
+//       Alert.alert("Popup blocked", "Please allow popups for this site.");
+//     } else {
+//       console.error(error);
+//       Alert.alert("Google sign-in failed");
+//     }
+//   }
+// };
+
+
+  // const handleAppleLogin = async () => {
+  //   try {
+  //     console.log('[login] Apple login button clicked');
+  //     setIsSubmitting(true);
+
+  //     const result = await signInWithApple();
+  //     console.log('[login] Apple sign-in result:', result);
+
+  //     if (result.success && result.userId) {
+  //       await setIsAuthenticated(true);
+  //       await setIsGuest(false);
+
+  //       // Fetch user data to check role and status
+  //       try {
+  //         const userData = await getUserData(result.userId);
+
+  //         // Check if account is inactive
+  //         if (userData && userData.status === 'inactive') {
+  //           await signOutUser();
+  //           Alert.alert(
+  //             t("auth.accountInactive") || "Account Inactive",
+  //             t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
+  //           );
+  //           setIsSubmitting(false);
+  //           return;
+  //         }
+
+  //         if (userData?.role === 'admin') {
+  //           router.push("/admin");
+  //         } else {
+  //           router.push("/(tabs)/home");
+  //         }
+  //       } catch (error: any) {
+  //         // Handle account inactive error
+  //         if (error?.message === 'account_inactive' || error?.code === 'account_inactive') {
+  //           await signOutUser();
+  //           Alert.alert(
+  //             t("auth.accountInactive") || "Account Inactive",
+  //             t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
+  //           );
+  //           setIsSubmitting(false);
+  //           return;
+  //         }
+  //         console.error("Error checking user role:", error);
+  //         // Default to home if we can't check role
+  //         router.push("/(tabs)/home");
+  //       }
+  //       setIsSubmitting(false);
+  //     } else {
+  //       const errorMessage = result.error ? t(result.error) : t("auth.cancelled");
+  //       console.log('[login] Apple sign-in failed:', errorMessage);
+
+  //       // Show alert with proper error message
+  //       Alert.alert(
+  //         t("login.signIn") || "Sign In",
+  //         errorMessage,
+  //         [{ text: t("common.ok") || "OK" }]
+  //       );
+  //       setIsSubmitting(false);
+  //     }
+  //   } catch (error: any) {
+  //     console.error('[login] Apple login error:', error);
+  //     Alert.alert(
+  //       t("login.signIn") || "Sign In",
+  //       error?.message || t("auth.genericError") || "An error occurred. Please try again."
+  //     );
+  //     setIsSubmitting(false);
+  //   }
+  // }
 
   return (
     <SafeAreaView
@@ -450,8 +526,8 @@ export default function LoginScreen() {
             >
               <View
                 style={{ flex: 1, height: 1, backgroundColor: colors.grey }}
-              />
-              <Text
+              /> */}
+              {/* <Text
                 style={{
                   marginHorizontal: 12,
                   color: colors.text,
@@ -460,11 +536,11 @@ export default function LoginScreen() {
                 }}
               >
                 {t("login.orContinue")}
-              </Text>
-              <View
+              </Text> */}
+              {/* <View
                 style={{ flex: 1, height: 1, backgroundColor: colors.grey }}
-              />
-            </View> */}
+              /> */}
+            {/* </View> */}
 
             {/* Social Buttons */}
             {/* <View
@@ -474,10 +550,21 @@ export default function LoginScreen() {
                 gap: 20,
                 marginBottom: 24,
               }}
-            >
-              <TouchableOpacity
-                onPress={handleGoogleLogin}
-                disabled={!request || isSubmitting}
+            > */}
+              {/* <TouchableOpacity
+                // onPress={handleGoogleLogin}
+                onPress={() => {
+                  console.log("Google auth is clicked")
+                  console.log("Platfom========>", Platform.OS)
+                  if (Platform.OS === "web") {
+                    handleGoogleSignInWeb();
+                  } else {
+                    handleGoogleSignIn();
+                    console.log(userData);
+                  }
+                }}
+                // disabled={!request || isSubmitting}
+                disabled={isSubmitting}
                 style={{
                   padding: 12,
                   borderWidth: 1,
@@ -511,9 +598,10 @@ export default function LoginScreen() {
                 >
                   <IconSymbol name="logo-apple" size={20} color={colors.text} />
                 </TouchableOpacity>
-              )}
+              )} */}
 
-              <TouchableOpacity
+              {/* Facebook button */}
+              {/* <TouchableOpacity
                 onPress={() => {
                   Alert.alert(
                     t("login.signIn") || "Sign In",
@@ -534,8 +622,8 @@ export default function LoginScreen() {
                   style={{ width: 20, height: 20 }}
                   resizeMode="contain"
                 />
-              </TouchableOpacity>
-            </View> */}
+              </TouchableOpacity> */}
+            {/* </View> */}
 
             {/* Link to Sign Up + Divider */}
             <View style={{ alignItems: "center", marginBottom: 24 }}>
