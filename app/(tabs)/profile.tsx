@@ -30,11 +30,13 @@ export default function ProfileScreen() {
 
   const isDarkMode = effectiveTheme === 'dark';
 
-  // Refresh user data when screen comes into focus
+  // Refresh user data when screen comes into focus (skip if account deletion in progress)
   useFocusEffect(
     useCallback(() => {
-      refreshUserData();
-    }, [refreshUserData])
+      if (!isDeletingAccount) {
+        refreshUserData();
+      }
+    }, [refreshUserData, isDeletingAccount])
   );
 
   const handleThemeToggle = (value: boolean) => {
@@ -81,12 +83,15 @@ export default function ProfileScreen() {
   const confirmDeleteAccount = async () => {
     try {
       setIsDeletingAccount(true);
+      setShowDeleteAccountModal(false); // Close modal immediately
       const result = await deleteAccount();
       
       if (result.success) {
-        setShowDeleteAccountModal(false);
-        // Navigate to login screen
-        router.replace('/login');
+        // Navigate to login screen immediately after successful deletion
+        // Use setTimeout to ensure state updates complete before navigation
+        setTimeout(() => {
+          router.replace('/login');
+        }, 100);
       } else {
         // Show error message
         Alert.alert(

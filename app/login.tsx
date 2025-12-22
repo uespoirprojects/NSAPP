@@ -4,19 +4,18 @@ import { useI18n } from "@/contexts/i18n-context";
 import { useTheme } from "@/contexts/theme-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 import { getUserData, signIn, signOutUser } from "@/services/authService";
-import { signInWithGoogle } from "@/services/googleAuthService";
 import { useRouter } from "expo-router";
 import React from "react";
 import {
-    Alert, Image,
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-    useWindowDimensions
+  Alert, Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  useWindowDimensions
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -27,7 +26,7 @@ export default function LoginScreen() {
   const { setIsGuest, setIsAuthenticated } = useAuth();
   const router = useRouter();
   const { width, height } = useWindowDimensions();
-  
+
   // Calculate responsive logo size
   const logoSize = React.useMemo(() => {
     // Base size on screen width, with min/max constraints
@@ -70,11 +69,11 @@ export default function LoginScreen() {
       if (result.success && result.userId) {
         await setIsAuthenticated(true);
         await setIsGuest(false);
-        
+
         // Fetch user data to check role and status
         try {
           const userData = await getUserData(result.userId);
-          
+
           // Check if account is inactive
           if (userData && userData.status === 'inactive') {
             await signOutUser();
@@ -85,7 +84,7 @@ export default function LoginScreen() {
             setIsSubmitting(false);
             return;
           }
-          
+
           if (userData?.role === 'admin') {
             router.push("/admin");
           } else {
@@ -120,57 +119,6 @@ export default function LoginScreen() {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    setIsSubmitting(true);
-    const result = await signInWithGoogle();
-
-    if (result.success && result.userId) {
-      await setIsAuthenticated(true);
-      await setIsGuest(false);
-      
-      // Fetch user data to check role and status
-      try {
-        const userData = await getUserData(result.userId);
-        
-        // Check if account is inactive
-        if (userData && userData.status === 'inactive') {
-          await signOutUser();
-          Alert.alert(
-            t("auth.accountInactive") || "Account Inactive",
-            t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
-          );
-          setIsSubmitting(false);
-          return;
-        }
-        
-        if (userData?.role === 'admin') {
-          router.push("/admin");
-        } else {
-          router.push("/(tabs)/home");
-        }
-      } catch (error: any) {
-        // Handle account inactive error
-        if (error?.message === 'account_inactive' || error?.code === 'account_inactive') {
-          await signOutUser();
-          Alert.alert(
-            t("auth.accountInactive") || "Account Inactive",
-            t("auth.accountInactiveMessage") || "Your account has been deactivated. Please contact support if you believe this is an error."
-          );
-          setIsSubmitting(false);
-          return;
-        }
-        console.error("Error checking user role:", error);
-        // Default to home if we can't check role
-        router.push("/(tabs)/home");
-      }
-      setIsSubmitting(false);
-    } else {
-      const errorMessage = result.error ? t(result.error) : t("auth.cancelled");
-      Alert.alert(t("login.signIn"), errorMessage);
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: colors.screenBackground }}
@@ -192,8 +140,8 @@ export default function LoginScreen() {
         >
           <View style={{ width: "100%", maxWidth: 420 }}>
             {/* App Logo */}
-            <View style={{ 
-              alignItems: "center", 
+            <View style={{
+              alignItems: "center",
               marginBottom: 10,
               width: "100%"
             }}>
@@ -360,17 +308,17 @@ export default function LoginScreen() {
             </TouchableOpacity>
 
             {/* OR Continue with */}
-            <View
+            {/* <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
                 marginVertical: 24,
               }}
             >
-              {/* <View
+              <View
                 style={{ flex: 1, height: 1, backgroundColor: colors.grey }}
-              />
-              <Text
+              /> */}
+              {/* <Text
                 style={{
                   marginHorizontal: 12,
                   color: colors.text,
@@ -379,11 +327,11 @@ export default function LoginScreen() {
                 }}
               >
                 {t("login.orContinue")}
-              </Text>
-              <View
+              </Text> */}
+              {/* <View
                 style={{ flex: 1, height: 1, backgroundColor: colors.grey }}
               /> */}
-            </View>
+            {/* </View> */}
 
             {/* Social Buttons */}
             {/* <View
@@ -393,9 +341,20 @@ export default function LoginScreen() {
                 gap: 20,
                 marginBottom: 24,
               }}
-            >
-              <TouchableOpacity
-                onPress={handleGoogleLogin}
+            > */}
+              {/* <TouchableOpacity
+                // onPress={handleGoogleLogin}
+                onPress={() => {
+                  console.log("Google auth is clicked")
+                  console.log("Platfom========>", Platform.OS)
+                  if (Platform.OS === "web") {
+                    handleGoogleSignInWeb();
+                  } else {
+                    handleGoogleSignIn();
+                    console.log(userData);
+                  }
+                }}
+                // disabled={!request || isSubmitting}
                 disabled={isSubmitting}
                 style={{
                   padding: 12,
@@ -410,29 +369,43 @@ export default function LoginScreen() {
                   style={{ width: 20, height: 20 }}
                   resizeMode="contain"
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
-              <TouchableOpacity
-                style={{
-                  padding: 12,
-                  borderWidth: 1,
-                  borderColor: colors.grey,
-                  borderRadius: 16,
+              {/* Only show Apple Sign In button on iOS */}
+              {/* {Platform.OS === 'ios' && (
+                <TouchableOpacity
+                  onPress={() => {
+                    console.log('[login] Apple button pressed');
+                    handleAppleLogin();
+                  }}
+                  disabled={isSubmitting}
+                  style={{
+                    padding: 12,
+                    borderWidth: 1,
+                    borderColor: colors.grey,
+                    borderRadius: 16,
+                    opacity: isSubmitting ? 0.7 : 1,
+                  }}
+                >
+                  <IconSymbol name="logo-apple" size={20} color={colors.text} />
+                </TouchableOpacity>
+              )} */}
+
+              {/* Facebook button */}
+              {/* <TouchableOpacity
+                onPress={() => {
+                  Alert.alert(
+                    t("login.signIn") || "Sign In",
+                    "Facebook Sign In is coming soon!"
+                  );
                 }}
-              >
-                <Image
-                  source={require("@/assets/icons/apple.png")}
-                  style={{ width: 20, height: 20 }}
-                  resizeMode="contain"
-                />
-              </TouchableOpacity>
-
-              <TouchableOpacity
+                disabled={isSubmitting}
                 style={{
                   padding: 12,
                   borderWidth: 1,
                   borderColor: colors.grey,
                   borderRadius: 16,
+                  opacity: isSubmitting ? 0.7 : 1,
                 }}
               >
                 <Image
@@ -440,8 +413,8 @@ export default function LoginScreen() {
                   style={{ width: 20, height: 20 }}
                   resizeMode="contain"
                 />
-              </TouchableOpacity>
-            </View> */}
+              </TouchableOpacity> */}
+            {/* </View> */}
 
             {/* Link to Sign Up + Divider */}
             <View style={{ alignItems: "center", marginBottom: 24 }}>

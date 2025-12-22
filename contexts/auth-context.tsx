@@ -85,12 +85,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   // Refresh user data from Firestore
   const refreshUserData = async () => {
-    // Only refresh if user is authenticated and Firebase auth confirms it
-    if (firebaseUser?.uid && auth.currentUser?.uid === firebaseUser.uid) {
-      await loadUserProfile(firebaseUser.uid);
-    } else {
-      // Clear user data if not authenticated
-      setUser(null);
+    try {
+      // Only refresh if user is authenticated and Firebase auth confirms it
+      if (firebaseUser?.uid && auth.currentUser?.uid === firebaseUser.uid) {
+        await loadUserProfile(firebaseUser.uid);
+      } else {
+        // Clear user data if not authenticated
+        setUser(null);
+      }
+    } catch (error) {
+      // Silently handle errors during refresh (user might be signing out)
+      // This prevents errors from showing when account is being deleted
+      console.warn('Error refreshing user data (non-critical):', error);
+      // Clear user data on error to prevent stale state
+      if (!auth.currentUser) {
+        setUser(null);
+      }
     }
   };
 
@@ -352,4 +362,3 @@ export function useAuth() {
   }
   return context;
 }
-
