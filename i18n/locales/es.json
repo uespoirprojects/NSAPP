@@ -26,6 +26,7 @@
   "signup": {
     "title": "Crear Cuenta",
     "subtitle": "Regístrate para comenzar tu viaje de aprendizaje",
+    "requiredFieldsLabel": "Todos los campos marcados con * son obligatorios",
     "firstName": "Nombre",
     "firstNamePlaceholder": "Ingresa tu nombre",
     "firstNameRequired": "El nombre es requerido",
@@ -36,12 +37,8 @@
     "emailPlaceholder": "Ingresa tu correo electrónico",
     "password": "Contraseña",
     "passwordPlaceholder": "Crea una contraseña",
-    "address": "Dirección",
-    "addressPlaceholder": "Tu dirección",
     "city": "Ciudad",
     "cityPlaceholder": "Ingresa tu ciudad",
-    "province": "Provincia",
-    "provincePlaceholder": "Ingresa tu provincia",
     "dateOfBirth": "Fecha de Nacimiento",
     "dateOfBirthPlaceholder": "AAAA-MM-DD",
     "dateOfBirthRequired": "La fecha de nacimiento es obligatoria",
@@ -71,7 +68,9 @@
     "cancelled": "El inicio de sesión fue cancelado.",
     "popupBlocked": "La ventana emergente fue bloqueada. Por favor, permite las ventanas emergentes e inténtalo de nuevo.",
     "accountExistsWithDifferentCredential": "Ya existe una cuenta con este correo electrónico usando un método de inicio de sesión diferente.",
-    "genericError": "Ocurrió un error durante la autenticación. Por favor, inténtalo de nuevo."
+    "genericError": "Ocurrió un error durante la autenticación. Por favor, inténtalo de nuevo.",
+    "appleNotSupported": "Inicio de sesión con Apple solo está disponible en dispositivos iOS.",
+    "appleNotAvailable": "Inicio de sesión con Apple no está disponible en este dispositivo."
   },
   "home": {
     "title": "Explorar Categorías",

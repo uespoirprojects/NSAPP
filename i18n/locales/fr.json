@@ -26,6 +26,7 @@
   "signup": {
     "title": "Créer un compte",
     "subtitle": "Inscrivez-vous pour commencer votre parcours d'apprentissage",
+    "requiredFieldsLabel": "Tous les champs marqués d'un * sont obligatoires",
     "firstName": "Prénom",
     "firstNamePlaceholder": "Entrez votre prénom",
     "firstNameRequired": "Le prénom est requis",
@@ -36,12 +37,8 @@
     "emailPlaceholder": "Entrez votre email",
     "password": "Mot de passe",
     "passwordPlaceholder": "Créez un mot de passe",
-    "address": "Adresse",
-    "addressPlaceholder": "Votre adresse",
     "city": "Ville",
     "cityPlaceholder": "Entrez votre ville",
-    "province": "Province",
-    "provincePlaceholder": "Entrez votre province",
     "dateOfBirth": "Date de naissance",
     "dateOfBirthPlaceholder": "AAAA-MM-JJ",
     "dateOfBirthRequired": "La date de naissance est requise",
@@ -71,7 +68,9 @@
     "cancelled": "La connexion a été annulée.",
     "popupBlocked": "La fenêtre pop-up a été bloquée. Veuillez autoriser les pop-ups et réessayer.",
     "accountExistsWithDifferentCredential": "Un compte existe déjà avec cet email en utilisant une autre méthode de connexion.",
-    "genericError": "Une erreur s'est produite lors de l'authentification. Veuillez réessayer."
+    "genericError": "Une erreur s'est produite lors de l'authentification. Veuillez réessayer.",
+    "appleNotSupported": "La connexion Apple n'est disponible que sur les appareils iOS.",
+    "appleNotAvailable": "La connexion Apple n'est pas disponible sur cet appareil."
   },
   "home": {
     "title": "Explorer les Catégories",

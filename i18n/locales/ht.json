@@ -18,7 +18,7 @@
     "orContinue": "oswa kontinye ak",
     "noAccount": "Ou pa gen kont?",
     "signUp": "Enskri",
-    "browseVideos": "Browse Videyo yo",
+    "browseVideos": "Gade Videyo yo",
     "invalidEmail": "Antre yon adrès imèl ki valab",
     "passwordMinLength": "Modpas la dwe gen omwen 6 karaktè",
     "genericError": "Yon erè te rive. Tanpri eseye ankò."
@@ -26,6 +26,7 @@
   "signup": {
     "title": "Kreye Kont",
     "subtitle": "Enskri pou kòmanse vwayaj aprantisaj ou",
+    "requiredFieldsLabel": "Tout jaden ki make ak * obligatwa",
     "firstName": "Non",
     "firstNamePlaceholder": "Antre non ou",
     "firstNameRequired": "Non an obligatwa",
@@ -36,12 +37,8 @@
     "emailPlaceholder": "Antre imèl ou",
     "password": "Modpas",
     "passwordPlaceholder": "Kreye yon modpas",
-    "address": "Adrès",
-    "addressPlaceholder": "Adrès ou",
     "city": "Vil",
     "cityPlaceholder": "Antre vil ou",
-    "province": "Pwovens",
-    "provincePlaceholder": "Antre pwovens ou",
     "dateOfBirth": "Dat Nesans",
     "dateOfBirthPlaceholder": "AAAA-MM-JJ",
     "dateOfBirthRequired": "Dat nesans la obligatwa",
@@ -71,7 +68,9 @@
     "cancelled": "Koneksyon an te anile.",
     "popupBlocked": "Fenèt pop-up la te bloke. Tanpri pèmèt pop-ups yo epi eseye ankò.",
     "accountExistsWithDifferentCredential": "Yon kont egziste deja ak imèl sa a lè l sèvi avèk yon lòt metòd koneksyon.",
-    "genericError": "Yon erè te rive pandan otantifikasyon an. Tanpri eseye ankò."
+    "genericError": "Yon erè te rive pandan otantifikasyon an. Tanpri eseye ankò.",
+    "appleNotSupported": "Koneksyon Apple a disponib sèlman sou aparèy iOS.",
+    "appleNotAvailable": "Koneksyon Apple a pa disponib sou aparèy sa a."
   },
   "home": {
     "title": "Eksplore Kategori yo",
